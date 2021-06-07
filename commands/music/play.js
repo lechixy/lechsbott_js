@@ -22,14 +22,53 @@ module.exports = {
         //This is our server queue. We are getting this server queue from the global queue.
         const server_queue = queue.get(message.guild.id);
         const ytemoji = client.emojis.cache.get("846030610526634005");
+        const spotifyemoji = client.emojis.cache.get("846030610929418310");
+        
         //If the user has used the play command
         if (cmd === 'play'){
             if (!args.length) return message.channel.send('Didn\'t understand use **l!play**  \`a keyword for youtube search or a youtube link\` ');
             let song = {};
-            message.channel.send(`${ytemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
   
             //If the first argument is a link. Set the song object to have two keys. Title and URl.
-            if (ytdl.validateURL(args[0])) {
+            if(message.content.includes('https://open.spotify.com/track/')){
+                message.channel.send(`${spotifyemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
+                
+                const { getData, getPreview, getTracks } = require('spotify-url-info')
+
+                // const spotifylink = 
+
+                // let songid = spotifylink.slice(31, 53);
+
+                const songdata = await getPreview(`${args[0]}`)
+                let songartist = songdata.artist
+                let songname = songdata.track
+                let songcover = songdata.image
+
+                const videoname = `${songartist} ${songname}`
+
+                const spotify_finder = async (query) =>{
+                    const spotify_result = await ytSearch(query);
+                    return (spotify_result.videos.length > 1) ? spotify_result.videos[0] : null;
+                }
+
+                const spotifysong = await spotify_finder(videoname);
+
+                if (spotifysong){
+                    song = {
+                        title: spotifysong.title, 
+                        url: spotifysong.url,
+                        views: spotifysong.views,
+                        author: spotifysong.author.name,
+                        duration: spotifysong.duration.timestamp,
+                        id: spotifysong.videoId,
+                    }
+                } else {
+                     message.channel.send(`${cross} Error finding the song on Spotify!`);
+                }
+            }
+            else if (ytdl.validateURL(args[0])) {
+                message.channel.send(`${ytemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
+
                 const song_info = await ytdl.getInfo(args[0]);
                 song = {
                     url: song_info.videoDetails.video_url, 
@@ -42,6 +81,7 @@ module.exports = {
                     description: song_info.videoDetails.description,
                 };
             } else {
+                message.channel.send(`${ytemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
                 //If there was no link, we use keywords to search for a video. Set the song object to have two keys. Title and URl.
                 const video_finder = async (query) =>{
                     const video_result = await ytSearch(query);
@@ -91,34 +131,71 @@ module.exports = {
                 }
             } else {
                 server_queue.songs.push(song)
-                const member = message.author;
-                let memberavatar = member.displayAvatarURL()
-                let queueInfo = new Discord.MessageEmbed()
+                
+                    const member = message.author;
+                    let memberavatar = member.displayAvatarURL()
+                    let queueInfo = new Discord.MessageEmbed()
                     .setAuthor(name= `Added to queue`, icon_url= `${memberavatar}`)
                     .setTitle(`${song.title}`)
 	                .setURL(`https://www.youtube.com/watch?v=${song.id}`)
                     .setThumbnail(`https://img.youtube.com/vi/${song.id}/maxresdefault.jpg`)
-                    .addField('Duration', `${song.duration}`, true)
-                    .addField('Views', `${song.views}`, true)
-                    .addField('Channel', `${song.author}`, true)
                     .setTimestamp()
 
                     message.channel.send(queueInfo).then(message => {
                         message.react('👍')
                     })
+                
+                
             }
         }
-        else if (cmd === 'p'){
-            if (!args.length) return message.channel.send('Didn\'t understand use **l!p**  \`a keyword for youtube search or a youtube link\` ');
+        if (cmd === 'p'){
+            if (!args.length) return message.channel.send('Didn\'t understand use **l!play**  \`a keyword for youtube search or a youtube link\` ');
             let song = {};
-            message.channel.send(`${ytemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
-
+  
             //If the first argument is a link. Set the song object to have two keys. Title and URl.
-            if (ytdl.validateURL(args[0])) {
+            if(message.content.includes('https://open.spotify.com/track/')){
+                message.channel.send(`${spotifyemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
+                
+                const { getData, getPreview, getTracks } = require('spotify-url-info')
+
+                // const spotifylink = 
+
+                // let songid = spotifylink.slice(31, 53);
+
+                const songdata = await getPreview(`${args[0]}`)
+                let songartist = songdata.artist
+                let songname = songdata.track
+                let songcover = songdata.image
+
+                const videoname = `${songartist} ${songname}`
+
+                const spotify_finder = async (query) =>{
+                    const spotify_result = await ytSearch(query);
+                    return (spotify_result.videos.length > 1) ? spotify_result.videos[0] : null;
+                }
+
+                const spotifysong = await spotify_finder(videoname);
+
+                if (spotifysong){
+                    song = {
+                        title: spotifysong.title, 
+                        url: spotifysong.url,
+                        views: spotifysong.views,
+                        author: spotifysong.author.name,
+                        duration: spotifysong.duration.timestamp,
+                        id: spotifysong.videoId,
+                    }
+                } else {
+                     message.channel.send(`${cross} Error finding the song on Spotify!`);
+                }
+            }
+            else if (ytdl.validateURL(args[0])) {
+                message.channel.send(`${ytemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
+
                 const song_info = await ytdl.getInfo(args[0]);
-                song = { 
-                    title: song_info.videoDetails.title, 
+                song = {
                     url: song_info.videoDetails.video_url, 
+                    title: song_info.videoDetails.title, 
                     duration: song_info.videoDetails.lengthSeconds,
                     views: song_info.videoDetails.viewCount,
                     author: song_info.videoDetails.author.name,
@@ -127,6 +204,7 @@ module.exports = {
                     description: song_info.videoDetails.description,
                 };
             } else {
+                message.channel.send(`${ytemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
                 //If there was no link, we use keywords to search for a video. Set the song object to have two keys. Title and URl.
                 const video_finder = async (query) =>{
                     const video_result = await ytSearch(query);
@@ -147,6 +225,7 @@ module.exports = {
                      message.channel.send(`${cross} Error finding video`);
                 }
             }
+            
 
            //If the server queue does not exist (which doesn't for the first video queued) then create a constructor to be added to our global queue.
             if (!server_queue){
@@ -175,21 +254,21 @@ module.exports = {
                 }
             } else {
                 server_queue.songs.push(song)
-                const member = message.author;
-                let memberavatar = member.displayAvatarURL()
-                let queueInfo = new Discord.MessageEmbed()
+                
+                    const member = message.author;
+                    let memberavatar = member.displayAvatarURL()
+                    let queueInfo = new Discord.MessageEmbed()
                     .setAuthor(name= `Added to queue`, icon_url= `${memberavatar}`)
                     .setTitle(`${song.title}`)
-	                .setURL(`${song.url}`)
+	                .setURL(`https://www.youtube.com/watch?v=${song.id}`)
                     .setThumbnail(`https://img.youtube.com/vi/${song.id}/maxresdefault.jpg`)
-                    .addField('Duration', `${song.duration}`, true)
-                    .addField('Views', `${song.views}`, true)
-                    .addField('Channel', `${song.author}`, true)
                     .setTimestamp()
 
                     message.channel.send(queueInfo).then(message => {
                         message.react('👍')
                     })
+                
+                
             }
         }
 
@@ -241,9 +320,6 @@ const video_player = async (guild, song) => {
     .setTitle(`${song.title}`)
     .setURL(`${song.url}`)
     .setThumbnail(`https://img.youtube.com/vi/${song.id}/maxresdefault.jpg`)
-    .addField('Duration', `${song.duration}`, true)
-    .addField('Views', `${song.views}`, true)
-    .addField('Channel', `${song.author}`, true)
     .setTimestamp()
     await song_queue.text_channel.send(playing)
 }
