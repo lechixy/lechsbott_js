@@ -4,8 +4,8 @@ const client = new Discord.Client({
 });
 const dotenv = require('dotenv')
 
-const memberCounter = require('./commands/counters/member-counter')
-const { LECHSBOTTKEY } = require("./commands/util/lechsbottUtil");
+const memberCounter = require('../commands/counters/member-counter')
+const { LECHSBOTTKEY } = require("../commands/util/lechsbottUtil");
 
 client.commands = new Discord.Collection();
 client.events = new Discord.Collection();
