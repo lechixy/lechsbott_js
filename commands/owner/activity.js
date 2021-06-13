@@ -4,10 +4,7 @@ module.exports = {
     aliases: ["actv"],
     description: "Returns user information",
     async execute(client, message, args, cmd, Discord){
-        const { OWNER1 } = require("../util/lechsbottUtil");
-        const { OWNER2 } = require("../util/lechsbottUtil");
-
-        if(message.author.id == OWNER1 || message.author.id == OWNER2){
+        if(message.author.id == '391511241786654721,' || message.author.id == '852935953907056662'){
             if (!args.length) return message.channel.send('You need to tag a person to execute the command!').then(message => {
                 message.delete({ timeout: 1500 })
             })
