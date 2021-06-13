@@ -4,8 +4,6 @@ module.exports = {
     aliases: ['online'],
     description: "Online from",
     async execute(client, message, args, cmd, Discord) {
-        const { OWNER1 } = require("../util/lechsbottUtil");
-        const { OWNER2 } = require("../util/lechsbottUtil");
 
         const cross = client.emojis.cache.get("846030611486474280");
     
@@ -23,7 +21,7 @@ module.exports = {
         weeks %= 7;
         years %= 52;
 
-        if(message.author.id === OWNER1 || message.author.id === OWNER2) {
+        if(!message.author.id === '391511241786654721' || message.author.id === '852935953907056662'){
             let infoembed = new Discord.MessageEmbed()
             .setColor(0xffffff)
             .setTitle('lechsbott uptime')
