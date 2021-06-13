@@ -4,10 +4,7 @@ module.exports = {
     desciption: "say command",
     aliases: ["repeat", "tekraret", "ram"],
     async execute (client, message, args, cmd, Discord) {
-        const { OWNER1 } = require("../util/lechsbottUtil");
-        const { OWNER2 } = require("../util/lechsbottUtil");
-
-        if(message.author.id == OWNER1 || message.author.id == OWNER2) {
+        if(message.author.id == '391511241786654721,' || message.author.id == '852935953907056662'){
             let msg;
             let textChannel = message.mentions.channels.first()
             message.delete()
