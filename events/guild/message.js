@@ -3,7 +3,7 @@
 
 module.exports = (Discord, client, message) => {
     const prefix = 'l!';
-    if(!message.content.startsWith(prefix) || message.author.bot) return;
+    if(!message.content.startsWith(prefix)) return;
 
     const args = message.content.slice(prefix.length).split(/ +/);
     const cmd = args.shift().toLowerCase();
@@ -41,6 +41,7 @@ module.exports = (Discord, client, message) => {
         let errembed = new Discord.MessageEmbed()
         .setDescription('There was an error trying to execute this command!')
         message.channel.send(errembed)
+        console.log(err)
     }
     
 }
