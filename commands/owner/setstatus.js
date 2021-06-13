@@ -4,8 +4,6 @@ module.exports = {
     aliases: ['statusto', 'status'],
     description: '',
     async execute(client, message, args, cmd, Discord) {
-        const { OWNER1 } = require("../util/lechsbottUtil");
-        const { OWNER2 } = require("../util/lechsbottUtil");
 
         if(!args.length) {
             let argsnotdefined = new Discord.MessageEmbed()
@@ -15,7 +13,7 @@ module.exports = {
             message.channel.send(argsnotdefined)
         } 
 
-        if(!message.author.id === OWNER1 || message.author.id === OWNER2) {
+        if(!message.author.id === '391511241786654721' || message.author.id === '852935953907056662') {
             let sorryembed = new Discord.MessageEmbed()
             .setColor('DC143C')
             .setDescription('Sorry but this is an owner command you can\'t use it!')
