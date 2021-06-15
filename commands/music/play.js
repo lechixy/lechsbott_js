@@ -1,6 +1,5 @@
 const ytdl = require('ytdl-core');
 const ytSearch = require('yt-search');
-const { YOUTUBE_API_KEY } = require("../util/lechsbottUtil");
 const YouTube = require('simple-youtube-api');
 const youtube = new YouTube(YOUTUBE_API_KEY)
 const { getData, getPreview, getTracks } = require('spotify-url-info')
