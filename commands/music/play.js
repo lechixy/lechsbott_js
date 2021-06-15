@@ -1,7 +1,6 @@
 const ytdl = require('ytdl-core');
 const ytSearch = require('yt-search');
 const YouTube = require('simple-youtube-api');
-const youtube = new YouTube(YOUTUBE_API_KEY)
 const { getData, getPreview, getTracks } = require('spotify-url-info')
 
 //Global queue for your bot. Every server will have a key and value pair in this map. { guild.id, queue_constructor{} }
