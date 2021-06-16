@@ -1,6 +1,7 @@
 const ytdl = require('ytdl-core');
 const ytSearch = require('yt-search');
 const YouTube = require('simple-youtube-api');
+const youtube = new YouTube('AIzaSyCpU-WWQYR1sakTAzj3GP6M3mbjhpDwCeY')
 const { getData, getPreview, getTracks } = require('spotify-url-info')
 
 //Global queue for your bot. Every server will have a key and value pair in this map. { guild.id, queue_constructor{} }
@@ -30,30 +31,7 @@ module.exports = {
 
         let song = {};
 
-        const lechsbottPlayer = async (guild, song) => {
-            const song_queue = queue.get(guild.id);
-            const Discord = require('discord.js')
         
-            if (!song) {
-                queue.delete(guild.id);
-                song_queue.voice_channel.leave();
-                return;
-            }
-        
-        
-            const stream = ytdl(song.url, { filter: 'audioonly' });
-            song_queue.connection.play(stream, { seek: 0, volume: 0.5 })
-            .on('finish', () => {
-                song_queue.songs.shift();
-                lechsbottPlayer(guild, song_queue.songs[0]);
-            });
-            let playing = new Discord.MessageEmbed()
-            .setAuthor(name= `Now playing`, icon_url= `${message.author.displayAvatarURL()}`)
-            .setTitle(`${song.title}`)
-            .setURL(`${song.urlcustom}`)
-            .setTimestamp()
-            await song_queue.text_channel.send(playing)
-        }
         
         //If the user has used the play command
         if (cmd === 'play'){
@@ -83,6 +61,7 @@ module.exports = {
                     song = {
                         url: spoytvid.url,
                         urlcustom: spotify_finder.link,
+                        time: spoytvid.duration.timestamp,
                         title: `${spotify_finder.artist} - ${spotify_finder.title}`
                     }
                 } else {
@@ -90,19 +69,22 @@ module.exports = {
                     .setDescription(`${spotifyemoji} Song isn't found on Spotify!`)
                     message.channel.send(errorembed)
                 }
-                
+                await handleVideo(song, message, args, voice_channel, false, true)
             }
   
             else if(args[0].includes(playlisturl)){
                 message.channel.send(`${ytemoji} **Searching playlist** :mag_right: \`${args.join(' ')}\``)
 
-                const playlist_finder = await youtube.getPlaylist(args[0])
-
-                song = {
-                    url: playlist_finder.url,
-                    urlcustom: playlist_finder.url,
-                    title: playlist_finder.title,
+                const playlist = await youtube.getPlaylist(args[0]);
+                const videos = await playlist.getVideos();
+                
+                for(const video of Object.values(videos)){
+                    const video2 = await youtube.getVideoByID(video.id)
+                    await handleVideo(video2, message, args, voice_channel, true)
                 }
+                let playlistembed = new Discord.MessageEmbed()
+                .setAuthor(`Playlist ${playlist.title} has been added to the queue with ${playlist.videos.length} songs!`, `${message.guild.iconURL()}`)
+                return message.channel.send(playlistembed)
             }
             else if (ytdl.validateURL(args[0])) {
                 message.channel.send(`${ytemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
@@ -113,6 +95,7 @@ module.exports = {
                     urlcustom: song_info.videoDetails.video_url,
                     title: song_info.videoDetails.title, 
                 };
+                await handleVideo(song, message, args, voice_channel, false)
             } else {
                 message.channel.send(`${ytemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
                 //If there was no link, we use keywords to search for a video. Set the song object to have two keys. Title and URl.
@@ -131,51 +114,12 @@ module.exports = {
                 } else {
                      message.channel.send(`${cross} Error finding video`);
                 }
+                await handleVideo(song, message, args, voice_channel, false)
             }
             
 
            //If the server queue does not exist (which doesn't for the first video queued) then create a constructor to be added to our global queue.
-            if (!server_queue){
-                
-                const queue_constructor = {
-                    voice_channel: voice_channel,
-                    text_channel: message.channel,
-                    connection: null,
-                    songs: []
-                }
-                
-                //Add our key and value pair into the global queue. We then use this to get our server queue.
-                queue.set(message.guild.id, queue_constructor);
-                queue_constructor.songs.push(song);
-    
-                //Establish a connection and play the song with the vide_player function.
-                try {
-                    const connection = await voice_channel.join();
-                    queue_constructor.connection = connection;
-                    connection.voice.setSelfDeaf(true);
-                    lechsbottPlayer(message.guild, queue_constructor.songs[0]);
-                } catch (err) {
-                    queue.delete(message.guild.id);
-                    message.channel.send(`${cross} There was an error connecting!`);
-                    throw err;
-                }
-            } else {
-                server_queue.songs.push(song)
-                
-                    const member = message.author;
-                    let memberavatar = member.displayAvatarURL()
-                    let queueInfo = new Discord.MessageEmbed()
-                    .setAuthor(name= `Added to queue [ <@${member.id}> ]`, icon_url= `${memberavatar}`)
-                    .setTitle(`${song.title}`)
-	                .setURL(`${song.url}`)
-                    .setTimestamp()
-
-                    message.channel.send(queueInfo).then(message => {
-                        message.react('👍')
-                    })
-                
-                
-            }
+            
         }
         //If the user has used the p command
         if (cmd === 'p'){
@@ -205,6 +149,7 @@ module.exports = {
                     song = {
                         url: spoytvid.url,
                         urlcustom: spotify_finder.link,
+                        time: spoytvid.duration.timestamp,
                         title: `${spotify_finder.artist} - ${spotify_finder.title}`
                     }
                 } else {
@@ -212,19 +157,22 @@ module.exports = {
                     .setDescription(`${spotifyemoji} Song isn't found on Spotify!`)
                     message.channel.send(errorembed)
                 }
-                
+                await handleVideo(song, message, voice_channel)
             }
   
             else if(args[0].includes(playlisturl)){
                 message.channel.send(`${ytemoji} **Searching playlist** :mag_right: \`${args.join(' ')}\``)
 
-                const playlist_finder = await youtube.getPlaylist(args[0])
-
-                song = {
-                    url: playlist_finder.url,
-                    urlcustom: playlist_finder.url,
-                    title: playlist_finder.title,
+                const playlist = await youtube.getPlaylist(args[0]);
+                const videos = await playlist.getVideos();
+                
+                for(const video of Object.values(videos)){
+                    const video2 = await youtube.getVideoByID(video.id)
+                    await handleVideo(video2, message, voice_channel, true)
                 }
+                let playlistembed = new Discord.MessageEmbed()
+                .setAuthor(`Playlist ${playlist.title} has been added to the queue with ${playlist.videos.length} songs!`, `${message.guild.iconURL()}`)
+                return message.channel.send(playlistembed)
             }
             else if (ytdl.validateURL(args[0])) {
                 message.channel.send(`${ytemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
@@ -235,6 +183,7 @@ module.exports = {
                     urlcustom: song_info.videoDetails.video_url,
                     title: song_info.videoDetails.title, 
                 };
+                await handleVideo(song, message, voice_channel)
             } else {
                 message.channel.send(`${ytemoji} **Searching** :mag_right: \`${args.join(' ')}\``)
                 //If there was no link, we use keywords to search for a video. Set the song object to have two keys. Title and URl.
@@ -248,56 +197,17 @@ module.exports = {
                     song = {
                         title: video.title,
                         url: video.url,
-                        urlcustom: song_info.videoDetails.video_url,
+                        urlcustom: video.url,
                     }
                 } else {
                      message.channel.send(`${cross} Error finding video`);
                 }
+                await handleVideo(song, message, voice_channel)
             }
             
 
            //If the server queue does not exist (which doesn't for the first video queued) then create a constructor to be added to our global queue.
-            if (!server_queue){
-                
-                const queue_constructor = {
-                    voice_channel: voice_channel,
-                    text_channel: message.channel,
-                    connection: null,
-                    songs: []
-                }
-                
-                //Add our key and value pair into the global queue. We then use this to get our server queue.
-                queue.set(message.guild.id, queue_constructor);
-                queue_constructor.songs.push(song);
-    
-                //Establish a connection and play the song with the vide_player function.
-                try {
-                    const connection = await voice_channel.join();
-                    queue_constructor.connection = connection;
-                    connection.voice.setSelfDeaf(true);
-                    lechsbottPlayer(message.guild, queue_constructor.songs[0]);
-                } catch (err) {
-                    queue.delete(message.guild.id);
-                    message.channel.send(`${cross} There was an error connecting!`);
-                    throw err;
-                }
-            } else {
-                server_queue.songs.push(song)
-                
-                    const member = message.author;
-                    let memberavatar = member.displayAvatarURL()
-                    let queueInfo = new Discord.MessageEmbed()
-                    .setAuthor(name= `Added to queue [ <@${member.id}> ]`, icon_url= `${memberavatar}`)
-                    .setTitle(`${song.title}`)
-	                .setURL(`${song.url}`)
-                    .setTimestamp()
-
-                    message.channel.send(queueInfo).then(message => {
-                        message.react('👍')
-                    })
-                
-                
-            }
+            
         }
 
         else if(cmd === 'skip') skip_song(message, server_queue, client);
@@ -320,6 +230,82 @@ module.exports = {
     
 }
 
+async function handleVideo(video, message, args, voice_channel, playlist = false, spotify_finder = false){
+    const Discord = require('discord.js')
+    const server_queue = queue.get(message.guild.id)
+    const song = {
+        id: video.id,
+        title: video.title,
+        url: video.url,
+    }
+    if (!server_queue){
+                
+        const queue_constructor = {
+            voice_channel: voice_channel,
+            text_channel: message.channel,
+            connection: null,
+            songs: []
+        }
+        
+        //Add our key and value pair into the global queue. We then use this to get our server queue.
+        queue.set(message.guild.id, queue_constructor);
+        queue_constructor.songs.push(song);
+
+        const lechsbottPlayer = async (guild, song) => {
+            const song_queue = queue.get(guild.id);
+            const Discord = require('discord.js')
+        
+            if (!song) {
+                queue.delete(guild.id);
+                song_queue.voice_channel.leave();
+                return;
+            }
+        
+
+            const stream = ytdl(song.url, { filter: 'audioonly' });
+            song_queue.connection.play(stream, { seek: 0, volume: 0.5 })
+            .on('finish', () => {
+                song_queue.songs.shift();
+                lechsbottPlayer(guild, song_queue.songs[0]);
+            });
+            let playing = new Discord.MessageEmbed()
+            .setAuthor(name= `Now playing`, icon_url= `${message.author.displayAvatarURL()}`)
+            .setTitle(`${song.title}`)
+            .setURL(`${song.url}`)
+            .setTimestamp()
+            await song_queue.text_channel.send(playing)
+        }
+
+        //Establish a connection and play the song with the vide_player function.
+        try {
+            const connection = await voice_channel.join();
+            queue_constructor.connection = connection;
+            connection.voice.setSelfDeaf(true);
+            lechsbottPlayer(message.guild, queue_constructor.songs[0]);
+        } catch (err) {
+            queue.delete(message.guild.id);
+            message.channel.send(`There was an error connecting!`);
+            throw err;
+        }
+    } else {
+        server_queue.songs.push(song)
+
+        if(playlist) return undefined;
+        else {
+            const member = message.author;
+            let memberavatar = member.displayAvatarURL()
+            let queueInfo = new Discord.MessageEmbed()
+            .setAuthor(name= `Added to queue`, icon_url= `${memberavatar}`)
+            .setTitle(`${song.title}`)
+            .setURL(`${song.url}`)
+            .setTimestamp()
+
+            return message.channel.send(queueInfo).then(message => {message.react('👍')})
+        }
+    }
+    return undefined;
+    
+}
 const skip_song = (message, server_queue, client) => {
     const Discord = require('discord.js')
     const cross = client.emojis.cache.get("846030611486474280");
@@ -385,14 +371,18 @@ const volume_song = async (message, server_queue, args, client) => {
 const np_song = (message, server_queue, client) => {
     const Discord = require('discord.js')
     const cross = client.emojis.cache.get("846030611486474280");
+    const playingaudio = client.emojis.cache.get('854663992697946122');
 
     if(!server_queue) return message.channel.send(`${cross} There is nothing playing this server!`)
-    message.channel.send(`Now playing: **${server_queue.songs[0].title}**`)
+    let nowplayingembed = new Discord.MessageEmbed()
+    .addField(`${playingaudio} Now playing`, `${server_queue.songs[0].title}`, true)
+    message.channel.send(nowplayingembed)
 }
 
 const queue_song = (message, server_queue, args, client) => {
     const Discord = require('discord.js')
     const cross = client.emojis.cache.get("846030611486474280");
+    const playingaudio = client.emojis.cache.get('854663992697946122');
 
     if(!server_queue) {
         let server_queueembed =  new Discord.MessageEmbed()
@@ -403,29 +393,39 @@ const queue_song = (message, server_queue, args, client) => {
         let index = 1;
         let string = "";
     
-            if(server_queue.songs[0]) string += `${server_queue.songs[0].title}\n`;
+            if(server_queue.songs[0]) string += `${playingaudio} ${server_queue.songs[0].title}\n`;
         
         let string1 = "";
 
-            if(server_queue.songs[1]) string1 += `${server_queue.songs.slice(1, 10).map(x => `**${index++}-** ${x.title}`).join("\n")}`;
+            if(server_queue.songs[1]) string1 += `${server_queue.songs.slice(1, 11).map(x => `**${index++}-** ${x.title}`).join("\n")}`;
 
-        if(!server_queue.songs[1]) {
+        if(server_queue.songs.length > 10){
             let queueembedonesong = new Discord.MessageEmbed()
             .setAuthor(`Current queue for ${message.guild.name}`, message.guild.iconURL())
-            .addField('Currently playing:', `${string}`)
+            .addField(`Currently playing`, `${string}`)
             .addField('\u200B', '\u200B')
-            .addField('This is end of queue...', `There is only **${server_queue.songs.length}** songs for **${message.guild.name}**!`)
+            .addField('All of queue', `${string1}`)
+            .addField('more ' + (server_queue.songs.length - 10) + ' from queue!', '\u200B')
+            .addField('\u200B', `There is **${server_queue.songs.length}** songs for **${message.guild.name}**!`)
+            .setTimestamp()
+            // .setThumbnail(server_queue.queue[0])
+            return message.channel.send(queueembedonesong)
+        }
+        else if(!server_queue.songs[1]) {
+            let queueembedonesong = new Discord.MessageEmbed()
+            .setAuthor(`Current queue for ${message.guild.name}`, message.guild.iconURL())
+            .addField(`Currently playing`, `${string}`)
+            .addField('\u200B', `There is **${server_queue.songs.length}** songs for **${message.guild.name}**!`)
             .setTimestamp()
             // .setThumbnail(server_queue.queue[0])
             return message.channel.send(queueembedonesong)
         } else {
             let queueembed = new Discord.MessageEmbed()
             .setAuthor(`Current Queue for ${message.guild.name}`, message.guild.iconURL())
-            .addField('Currently playing:', `${string}`)
+            .addField(`Currently playing`, `${string}`)
             .addField('\u200B', '\u200B')
-            .addField('All of queue:', `${string1}`)
-            .addField('\u200B', '\u200B')
-            .addField('This is end of queue...', `There is only **${server_queue.songs.length}** songs for **${message.guild.name}**!`)
+            .addField('All of queue', `${string1}`)
+            .addField('\u200B', `There is **${server_queue.songs.length}** songs for **${message.guild.name}**!`)
             .setTimestamp()
             // .setThumbnail(server_queue.queue[0])
             return message.channel.send(queueembed)
