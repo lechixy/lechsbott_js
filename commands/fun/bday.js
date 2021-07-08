@@ -28,20 +28,20 @@ module.exports = {
             let errembed = new Discord.MessageEmbed()
             .setAuthor(`You need to type the day correctly`, user.displayAvatarURL({dynamic: true}))
             .addField(`Usage`, `l!bday <DAY/MONTH>`)
-            message.channel.send(errembed)
+            return message.channel.send(errembed)
         }
         if(!month){
             let errembed = new Discord.MessageEmbed()
             .setAuthor(`You need to type the month correctly`, user.displayAvatarURL({dynamic: true}))
             .addField(`Usage`, `l!bday <DAY/MONTH>`)
-            message.channel.send(errembed)
+            return message.channel.send(errembed)
         }
       
         if(isNaN(day) || isNaN(month)){
             let errembed = new Discord.MessageEmbed()
             .setAuthor(`You must type the day and month as numbers`, user.displayAvatarURL({dynamic: true}))
             .addField(`Usage`, `l!bday <DAY/MONTH>`)
-            message.channel.send(errembed)
+            return message.channel.send(errembed)
         }
       
       
@@ -51,13 +51,13 @@ module.exports = {
         if(day > 31) {
             let errembed = new Discord.MessageEmbed()
             .setAuthor(`Wrong day format`, user.displayAvatarURL({dynamic: true}))
-            message.channel.send(errembed)
+            return message.channel.send(errembed)
         }
       
         if(month > 12) {
             let errembed = new Discord.MessageEmbed()
             .setAuthor(`Wrong day format`, user.displayAvatarURL({dynamic: true}))
-            message.channel.send(errembed)
+            return message.channel.send(errembed)
         }
       
         const convertedDay = suffixes(day)
