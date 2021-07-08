@@ -1,9 +1,19 @@
 module.exports = {
     name: 'bday',
+    aliases: ['birthday'],
     description: 'A birthday command!',
-    async execute(client, message, args, cmd, Discord) {
+    async execute(client, message, args, cmd, Discord, Users) {
         const user = message.author;
+        const users = await Users.findOne({where: { user_id: message.author.id }})
         
+        if(users === null){
+             let arenotregisteredembed = new Discord.MessageEmbed()
+             .setDescription(`If you want to use this command you must register to system!`)
+             .addField(`Usage`, `l!register`)
+             return message.channel.send(arenotregisteredembed)
+        }
+        
+        if(args[0])
         const months = {
             1: "January",
             2: "February",
