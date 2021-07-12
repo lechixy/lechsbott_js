@@ -48,8 +48,8 @@ client.on('ready', async () => {
 
     let actvs = [
         // `the ${client.users.cache.size} users!`,
-        `just under development!`,
-        `just under development!`,
+        `just lechsbott v8.3!`,
+        `just lechsbott v8.3!`,
     ];
 
     
