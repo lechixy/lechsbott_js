@@ -25,5 +25,5 @@ module.exports = (client, Discord) =>{
             }
         }
     }
-    ['admin', 'beta','database', 'fun', 'guild','information', 'empty', 'music', 'owner', 'lechsbott', 'useful'].forEach(e => load_dir(e));
+    ['admin', 'beta','database', 'fun', 'guild','information', 'music', 'owner', 'lechsbott', 'useful'].forEach(e => load_dir(e));
 }
