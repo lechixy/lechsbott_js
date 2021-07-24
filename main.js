@@ -5,7 +5,7 @@ const client = new Discord.Client({
 });
 
 // const memberCounter = require('./commands/counters/member-counter')
-const { PREFIX ,LECHSBOTTKEY } = require("./commands/util/lechsbottUtil");
+// const { PREFIX ,LECHSBOTTKEY } = require("./commands/util/lechsbottUtil");
 // const udatabase = require("./commands/util/systemdatabase")
 // const gdatabase = require("./commands/util/guilddatabase")
 // const Users = udatabase();
