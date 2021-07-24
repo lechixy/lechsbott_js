@@ -58,4 +58,4 @@ client.on('ready', async () => {
     //  }, 60000)
 });
 
-client.login(LECHSBOTTKEY);
+client.login('NzUzOTA2ODc0NzI5ODg5ODUz.X1tAfQ.G-PKpPkxl9D7uVEkNigw9zfXZsM');
