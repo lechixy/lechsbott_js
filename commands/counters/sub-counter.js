@@ -13,5 +13,5 @@ module.exports = (client, Discord) => {
     }
     setInterval(() =>{
         search('https://www.youtube.com/watch?v=uFwVZeTspNE')
-    }, 300000);
+    }, 600000);
 }
