@@ -6,11 +6,12 @@ module.exports = (client, Discord) => {
     async function search(url){
         const video = await ytdl.getInfo(url)
 
-        setInterval(() =>{
-            const channel = guild.channels.cache.get('872950212438667334');
-            channel.setName(`Abone Sayısı • ${video.videoDetails.author.subscriber_count.toLocaleString()}`);
-        }, 300000);
+        const channel = guild.channels.cache.get('872950212438667334');
+        channel.setName(`Abone Sayısı • ${video.videoDetails.author.subscriber_count.toString()}`);
+        console.log('Updated')
+        
     }
-    
-    search('https://www.youtube.com/watch?v=uFwVZeTspNE')
+    setInterval(() =>{
+        search('https://www.youtube.com/watch?v=uFwVZeTspNE')
+    }, 300000);
 }
