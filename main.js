@@ -11,6 +11,7 @@ const client = new Client({
 })
 
 // const memberCounter = require('./commands/counters/member-counter')
+const subCounter = require('./commands/counters/sub-counter')
 const { LECHSBOTTKEY } = require("./commands/util/lechsbottUtil");
 // const udatabase = require("./commands/util/systemdatabase")
 // const gdatabase = require("./commands/util/guilddatabase")
@@ -28,6 +29,7 @@ client.events = new Discord.Collection();
 
 
 client.on('ready', async () => {
+    subCounter(client, Discord)
     // Users.sync();
     // Guilds.sync();
 
