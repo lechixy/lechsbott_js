@@ -60,7 +60,7 @@ client.on('ready', async () => {
     
     //  const index = Math.floor(Math.random() * (actvs.length - 1) + 1);
     //  setInterval(function(){
-        client.user.setActivity('updating things to v13!', { type: 'LISTENING' });
+        client.user.setActivity('your lovely command!', { type: 'LISTENING' });
     //  }, 60000)
 });
 
