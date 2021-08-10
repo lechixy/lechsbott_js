@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon main.js"
   },
+  "engines": {
+    "node": "16.x"
+  }
   "author": "Lechixy",
   "license": "ISC",
   "dependencies": {
