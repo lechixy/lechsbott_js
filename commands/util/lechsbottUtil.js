@@ -18,5 +18,4 @@ exports.TWITCH_TOKEN = config.TWITCH_TOKEN;
 exports.TWITCH_CLIENT_ID = config.TWITCH_CLIENT_ID;
 exports.DEFAULT_VOLUME = config.DEFAULT_VOLUME;
 exports.LECHSBOTTKEY = config.LECHSBOTTKEY;
-exports.OWNER1 = config.OWNER1;
-exports.OWNER2 = config.OWNER2;
+exports.OWNERS = config.OWNERS;
