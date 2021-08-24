@@ -127,7 +127,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
                             title: track.title,
                             type: 'sc',
                             app: 'SoundCloud',
-                            customurl: permalink_url,
+                            customurl: track.permalink_url,
                             addedby: message.author.username,
                             addedid: message.author.id,
                             duration: `${moment.duration(durationvideo).minutes()}:${moment.duration(durationvideo).seconds()}`
