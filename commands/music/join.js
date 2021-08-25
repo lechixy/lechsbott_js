@@ -15,7 +15,7 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                     .setAuthor(`You need to be on a voice channel for lechsbott to join!`, message.author.displayAvatarURL({ dynamic: true }))
                     .setDescription(`Want **lechsbott** to join a specified voice channel?`)
-                    .addField('Just use', `${PREFIX}jointo <channel | channel id>`)
+                    .addField('Just use', `${PREFIX}jointo <channel name>`)
                 return message.channel.send({ embeds: [embed] });
             } else {
 
