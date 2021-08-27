@@ -1,8 +1,7 @@
 const Anime_Images = require('anime-images-api')
 const API = new Anime_Images()
-const { Slash } = require("djs-anime")
 const axios = require('axios')
-const { get } = require('request-promise-native')
+const fetch = require('node-fetch')
 
 module.exports = {
     name: 'anime',
@@ -179,17 +178,15 @@ module.exports = {
         if(selection === 'search'){
             const usersearch = encodeURIComponent(interaction.options.getString('query'))
 
-            let options = {
-                url: `https://kitsu.io/api/edge/anime?filter[text]=${usersearch}`,
+            let url = `https://kitsu.io/api/edge/anime?filter[text]=${usersearch}`
+
+            fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/vnd.api+json',
                     'Accept': 'application/vnd.api+json',
-                },
-                json: true
-            }
-
-            get(options).then(body => {
+                }
+            }).then(response => response.json()).then(body => {
 
                 const roleColor = interaction.guild.me.displayHexColor === "#000000" ? "#ffffff" : interaction.guild.me.displayHexColor
 
