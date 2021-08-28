@@ -7,7 +7,6 @@ module.exports = (client, Discord) =>{
         for(const file of command_files){
             const command = require(`../commands/${dirs}/${file}`);
             if(command.name){
-                console.log(`CMD | ${command.name} loaded!`)
                 client.commands.set(command.name, command);
             } else {
                 continue;
