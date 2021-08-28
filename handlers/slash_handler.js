@@ -18,7 +18,6 @@ module.exports = async (client, Discord) => {
 
         if(['MESSAGE', 'USER'].includes(file.type)) delete file.description;
 
-        console.log(`SCMD | ${file.name} loaded!`)
         arrayofslashCommands.push(file);
       });
       client.on("ready", async () => {
