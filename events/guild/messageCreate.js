@@ -14,7 +14,7 @@ module.exports = async (Discord, client, message) => {
         if (data) {
             data.delete()
 
-            return message.reply({ content: `<@${message.author.id}> welcome back, i removed your afk!` })
+            return message.channel.send({ content: `<@${message.author.id}> welcome back, i removed your afk!` })
         } else return;
     })
 
@@ -24,7 +24,7 @@ module.exports = async (Discord, client, message) => {
             if (data) {
                 const member = message.guild.members.cache.get(data.Member);
 
-                return message.reply({ content: `<@${member.user.id}> is now afk: ${data.Content} ${moment(parseInt(data.TimeAgo)).fromNow()}` })
+                return message.channel.send({ content: `<@${member.user.id}> is now afk: ${data.Content} ${moment(parseInt(data.TimeAgo)).fromNow()}` })
             } else return;
         })
     }
