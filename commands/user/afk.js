@@ -11,7 +11,7 @@ module.exports = {
             if (data) {
                 data.delete()
 
-                return message.channel.send({ content: `<@${message.author.id}> removed your afk!` })
+                return message.channel.send({ content: `<@${message.author.id}> welcome back, i removed your afk!` })
             } else {
                 Data = new db({
                     Guild: message.guild.id,
@@ -21,7 +21,7 @@ module.exports = {
                 })
                 Data.save()
 
-                message.channel.send({ content: `<@${message.author.id}> setted your status to afk!` })
+                message.channel.send({ content: `<@${message.author.id}> setted your status to afk: ${afkreason}` })
             }
         })
     }
