@@ -23,7 +23,7 @@ module.exports = {
             if (data) {
             data.delete()
 
-            return interaction.followUp({ content: `<@${interaction.member.id}> removed your afk!` })
+            return interaction.followUp({ content: `<@${interaction.member.id}> welcome back, i removed your afk!` })
             } else {
                 Data = new db({
                     Guild: interaction.guild.id,
@@ -33,7 +33,7 @@ module.exports = {
                 })
                 Data.save()
 
-                interaction.followUp({ content: `<@${interaction.member.id}> setted your status to afk!` })
+                interaction.followUp({ content: `<@${interaction.member.id}> setted your status to afk: ${afkreason}` })
             }
         })
         
