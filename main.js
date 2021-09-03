@@ -48,7 +48,7 @@ client.on('ready', async () => {
     const milliseconds = Date.now() - start;
 
     console.log('\x1b[36m' + '%s\x1b[0m', 'Lechsbott now online!')
-    console.log('\x1b[32m' + '%s\x1b[0m', `Loaded ${client.commands.size} commands and ${client.slashCommands.size} slash commands, in ${milliseconds / 1000} seconds`);
+    // console.log('\x1b[32m' + '%s\x1b[0m', `Loaded ${client.commands.size} commands and ${client.slashCommands.size} slash commands, in ${milliseconds / 1000} seconds`);
 });
 
 client.login(LECHSBOTTKEY);
