@@ -129,8 +129,8 @@ async function songFinder(message, args, client, player, voiceChannel) {
 
                     const otherscdlhandler = await scdl.getSetInfo(args[0])
 
-                    for(const track of otherscdlhandler.tracks){
-                        if(!track.title){
+                    for (const track of otherscdlhandler.tracks) {
+                        if (!track.title) {
                             continue;
                         }
 
@@ -168,7 +168,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
 
         const spotify_finder = await getPreview(args[0])
 
-        const search_title = `${spotify_finder.artist} ${spotify_finder.title}`
+        const search_title = `${spotify_finder.artist} - ${spotify_finder.title}`
 
 
         const spoyt_finder = async (query) => {
@@ -209,7 +209,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
 
         let number = data.length
 
-        for(const track of data){
+        for (const track of data) {
             const search_title = `${track.artists[0].name} ${track.name}`
 
             const spotifyplaylist = await spoyt_finder(search_title);
@@ -272,7 +272,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
             `${ytemoji} **Searching for** \`${args.join(' ')}\``
         );
 
-        const song_info = await ytdl.getInfo(args[0]);
+        const song_info = await ytdl.getBasicInfo(args[0]);
         const ytsinfo = await ytSearch({
             videoId: song_info.videoDetails.videoId,
         });
@@ -358,9 +358,15 @@ async function handleResource(video, message, args, voice_channel, player, type,
             const queue = client.queue
             const song_queue = queue.get(message.guild.id)
 
+            if (!song) {
+                queue.delete(guild.id);
+                song_queue.player.stop(true);
+                console.log('deleted song queue because no song in songs[1]');
+            }
+
             if (song.type === 'normal') {
-                
-                const stream = ytdl(song.url, { filter: 'audioonly', highWaterMark: 32 });
+
+                const stream = ytdl(song.url, { filter: 'audioonly', highWaterMark: 32, quality: 'highestaudio', });
                 let resource = Voice.createAudioResource(stream);
                 queue_constructor.resource = resource;
 
@@ -376,25 +382,13 @@ async function handleResource(video, message, args, voice_channel, player, type,
                 song_queue.player.play(resource);
             }
 
-            song_queue.player.on('stateChange', async (oldState, newState) => {
+            song_queue.player.on(Voice.AudioPlayerStatus.Idle, async () => {
                 console.log(
-                    `Audio player transitioned from ${oldState.status} to ${newState.status}`
+                    `Audio player transitioned idle`
                 );
-                
-                if (newState.status === Voice.VoiceConnectionStatus.Destroyed) {
-                    song_queue.player.stop(true);
-                }
 
-                if (oldState.status === 'playing' && newState.status === 'idle') {
-                    if (song_queue.songs[1]) {
-                        song_queue.songs.shift();
-                        lechsbottPlayer(message.guild, song_queue.songs[0]);
-                    } else {
-                        queue.delete(guild.id);
-                        song_queue.player.stop(true);
-                        console.log('deleted song queue because no song in songs[1]');
-                    }
-                }
+                song_queue.songs.shift();
+                lechsbottPlayer(message.guild, song_queue.songs[0]);
             });
 
             song_queue.connection.on('stateChange', async (oldState, newState) => {
