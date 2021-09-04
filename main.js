@@ -49,7 +49,7 @@ client.on('ready', async () => {
     const milliseconds = Date.now() - start;
 
     console.log('Lechsbott now online!')
-    console.log(`Loaded ${client.commands.size} commands and ${client.slashCommands.size} slash commands, in ${milliseconds / 1000} seconds`);
+    // console.log(`Loaded ${client.commands.size} commands and ${client.slashCommands.size} slash commands, in ${milliseconds / 1000} seconds`);
 });
 
 client.login(LECHSBOTTKEY);
