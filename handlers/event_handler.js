@@ -7,7 +7,6 @@ module.exports = (client, Discord) =>{
         for(const file of event_files){
             const event = require(`../events/${dirs}/${file}`);
             const event_name = file.split('.')[0];
-            console.log('\x1b[3m', `EVENT | ${event_name} loaded!`)
             client.on(event_name, event.bind(null, Discord, client))
         }
     }
