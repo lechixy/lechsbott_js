@@ -2,16 +2,16 @@ const db = require('../models/afkSchema');
 const moment = require('moment')
 
 function afkCheck(message){
-    db.findOne({ Guild: message.guild.id, Member: message.author.id }, async (err, data) => {
+    try {
+        db.findOne({ Guild: message.guild.id, Member: message.author.id }, async (err, data) => {
         if (err) throw err;
         if (data) {
             data.delete()
 
             return message.channel.send({ content: `<@${message.author.id}> welcome back, i removed your afk!` })
         } else return;
-    })
-
-    if (message.mentions.members.first()) {
+            
+        if (message.mentions.members.first()) {
         db.findOne({ Guild: message.guild.id, Member: message.mentions.members.first().id }, async (err, data) => {
             if (err) throw err;
             if (data) {
@@ -21,6 +21,12 @@ function afkCheck(message){
             } else return;
         })
     }
+    })
+    } catch(err){
+        console.log(err)
+    }
+
+
 }
 
 exports.afkCheck = afkCheck
