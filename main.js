@@ -16,7 +16,7 @@ const mongoose = require('mongoose')
 
 // const memberCounter = require('./commands/counters/member-counter')
 const subCounter = require('./commands/counters/sub-counter')
-const {videoNotifier} = require('./commands/counters/video-notifier')
+// const {videoNotifier} = require('./commands/counters/video-notifier')
 const twitchCounter = require('./commands/counters/twitch-notify')
 const { LECHSBOTTKEY, MONGO_DB_SRV } = require("./commands/util/lechsbottUtil");
 
@@ -46,7 +46,7 @@ mongoose.connect(MONGO_DB_SRV, {
 client.on('ready', async () => {
     subCounter(client, Discord)
     // videoNotifier(client, Discord)
-    //twitchCounter(client, Discord)
+    // twitchCounter(client, Discord)
 
     const milliseconds = Date.now() - start;
 
