@@ -13,5 +13,7 @@ module.exports = {
     
         client.user.setActivity(`${total.toLocaleString()} members!`, { type: 'WATCHING' })
         
+        message.channel.send(`Hey status is now refreshed with a successfully`)
+        
   }
 }
