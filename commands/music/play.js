@@ -13,6 +13,7 @@ const scdlcore = new SoundCloud();
 const moment = require("moment")
 const progressbar = require('string-progressbar');
 const { roleColor } = require('../util/lechsbottFunctions')
+const playdl = require('play-dl')
 
 module.exports = {
     name: 'play',
@@ -100,6 +101,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
     const spotifyurl = 'https://open.spotify.com/track/';
     const spotifyplaylisturl = "https://open.spotify.com/playlist/";
     const scurl = 'https://soundcloud.com/'
+    const yturl = 'https://www.youtube.com/'
 
     let song = {};
 
@@ -268,7 +270,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
         return message.channel.send({ embeds: [playlistembed] })
     }
 
-    else if (ytdl.validateURL(args[0])) {
+    else if (args[0].includes(yturl) || ytdl.validateURL(args[0])) {
         message.channel.send(
             `${ytemoji} **Searching for** \`${args.join(' ')}\``
         );
@@ -349,6 +351,7 @@ async function handleResource(video, message, args, voice_channel, player, type,
             volume: 1,
             playing: true,
             resource: null,
+            queue_lock: false,
         }
 
         //Add our key and value pair into the global queue. We then use this to get our server queue.
@@ -357,28 +360,29 @@ async function handleResource(video, message, args, voice_channel, player, type,
 
         const lechsbottPlayer = async (guild, song) => {
             const queue = client.queue
-            const song_queue = queue.get(message.guild.id)
-            console.log(song)
-
             if (!song) {
                 queue.delete(guild.id);
-                song_queue.player.stop(true);
                 console.log('deleted song queue because no song');
                 return;
             }
 
+            const song_queue = queue.get(message.guild.id)
+            console.log(song)
+
 
             if (song.type === 'normal') {
-                console.log(song.url)
-                const stream = ytdl(song.url, { filter: 'audioonly', highWaterMark: 32, quality: 'highestaudio', });
-                let resource = Voice.createAudioResource(stream);
+                // const stream = ytdl(song.url, { filter: 'audioonly', highWaterMark: 32, quality: 'highestaudio', });
+                let stream = await playdl.stream(song.url)
+
+                let resource = Voice.createAudioResource(stream.stream, {
+                    inputType : stream.type 
+                })
                 queue_constructor.resource = resource;
 
                 player.subscribe(song_queue.player);
                 song_queue.player.play(resource);
             }
             if (song.type === 'sc') {
-                console.log(song.url)
 
                 let stream
                 try {
