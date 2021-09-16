@@ -39,6 +39,9 @@ module.exports = {
 
             if (server_queue) {
 
+                //resfresh text channel
+                server_queue.text_channel = message.channel
+
                 if (voiceChannel.channel.id !== server_queue.voice_channel.id) {
                     const embed = new Discord.MessageEmbed()
                         .setColor(roleColor(message))
@@ -86,9 +89,9 @@ module.exports = {
         }
 
 
-        else if (cmd === 'skip') skip(message, args, client, server_queue, voiceChannel, Discord);
-        else if (cmd === 'disconnect' || cmd === 'dc') disconnect(message, args, client, server_queue, voiceChannel, Discord);
-        else if (cmd === 'nowplaying' || cmd === 'np') np_song(message, args, client, server_queue, voiceChannel, Discord)
+        else if (cmd === 'skip') skip(message, args, client, queue, server_queue, voiceChannel, Discord);
+        else if (cmd === 'disconnect' || cmd === 'dc') disconnect(message, args, client, queue, server_queue, voiceChannel, Discord);
+        else if (cmd === 'nowplaying' || cmd === 'np') np_song(message, args, client, queue, server_queue, voiceChannel, Discord)
     },
 };
 
@@ -351,7 +354,7 @@ async function handleResource(video, message, args, voice_channel, player, type,
             volume: 1,
             playing: true,
             resource: null,
-            queue_lock: false,
+            queue_lock: true,
         }
 
         //Add our key and value pair into the global queue. We then use this to get our server queue.
@@ -369,13 +372,16 @@ async function handleResource(video, message, args, voice_channel, player, type,
             const song_queue = queue.get(message.guild.id)
             console.log(song)
 
+            if (song_queue.voice_channel.type === 'GUILD_STAGE_VOICE') {
+                message.guild.me.voice.setSuppressed(false)
+            }
 
             if (song.type === 'normal') {
                 // const stream = ytdl(song.url, { filter: 'audioonly', highWaterMark: 32, quality: 'highestaudio', });
                 let stream = await playdl.stream(song.url)
 
                 let resource = Voice.createAudioResource(stream.stream, {
-                    inputType : stream.type 
+                    inputType: stream.type
                 })
                 queue_constructor.resource = resource;
 
@@ -393,7 +399,7 @@ async function handleResource(video, message, args, voice_channel, player, type,
                     message.channel.send({ embeds: [embed] });
                     song_queue.songs.shift()
 
-                    if(song_queue.songs[0]){
+                    if (song_queue.songs[0]) {
                         lechsbottPlayer(message.guild, song_queue.songs[0]);
                     } else {
                         queue.delete(guild.id);
@@ -403,15 +409,6 @@ async function handleResource(video, message, args, voice_channel, player, type,
                     return
                 }
             }
-
-            song_queue.player.on(Voice.AudioPlayerStatus.Idle, async () => {
-                console.log(
-                    `Audio player transitioned idle`
-                );
-
-                song_queue.songs.shift();
-                lechsbottPlayer(message.guild, song_queue.songs[0]);
-            });
 
             // song_queue.connection.on('stateChange', async (oldState, newState) => {
             //     console.log(
@@ -454,6 +451,16 @@ async function handleResource(video, message, args, voice_channel, player, type,
             queue_constructor.connection = connection;
 
             lechsbottPlayer(message.guild, queue_constructor.songs[0]);
+
+            queue_constructor.player.on(Voice.AudioPlayerStatus.Idle, async () => {
+                console.log(
+                    `Audio player transitioned idle`
+                );
+
+                queue_constructor.songs.shift();
+                lechsbottPlayer(message.guild, queue_constructor.songs[0]);
+            });
+
         } catch (err) {
             queue.delete(message.guild.id);
             const embed = new Discord.MessageEmbed()
@@ -487,7 +494,7 @@ async function handleResource(video, message, args, voice_channel, player, type,
     return undefined;
 }
 
-const skip = (message, args, client, server_queue, voiceChannel, Discord) => {
+const skip = (message, args, client, queue, server_queue, voiceChannel, Discord) => {
     if (!voiceChannel) {
         const embed = new Discord.MessageEmbed()
             .setColor(roleColor(message))
@@ -514,7 +521,7 @@ const skip = (message, args, client, server_queue, voiceChannel, Discord) => {
     server_queue.player.stop(true);
 }
 
-const disconnect = (message, args, client, server_queue, voiceChannel, Discord) => {
+const disconnect = (message, args, client, queue, server_queue, voiceChannel, Discord) => {
     if (!voiceChannel) {
         const embed = new Discord.MessageEmbed()
             .setColor(roleColor(message))
@@ -528,13 +535,14 @@ const disconnect = (message, args, client, server_queue, voiceChannel, Discord) 
         return message.channel.send({ embeds: [embed] });
     }
     server_queue.connection.destroy();
+    queue.delete(message.guild.id)
     const embed = new Discord.MessageEmbed()
         .setColor(roleColor(message))
         .setDescription(`**Succesfully disconnected from** \`${message.member.voice.channel.name}\``)
     return message.channel.send({ embeds: [embed] });
 }
 
-const np_song = (message, args, client, server_queue, voiceChannel, Discord) => {
+const np_song = (message, args, client, queue, server_queue, voiceChannel, Discord) => {
     if (!server_queue) {
         const embed = new Discord.MessageEmbed()
             .setColor(roleColor(message))
