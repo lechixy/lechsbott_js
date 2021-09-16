@@ -39,7 +39,7 @@ mongoose.connect(MONGO_DB_SRV).then(() => {
     console.log(err)
 })
 
-client.on('ready', async () => {
+client.once('ready', async () => {
     subCounter(client, Discord)
     // videoNotifier(client, Discord)
     //twitchCounter(client, Discord)
