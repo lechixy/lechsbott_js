@@ -354,7 +354,7 @@ async function handleResource(video, message, args, voice_channel, player, type,
             volume: 1,
             playing: true,
             resource: null,
-            queue_lock: true,
+            playinginfo: true,
         }
 
         //Add our key and value pair into the global queue. We then use this to get our server queue.
@@ -423,18 +423,20 @@ async function handleResource(video, message, args, voice_channel, player, type,
             //     }
             // })
 
-            let playing = new Discord.MessageEmbed()
-                .setColor(roleColor(message))
-                .setAuthor(
-                    (name = `Now playing`),
-                    (icon_url = `${message.author.displayAvatarURL({ dynamic: true })}`)
-                )
-                .setTitle(`${song.title}`)
-                .setURL(`${song.customurl}`)
-                .setFooter(`${song.addedby}`)
-                .setTimestamp();
+            if (song_queue.playinginfo === true) {
+                let playing = new Discord.MessageEmbed()
+                    .setColor(roleColor(message))
+                    .setAuthor(
+                        (name = `Now playing`),
+                        (icon_url = `${message.author.displayAvatarURL({ dynamic: true })}`)
+                    )
+                    .setTitle(`${song.title}`)
+                    .setURL(`${song.customurl}`)
+                    .setFooter(`${song.addedby}`)
+                    .setTimestamp();
 
-            song_queue.text_channel.send({ embeds: [playing] })
+                song_queue.text_channel.send({ embeds: [playing] })
+            }
 
         };
 

@@ -1,0 +1,77 @@
+const { PREFIX } = require('../util/lechsbottUtil')
+const { roleColor } = require('../util/lechsbottFunctions')
+
+module.exports = {
+    name: 'playinginfo',
+    aliases: ['announcement', 'announcements'],
+    description: '',
+    async execute(client, message, args, cmd, Discord) {
+
+        const queue = client.queue
+        const server_queue = queue.get(message.guild.id)
+
+        if (!server_queue) {
+            const embed = new Discord.MessageEmbed()
+                .setColor(roleColor(message))
+                .setDescription(`**There is nothing playing on this server**`)
+            return message.channel.send({ embeds: [embed] });
+        }
+
+        if(!args[0]){
+
+            if(server_queue.playinginfo === true){
+                server_queue.playinginfo = false
+                const embed = new Discord.MessageEmbed()
+                    .setColor(roleColor(message))
+                    .setDescription(`**Playing info is now **disabled**\nTracks playing info won't be send until you enable that`)
+                return message.channel.send({ embeds: [embed] });
+            } else {
+                server_queue.playinginfo = true
+                const embed = new Discord.MessageEmbed()
+                    .setColor(roleColor(message))
+                    .setDescription(`**Playing info is now **enabled**\nTracks playing info will be send`)
+                return message.channel.send({ embeds: [embed] });
+            }
+        } else {
+            if (!['true', 'on', 'false', 'enable', 'disable', 'off', 'yes', 'no'].includes(args[0])) {
+                const embed = new Discord.MessageEmbed()
+                    .setColor(roleColor(message))
+                    .setDescription(`**Invalid statement for playing info, you can try:**\ntrue/on/yes/enable | false/off/no/disable`)
+                return message.channel.send({ embeds: [embed] });
+            }
+    
+            //for true value
+            if (server_queue.playinginfo === true && ['yes', 'on', 'true', 'enable'].includes(args[0])) {
+                const embed = new Discord.MessageEmbed()
+                    .setColor(roleColor(message))
+                    .setDescription(`Playing info is already **${args[0]}**`)
+                return message.channel.send({ embeds: [embed] });
+            }
+    
+            if (server_queue.playinginfo === true && ['false', 'off', 'no', 'disable'].includes(args[0])) {
+                server_queue.playinginfo = false
+                const embed = new Discord.MessageEmbed()
+                    .setColor(roleColor(message))
+                    .setDescription(`**Playing info is now ${args[0]}**\nTracks playing info won't be send until you enable that`)
+                return message.channel.send({ embeds: [embed] });
+            }
+
+            //for false value
+            if (server_queue.playinginfo === false && ['false', 'off', 'no', 'disable'].includes(args[0])) {
+                const embed = new Discord.MessageEmbed()
+                    .setColor(roleColor(message))
+                    .setDescription(`Playing info is already **${args[0]}**`)
+                return message.channel.send({ embeds: [embed] });
+            }
+
+            if (server_queue.playinginfo === false && ['yes', 'on', 'true', 'enable'].includes(args[0])) {
+                server_queue.playinginfo = true
+                const embed = new Discord.MessageEmbed()
+                    .setColor(roleColor(message))
+                    .setDescription(`**Playing info is now ${args[0]}**\nTracks playing info will be send`)
+                return message.channel.send({ embeds: [embed] });
+            }
+        }
+
+    }
+}
