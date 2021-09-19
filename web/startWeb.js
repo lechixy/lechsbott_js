@@ -21,9 +21,10 @@ function startWeb(){
   app.all('*', (req, res) => res.render('errors/404'));
 
   
-  const listener = server.listen(8000, function(){
-    console.log(`Your app is listening ${listener.address().address} on port ${listener.address().port}`)
-  })
+  const listener = server.listen(3000, '0.0.0.0', () => {
+    const address = server.address();
+    console.log('server listening at', address);
+  });
 
 }
 
