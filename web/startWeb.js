@@ -18,8 +18,6 @@ function startWeb(){
     res.render("commands", { bot: settings.website })
   })
 
-  app.all('*', (req, res) => res.render('errors/404'));
-
   
   const listener = server.listen(3000, '0.0.0.0', () => {
     const address = server.address();
@@ -27,5 +25,7 @@ function startWeb(){
   });
 
 }
+
+startWeb()
 
 exports.startWeb = startWeb
