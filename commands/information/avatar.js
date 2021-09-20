@@ -1,7 +1,7 @@
 module.exports = {
     name: 'avatar',
     description: "Broadcast someone's avatar!",
-    aliases: ["pp", "profilresmi"],
+    aliases: ["pp", "av"],
     cooldown: 0,
     async execute(client, message, args, cmd, Discord){
         

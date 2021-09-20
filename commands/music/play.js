@@ -381,7 +381,7 @@ async function handleResource(video, message, args, voice_channel, player, type,
                 let stream = await playdl.stream(song.url)
 
                 let resource = Voice.createAudioResource(stream.stream, {
-                    inputType: stream.type
+                    inputType: stream.type, inlineVolume: true, 
                 })
                 queue_constructor.resource = resource;
 

@@ -2,7 +2,8 @@ const start = Date.now();
 const Discord = require('discord.js');
 const { Client, Intents } = Discord;
 const client = new Client({
-    restTimeOffset: 0,
+    shards: 'auto',
+    restTimeOffset: 250,
     intents: [
         Intents.FLAGS.GUILDS,
         Intents.FLAGS.GUILD_MESSAGES,
@@ -13,7 +14,7 @@ const client = new Client({
     ],
 })
 const mongoose = require('mongoose')
-const {startWeb} = require('./web/startWeb')
+//const {startWeb} = require('./web/startWeb')
 
 // const memberCounter = require('./commands/counters/member-counter')
 const subCounter = require('./commands/counters/sub-counter')
@@ -33,7 +34,6 @@ client.queue = new Discord.Collection();
 })
 
 mongoose.connect(MONGO_DB_SRV).then(() => {
-    console.clear()
     console.log('Successfully connected to lechsbottdb')
 }).catch((err) => {
     console.log(err)
@@ -49,7 +49,7 @@ client.once('ready', async () => {
     console.log('Lechsbott now online!')
     console.log(`Loaded ${client.commands.size} commands and ${client.slashCommands.size} slash commands, in ${milliseconds / 1000} seconds`);
 
-    startWeb()
+    //startWeb()
 
     let total = 0
 
