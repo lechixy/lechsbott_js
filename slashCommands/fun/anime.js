@@ -243,7 +243,7 @@ module.exports = {
 
                 let animeembed = new Discord.MessageEmbed()
                     .setImage(image)
-                    .setFooter(`${selectionsfw}/${client.user.username}`)
+                    .setFooter(`${selectionnsfw}/${client.user.username}`)
                 .setTimestamp()
                 .setColor('RANDOM')
                     
@@ -254,7 +254,7 @@ module.exports = {
 
                 let animeembed = new Discord.MessageEmbed()
                     .setImage(image)
-                    .setFooter(`${selectionsfw}/${client.user.username}`)
+                    .setFooter(`${selectionnsfw}/${client.user.username}`)
                 .setTimestamp()
                 .setColor('RANDOM')
                     
@@ -265,7 +265,7 @@ module.exports = {
 
                 let animeembed = new Discord.MessageEmbed()
                     .setImage(image)
-                    .setFooter(`${selectionsfw}/${client.user.username}`)
+                    .setFooter(`${selectionnsfw}/${client.user.username}`)
                 .setTimestamp()
                 .setColor('RANDOM')
                     
