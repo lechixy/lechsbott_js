@@ -1,13 +1,36 @@
+const Voice = require('@discordjs/voice')
+
 module.exports = {
     name: 'ping',
-    aliases: ["latency", "gecikme"],
-    cooldown: 0,
+    aliases: ["latency"],
+    cooldown: 2,
+    async execute(client, message, args, cmd, Discord) {
 
-    execute(client, message, args, cmd, Discord) {
-        let pingEmbed = new Discord.MessageEmbed()
-        .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true}))
-        .addField(`<a:loading:846030612254687253> Latency`, `\`\`\`yaml\n${Date.now() - message.createdTimestamp}ms\`\`\``, true)
-        .addField(`<a:signal:846018763526766612> API Latency`, `\`\`\`yaml\n${Math.round(client.ws.ping)}ms\`\`\``, true)
-        message.channel.send({ embeds: [pingEmbed] });
+        const log = Voice.getVoiceConnection(message.guild.id)
+
+        if(!log){
+            let pingEmbed = new Discord.MessageEmbed()
+            .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true}))
+            .addField(`Latency/Respond`, `\`${Date.now() - message.createdTimestamp}ms\``)
+            .addField(`Discord API`, `\`${Math.round(client.ws.ping)}ms\``)
+            message.channel.send({ embeds: [pingEmbed] });
+        } else {
+            let ms = log.ping.ws
+            if(!ms){
+                ms = `Connecting`
+            } else {
+                ms = log.ping.ws+'ms'
+            }
+
+            let pingEmbed = new Discord.MessageEmbed()
+            .setAuthor(client.user.username, client.user.displayAvatarURL({dynamic: true}))
+            .addField(`Latency/Respond`, `\`${Date.now() - message.createdTimestamp}ms\``)
+            .addField(`Discord API`, `\`${Math.round(client.ws.ping)}ms\``)
+            .addField(`Voice Connection`, `\`${ms} | ${log.ping.udp}udp\``)
+            message.channel.send({ embeds: [pingEmbed] });
+        }
+
+
+
     },
 };

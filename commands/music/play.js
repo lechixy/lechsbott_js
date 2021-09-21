@@ -524,6 +524,8 @@ const skip = (message, args, client, queue, server_queue, voiceChannel, Discord)
 }
 
 const disconnect = (message, args, client, queue, server_queue, voiceChannel, Discord) => {
+    const Voice = require('@discordjs/voice')
+
     if (!voiceChannel) {
         const embed = new Discord.MessageEmbed()
             .setColor(roleColor(message))
@@ -531,10 +533,32 @@ const disconnect = (message, args, client, queue, server_queue, voiceChannel, Di
         return message.channel.send({ embeds: [embed] });
     }
     if (!server_queue) {
-        const embed = new Discord.MessageEmbed()
-            .setColor(roleColor(message))
-            .setDescription(`**There is nothing playing on this server**`)
-        return message.channel.send({ embeds: [embed] });
+        try {
+            const log = Voice.getVoiceConnection(message.guild.id)
+
+            if (!log) {
+                const embed = new Discord.MessageEmbed()
+                    .setColor(roleColor(message))
+                    .setDescription(`**lechsbott** is not in a voice channel, there are no connections`)
+                return message.channel.send({ embeds: [embed] });
+            } else {
+                const embed = new Discord.MessageEmbed()
+                .setColor(roleColor(message))
+                .setDescription(`**Succesfully disconnected from** \`${message.member.voice.channel.name}\``)
+                message.channel.send({ embeds: [embed] });
+                log.disconnect()
+                log.destroy(false)
+                return
+            }
+
+        } catch (err) {
+            const embed = new Discord.MessageEmbed()
+                .setColor(roleColor(message))
+                .setDescription(`**There was an error on disconnecting, please try later!**`)
+            return message.channel.send({ embeds: [embed] });
+        }
+
+        return
     }
     server_queue.connection.destroy();
     queue.delete(message.guild.id)

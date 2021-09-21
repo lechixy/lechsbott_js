@@ -69,6 +69,15 @@ module.exports = {
                 return message.channel.send({ embeds: [embed] });
             }
 
+            if(!args[0]){
+                const embed = new Discord.MessageEmbed()
+                .setColor(roleColor(message))
+                .setAuthor(`What are you looking for?`, message.author.displayAvatarURL({ dynamic: true }))
+                .setDescription('Please type voice channel name for lechsbott join to it!\nRemember! iT iS cAsE sEnSeTiVe')
+                .addField('Usage', `${PREFIX}${cmd} **<voice channel name>**`)
+                return message.channel.send({ embeds: [embed] });
+            }
+
             const c = message.guild.channels.cache.find(ch => ch.name.includes(args.join(' ')) && ch.type.includes('GUILD_VOICE'))
 
             if (!c) {
