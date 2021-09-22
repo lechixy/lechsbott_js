@@ -19,6 +19,7 @@
     "anime-images-api": "^2.0.0",
     "axios": "^0.21.4",
     "body-parser": "^1.19.0",
+    "canvas": "^2.8.0",
     "discord.js": "^13.1.0",
     "djs-anime": "^2.0.9",
     "ejs": "^3.1.6",
