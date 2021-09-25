@@ -25,14 +25,16 @@ module.exports = {
 
             const media = await ytdl.getInfo(server_queue.songs[0].url)
 
-            let title = media.videoDetails.media?.song
+            let ismedia = media.videoDetails.media?.song
 
-            if(!title){
+            if(!ismedia){
                 const embed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
                     .setDescription(`**This video does not contain any songs**`)
                 return m.edit({ embeds: [embed] });
             }
+
+            let title = `${media.videoDetails.media?.artist} ${media.videoDetails.media?.song}`
 
             let lyrics = await lyricsFinder(title, "");
 

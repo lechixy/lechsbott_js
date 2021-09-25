@@ -60,7 +60,7 @@ module.exports = async (Discord, client, message) => {
             if (command.ownerOnly) {
 
                 if (!OWNERS.includes(message.author.id)) {
-                    console.log(`${message.author.tag} tried use an owner command!`)
+                    return console.log(`${message.author.tag} tried use an owner command!`)
                 } else {
                     console.log(`${message.author.tag} used an owner command ${cmd} in ${message.guild.name}`)
 

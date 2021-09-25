@@ -40,7 +40,7 @@ module.exports = {
                 .setTitle(`${server_queue.songs[0].title}`)
                 .setURL(server_queue.songs[0].customurl)
                 .setDescription(`<@${server_queue.songs[0].addedid}> added from **${server_queue.songs[0].app}**\n
-                ${elapsedtime}<:transparent:875400047045525545>${splitbar(bar)}<:transparent:875400047045525545>${totaltime}`)
+                ${elapsedtime}<:transparent:890623794421592104>${splitbar(bar)}<:transparent:890623794421592104>${totaltime}`)
             message.channel.send({ embeds: [queue1] })
 
 
@@ -53,7 +53,7 @@ module.exports = {
 
             let npp = `**[${server_queue.songs[0].title}](${server_queue.songs[0].customurl})**\n
             <@${server_queue.songs[0].addedid}> added from **${server_queue.songs[0].app}**\n
-            ${elapsedtime}<:transparent:875400047045525545>${splitbar(bar)}<:transparent:875400047045525545>${totaltime}`
+            ${elapsedtime}<:transparent:890623794421592104>${splitbar(bar)}<:transparent:890623794421592104>${totaltime}`
 
             let queue1 = new Discord.MessageEmbed()
                 .setAuthor(`Queue for ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
@@ -72,7 +72,7 @@ module.exports = {
 
             let npp = `**[${server_queue.songs[0].title}](${server_queue.songs[0].customurl})**\n
             <@${server_queue.songs[0].addedid}> added from **${server_queue.songs[0].app}**\n
-            ${elapsedtime}<:transparent:875400047045525545>${splitbar(bar)}<:transparent:875400047045525545>${totaltime}`
+            ${elapsedtime}<:transparent:890623794421592104>${splitbar(bar)}<:transparent:890623794421592104>${totaltime}`
 
             let queue1 = new Discord.MessageEmbed()
                 .setAuthor(`Queue for ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))

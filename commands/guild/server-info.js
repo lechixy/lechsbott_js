@@ -103,7 +103,8 @@ module.exports = {
             "THREE_DAY_THREAD_ARCHIVE": "Three days thread archive",
             "SEVEN_DAY_THREAD_ARCHIVE": "Seven days thread archive",
             "PRIVATE_THREADS": "Private threads",
-            "THREADS_ENABLED": "Enabled threads"
+            "THREADS_ENABLED": "Enabled threads",
+            "NEW_THREAD_PERMISSIONS": "New thread permissions",
         }
 
         let featurearray = [];
@@ -115,7 +116,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
         .setAuthor(guild.name, guild.iconURL({dynamic: true}))
         .setDescription(guild.description ? guild.description : `No description`)
-        .setImage(guild.bannerURL({dynamic: true, size: 1024}))
+        .setThumbnail(guild.bannerURL({dynamic: true, size: 512}))
         .addField(`Owner`, `<@${guild.ownerId}>`, true)
         .addField(`Total Members`, `${serverSize}`, true)
         .addField(`Created`, `${checkDays(guild.createdAt)}`, true)
@@ -125,7 +126,7 @@ module.exports = {
         .addField(`Stickers`, `${Size(guild.stickers.cache.size, 'stickers')}`, true)
         //colum
         .addField(`You joined`, `${checkDays(message.member.joinedAt)}`, true)
-        .addField(`Server Boost`, `<:boost:875400046898733067> ${premiumTier(guild.premiumTier, guild.premiumSubscriptionCount)}`, true)
+        .addField(`Server Boost`, `<a:anim_boost:890625632264917042> ${premiumTier(guild.premiumTier, guild.premiumSubscriptionCount)}`, true)
         .addField(`Server ID`, `${guild.id}`, true)
         //colum
         .addField(`Locale`, `${guild.preferredLocale}`, true)
@@ -134,12 +135,12 @@ module.exports = {
         // colum
         .addField(
             `Channels`,
-            `<:textchannel:875503853670387783>${Size(message.guild.channels.cache.filter(c => c.type === 'GUILD_TEXT').size, 'texts')}<:transparent:875400047045525545><:voicechannel:875503853787828284>${Size(message.guild.channels.cache.filter(c => c.type === 'GUILD_VOICE').size, 'voices')}`,
+            `<:text:891041979528519702>${Size(message.guild.channels.cache.filter(c => c.type === 'GUILD_TEXT').size, 'texts')}<:transparent:890623794421592104><:voice:891041979612397579>${Size(message.guild.channels.cache.filter(c => c.type === 'GUILD_VOICE').size, 'voices')}`,
             )
         //colum
-        .addField(`Members`, `<:online:875400046793867275>${onlineCount}<:transparent:875400047045525545><:offline:875400047234273330>${serverSize-onlineCount}<:transparent:875400047045525545>:robot: ${botCount}`)
+        .addField(`Members`, `<:status_online:890624318021713980>${onlineCount}<:transparent:890623794421592104><:offline:890624315580637244>${serverSize-onlineCount}<:transparent:890623794421592104>:robot: ${botCount}`)
         // colum
-        .addField(`Features`, featurearray.join(', '), true)
+        .addField(`Features`, featurearray.join('- '), true)
         // colum
         .addField(`Verification Level`, `${verifLevels[guild.verificationLevel]}`)
         .setTimestamp()

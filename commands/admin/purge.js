@@ -27,6 +27,7 @@ module.exports = {
             return message.channel.send({ embeds: [permsembed] });
         }
 
+        message.delete()
         const member = message.mentions.members.first();
         const messages = message.channel.messages.fetch();
 
@@ -42,7 +43,7 @@ module.exports = {
             }
             )
 
-            await message.channel.bulkDelete(userMessages)
+            await message.channel.bulkDelete(userMessages, true)
         } else {
             const user = message.author;
             if(!args[0]){
@@ -83,7 +84,7 @@ module.exports = {
             
             //For delete messages
             await message.channel.messages.fetch({limit: args[0]}).then(messages => {
-                message.channel.bulkDelete(messages)
+                message.channel.bulkDelete(messages, true)
                 message.channel.send({ embeds: [argsembed4] }).then(m => {
                     setTimeout(function() { m.delete() }, 7500)
                 }
