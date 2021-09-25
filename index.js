@@ -59,3 +59,5 @@ client.once('ready', async () => {
 });
 
 client.login(LECHSBOTTKEY);
+
+exports.queue = client.queue

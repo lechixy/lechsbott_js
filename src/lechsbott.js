@@ -5,7 +5,7 @@ function lechsbott(message, client) {
     let user = message.mentions.members.first()
 
     if (message.mentions.members.first() && user.id === `${client.user.id}`) {
-        message.reply({ content: `> **Hey <@${message.author.id}> if you want to interact with me, my prefix is here** \`l!\`` });
+        message.reply({ content: `Hey there, use my prefix \`l!\` to interact with me :)` });
     }
 }
 
