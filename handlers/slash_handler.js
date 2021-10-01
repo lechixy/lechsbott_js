@@ -21,13 +21,14 @@ module.exports = async (client, Discord) => {
         console.log('\x1b[3m', `SCMD | ${file.name} loaded!`)
         arrayofslashCommands.push(file);
       });
-      client.on("ready", async () => {
+      client.once("ready", async () => {
 
             const testServers = [
               "840543133007609907",
               "796446524175286272",
               "784450086088343592",
               "744472715221794876",
+              "799433172491173938",
             ]
 
             // testServers.forEach(guild => {

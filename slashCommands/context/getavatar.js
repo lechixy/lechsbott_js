@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 
 module.exports = {
     name: 'Show Avatar',
-    type: 2,
+    type: "USER",
     async execute(client, interaction, Discord) {
 
         const user = client.users.cache.get(interaction.targetId);

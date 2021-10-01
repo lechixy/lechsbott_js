@@ -22,7 +22,7 @@ module.exports = {
             
             interaction.followUp({ embeds: [avatarEmbed] })
         } else {
-            let userget = client.users.cache.get(selection[0].user.id)
+            let userget = interaction.guild.members.cache.get(selection[0].user.id)
             let avatar = userget.displayAvatarURL({dynamic: true ,size: 1024})
 
             let avatarEmbed = new Discord.MessageEmbed()

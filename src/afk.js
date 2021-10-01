@@ -20,7 +20,7 @@ function afkCheck(message) {
                 if (data) {
                     const member = message.guild.members.cache.get(data.Member);
 
-                    return message.channel.send({ content: `<@${member.user.id}> is now: ${data.Content} - ${moment(parseInt(data.TimeAgo)).fromNow()}` })
+                    return message.channel.send({ content: `${member.user.username} is now: ${data.Content} - ${moment(parseInt(data.TimeAgo)).fromNow()}` })
                 } else return;
             })
         }
