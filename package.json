@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node web/startWeb",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node web/example/server"
+    "server": "node web/server"
   },
   "engines": {
     "node": "16.x"
@@ -21,7 +21,7 @@
     "axios": "^0.21.4",
     "body-parser": "^1.19.0",
     "canvas": "^2.8.0",
-    "discord.js": "^13.1.0",
+    "discord.js": "^13.2.0-dev.1633089797.fe95005",
     "djs-anime": "^2.0.9",
     "ejs": "^3.1.6",
     "encoding": "^0.1.13",
