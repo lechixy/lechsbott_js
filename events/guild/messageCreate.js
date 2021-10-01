@@ -3,6 +3,7 @@ const { PREFIX, OWNERS } = require("../../commands/util/lechsbottUtil")
 const { afkCheck } = require('../../src/afk')
 const { userCheck } = require('../../src/user')
 const { lechsbott } = require('../../src/lechsbott')
+const { saidPrefix } = require('../../src/saidPrefix')
 
 module.exports = async (Discord, client, message) => {
 
@@ -28,6 +29,8 @@ module.exports = async (Discord, client, message) => {
 
     try {
         if (command) {
+
+            saidPrefix(message)
 
             if (!cooldowns.has(command.name)) {
                 cooldowns.set(command.name, new Discord.Collection());
