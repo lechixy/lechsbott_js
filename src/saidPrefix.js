@@ -8,10 +8,12 @@ async function saidPrefix(message) {
             if (err) throw err;
 
             if (data) {
-                return await said.findOneAndUpdate({ userID: message.author.id }, { $inc: { timeSaid: 1 } })
+                return await said.findOneAndUpdate({ userID: message.author.id }, { $inc: { timeSaid: 1 }, $set: { userTag: message.author.tag, lastSaid: Date.now(), } })
             } else {
                 return said.create({
                     userID: message.author.id,
+                    userTag: message.author.tag,
+                    lastSaid: Date.now(),
                     timeSaid: 1
                 })
             }

@@ -36,7 +36,7 @@ module.exports = {
             //resfresh text channel
             server_queue.text_channel = message.channel
 
-            if (voiceChannel.channel.id !== server_queue.voice_channel.id) {
+            if (voice_channel.channel.id !== server_queue.voice_channel.id) {
                 const embed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
                     .setAuthor(`There is currently playing a song on another voice channel`, message.author.displayAvatarURL({ dynamic: true }))
@@ -106,7 +106,6 @@ module.exports = {
                 async function findSong(collect) {
                     const video = await ytSearch(args.join(' '));
                     let sended = video.all[collect]
-                    console.log(sended)
 
                     if (sended) {
                         let song = {
