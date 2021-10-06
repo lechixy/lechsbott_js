@@ -48,15 +48,18 @@ client.once('ready', async () => {
     const milliseconds = Date.now() - start;
 
     console.log('Lechsbott now online!')
-    console.log(`Loaded ${client.commands.size} commands and ${client.slashCommands.size} slash commands, in ${milliseconds / 1000} seconds`);
+    console.log(`Loaded ${client.commands.size} commands and ${client.slashCommands.size} slash commands to ${client.guilds.cache.size} servers, in ${milliseconds / 1000} seconds`);
 
     //startWeb()
 
     let total = 0
 
     client.guilds.cache.each(guild => total += guild.memberCount)
-
     client.user.setActivity(`${total.toLocaleString()} members!`, { type: 'WATCHING' })
+
+    setInterval(function() {
+        client.user.setActivity(`${total.toLocaleString()} members!`, { type: 'WATCHING' })
+    }, 60000*30)
 });
 
 client.login(LECHSBOTTKEY);
