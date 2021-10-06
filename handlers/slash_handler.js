@@ -18,7 +18,7 @@ module.exports = async (client, Discord) => {
 
         if(['MESSAGE', 'USER'].includes(file.type)) delete file.description;
 
-        console.log('\x1b[3m', `SCMD | ${file.name} loaded!`)
+        console.log(`SCMD | ${file.name} loaded!`)
         arrayofslashCommands.push(file);
       });
       client.once("ready", async () => {
@@ -27,8 +27,8 @@ module.exports = async (client, Discord) => {
               "840543133007609907",
               "796446524175286272",
               "784450086088343592",
-              "744472715221794876",
               "799433172491173938",
+              "893791623870316554",
             ]
 
             // testServers.forEach(guild => {
@@ -40,14 +40,18 @@ module.exports = async (client, Discord) => {
             //   .then(com => console.log(com))
             // return server.commands.delete('882026983553376269')
 
-            for(const testguild of testServers) {
-              const server = client.guilds.cache.get(testguild)
-
-
-              server.commands.set(arrayofslashCommands)
-              .catch(error => {
-                console.log(error)
-              })
+            try {
+              for(const testguild of testServers) {
+                const server = client.guilds.cache.get(testguild)
+  
+  
+                server.commands.set(arrayofslashCommands)
+                .catch(error => {
+                  console.log(error)
+                })
+              }
+            } catch (err) {
+              console.log(err)
             }
 
       });

@@ -174,7 +174,7 @@ async function handleResource(video, message, args, voice_channel, player, type,
                 .setColor(roleColor(message))
                 .setDescription(`**There was an error connecting!**`)
             findTypeAndSend(embed);
-            throw new Error(err)
+            console.log(err)
         }
     } else {
         server_queue.songs.push(song)
@@ -214,6 +214,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
     const scdl = require('soundcloud-downloader').default;
     const { SoundCloud } = require("scdl-core");
     const scdlcore = new SoundCloud();
+    const { roleColor } = require('../util/lechsbottFunctions')
 
     const Discord = require('discord.js');
     const ytemoji = client.emojis.cache.get("846030610526634005");
@@ -261,7 +262,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
         }
     }
 
-    if (args.includes(scurl)) {
+    if (args[0].includes(scurl)) {
         findTypeAndSend(`${scemoji} **Searching on SoundCloud** :mag_right: \`${args.join(' ')}\``)
 
         scdlcore.connect(SOUNDCLOUD_CLIENT_ID).then(async () => {
@@ -322,7 +323,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
             }
         })
     }
-    else if (args.includes(spotifyurl)) {
+    else if (args[0].includes(spotifyurl)) {
         findTypeAndSend(`${spotifyemoji} **Searching on Spotify** :mag_right: \`${args.join(' ')}\``)
 
         const spotify_finder = await getPreview(args[0])
@@ -356,7 +357,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
         }
         await handleResource(song, message, args, voiceChannel, player, 'normal', 'false', client)
     }
-    else if (args.includes(spotifyplaylisturl)) {
+    else if (args[0].includes(spotifyplaylisturl)) {
         findTypeAndSend(`${spotifyemoji} **Searching playlist** :mag_right: \`${args.join(' ')}\``)
 
         const data = await getTracks(args[0])
@@ -369,7 +370,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
         let number = data.length
 
         for (const track of data) {
-            const search_title = `${track.artists[0].name} ${track.name}`
+            const search_title = `${track.artists[0].name} - ${track.name}`
 
             const spotifyplaylist = await spoyt_finder(search_title);
 
@@ -398,7 +399,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
             .setAuthor(`Spotify playlist has been added to the queue with ${number} songs!`, `${defineAuthor(message, 'displayAvatarURL')}`)
         return findTypeAndSend({ embeds: [playlistembed] })
     }
-    else if (args.includes(playlisturl)) {
+    else if (args[0].includes(playlisturl)) {
         findTypeAndSend(`${ytemoji} **Searching playlist** :mag_right: \`${args.join(' ')}\``)
 
         const playlist = await youtube.getPlaylist(args[0]);
@@ -426,7 +427,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
         return findTypeAndSend({ embeds: [playlistembed] })
     }
 
-    else if (args.includes(yturl) || ytdl.validateURL(args[0])) {
+    else if (args[0].includes(yturl) || ytdl.validateURL(args[0])) {
         findTypeAndSend(
             `${ytemoji} **Searching for** \`${args.join(' ')}\``
         );

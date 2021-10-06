@@ -53,7 +53,7 @@ module.exports = {
             if (!args[0]) {
                 let argsembed0 = new Discord.MessageEmbed()
                     .setAuthor(`Please enter the amount of messages you want to clear!`, user.displayAvatarURL({ dynamic: true }))
-                message.channel.send({ embeds: [argsembed0] }).then(m => {
+                return message.channel.send({ embeds: [argsembed0] }).then(m => {
                     setTimeout(function () {
                         if (m.deleted === true) {
                             m.delete()
@@ -65,7 +65,7 @@ module.exports = {
             if (isNaN(args[0])) {
                 let argsembed1 = new Discord.MessageEmbed()
                     .setAuthor(`Please enter a real number!`, user.displayAvatarURL({ dynamic: true }))
-                message.channel.send({ embeds: [argsembed1] }).then(m => {
+                return message.channel.send({ embeds: [argsembed1] }).then(m => {
                     setTimeout(function () {
                         if (m.deleted === true) {
                             m.delete()
@@ -78,7 +78,7 @@ module.exports = {
             if (args[0] > 100) {
                 let argsembed2 = new Discord.MessageEmbed()
                     .setAuthor(`You cannot delete more than 100 messages!`, user.displayAvatarURL({ dynamic: true }))
-                message.channel.send({ embeds: [argsembed2] }).then(m => {
+                return message.channel.send({ embeds: [argsembed2] }).then(m => {
                     setTimeout(function () {
                         if (m.deleted === true) {
                             m.delete()
@@ -90,7 +90,7 @@ module.exports = {
             if (args[0] < 1) {
                 let argsembed3 = new Discord.MessageEmbed()
                     .setAuthor(`You must delete at least one message!`, user.displayAvatarURL({ dynamic: true }))
-                message.channel.send({ embeds: [argsembed3] }).then(m => {
+                return message.channel.send({ embeds: [argsembed3] }).then(m => {
                     setTimeout(function () {
                         if (m.deleted === true) {
                             m.delete()
@@ -105,7 +105,7 @@ module.exports = {
             //For delete messages
             await message.channel.messages.fetch({ limit: args[0] }).then(messages => {
                 message.channel.bulkDelete(messages, true)
-                message.channel.send({ embeds: [argsembed4] }).then(m => {
+                return message.channel.send({ embeds: [argsembed4] }).then(m => {
                     setTimeout(function () {
                         if (m.deleted === true) {
                             m.delete()

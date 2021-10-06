@@ -10,7 +10,7 @@ module.exports = {
     description: '',
     async execute(client, message, args, cmd, Discord) {
 
-        const voice_channel = message.member.voice;
+        const voice_channel = message.member.voice.channel
 
         if (!voice_channel) {
             let voiceembed = new Discord.MessageEmbed()
@@ -22,12 +22,23 @@ module.exports = {
             return message.channel.send({ embeds: [voiceembed] });
         }
 
+        if (!args[0]) {
+            let argsembed = new Discord.MessageEmbed()
+                .setColor(roleColor(message))
+                .setAuthor(
+                    `l!${cmd} [query]`,
+                    message.author.displayAvatarURL({ dynamic: true })
+                )
+                .addField(`youtube`, `search videos`, true)
+            return message.channel.send({ embeds: [argsembed] });
+        }
+
         const queue = client.queue
         const server_queue = queue.get(message.guild.id)
         let player = Voice.joinVoiceChannel({
-            channelId: voice_channel.channel.id,
-            guildId: voice_channel.channel.guild.id,
-            adapterCreator: voice_channel.channel.guild.voiceAdapterCreator,
+            channelId: voice_channel.id,
+            guildId: voice_channel.guild.id,
+            adapterCreator: voice_channel.guild.voiceAdapterCreator,
             selfDeaf: true,
         });
 
@@ -44,17 +55,6 @@ module.exports = {
             }
         }
 
-        if (!args[0]) {
-            let argsembed = new Discord.MessageEmbed()
-                .setColor(roleColor(message))
-                .setAuthor(
-                    `l!${cmd} [query]`,
-                    message.author.displayAvatarURL({ dynamic: true })
-                )
-                .addField(`youtube`, `search videos in`, true)
-            return message.channel.send({ embeds: [argsembed] });
-        }
-
         const m = await message.channel.send({ content: `<:youtube:846030610526634005> **Searching for** \`${args.join(' ')}\`` });
 
         const video = await ytSearch(args.join(' '));
@@ -63,17 +63,17 @@ module.exports = {
 
         let string1 = "";
 
-        string1 += `${videos.map(x => `**${++index}-** ${x.title}`).join("\n")}`;
+        string1 += `${videos.map(x => `**${++index}-** [${x.title}](${x.url})`).join("\n")}`;
 
         let searchresult = new Discord.MessageEmbed()
             .setTitle(`Search results for ${args.join(' ')}`)
             .setColor(roleColor(message))
             .setDescription(string1)
-            .addField('Choose one of them', 'Just type the number one of results you wanted to play, for cancel you can type \`cancel\`')
+            .addField('Choose one of them', 'Just type the number one of results you wanted to play in 30s be fast, for cancel you can type \`cancel\`')
         m.edit({ embeds: [searchresult] });
 
         const filter = (m) => {
-            return ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'cancel'].includes(m.content) && m.author.id === message.author.id
+            return ['1', 'first', 'second', 'third', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'cancel'].includes(m.content) && m.author.id === message.author.id
         }
         message.channel.awaitMessages({ filter, max: 1, time: 30000, errors: ['time'] })
             .then(async responde => {
@@ -86,14 +86,17 @@ module.exports = {
                         `Cancelled from search`,
                         message.author.displayAvatarURL({ dynamic: true })
                     )
-                    .setDescription(`You quitted from youtube search, next time :)`)
+                    .setDescription(`You quitted from youtube search`)
                 return message.channel.send({ embeds: [embed] });
                 }
 
                 let numbers = {
                     '1': 0,
+                    'first': 0,
                     '2': 1,
+                    'second': 2,
                     '3': 2,
+                    'third': 3,
                     '4': 3,
                     '5': 4,
                     '6': 5,

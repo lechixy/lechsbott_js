@@ -20,11 +20,11 @@ module.exports = {
                     return message.channel.send({ content: 'This user has **never used lechsbott** so **used lechsbott for 0 times**' });
                 }
         
-                let sended = `**${data.userTag}** used lechsbott for **${data.timeSaid} times** and last used **${moment(parseInt(data.lastSaid)).fromNow()}**`
+                let sended = `**${data.userTag}** used lechsbott for **${data.timeSaid.toLocaleString()}** times and last used **${moment(parseInt(data.lastSaid)).fromNow()}**`
                 message.channel.send({ content: sended })
             })
         } catch (err) {
-            
+            console.log(err)
         }
         
 

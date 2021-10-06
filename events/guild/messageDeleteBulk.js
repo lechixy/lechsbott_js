@@ -21,7 +21,7 @@ module.exports = async (Discord, client, messages) => {
     .setAuthor(mes.author.tag, mes.author.displayAvatarURL({dynamic: true}))
     .setTitle(`Deleted ${messages.size} Messages`)
     .setDescription(deletedmsgs.join('\n'))
-    .addField(`Who deleted`, `${mes.author}`, true)
+    .addField(`Message Author`, `${mes.author}`, true)
     .addField('User ID', `${mes.author.id}`, true)
     .addField(`In`, `${mes.channel}`, true)
     .setThumbnail(mes.author.displayAvatarURL({dynamic: true}))
