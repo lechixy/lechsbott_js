@@ -1,4 +1,5 @@
-const { handleResource, songFinder } = require('../../commands/music/utils')
+const { handleResource } = require('../../commands/music/handleResource')
+const { songFinder } = require('../../commands/music/songFinder')
 const { iroleColor } = require('../../commands/util/lechsbottFunctions')
 const Voice = require('@discordjs/voice')
 
@@ -24,7 +25,7 @@ module.exports = {
 
         if (server_queue) {
 
-            if (voice_channel.channel.id !== server_queue.voice_channel.id) {
+            if (voice_channel.id !== server_queue.voice_channel.id) {
                 const embed = new Discord.MessageEmbed()
                     .setColor(iroleColor(interaction))
                     .setAuthor(`There is currently playing a song on another voice channel`, interaction.user.displayAvatarURL({ dynamic: true }))
@@ -45,7 +46,9 @@ module.exports = {
             selfDeaf: true,
         });
 
-        await songFinder(interaction, targetmessage.content, client, player, voice_channel)
+        const firstfiftychar = targetmessage.content.slice(0, 51)
+
+        await songFinder(interaction, firstfiftychar, client, player, voice_channel)
 
 
 
