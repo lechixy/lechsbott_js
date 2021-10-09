@@ -1,10 +1,10 @@
 const { PREFIX } = require('../util/lechsbottUtil')
-const { handleResource } = require('./utils')
 
 module.exports = {
     name: 'fix',
     aliases: ['fixqueue', 'fixplayer'],
     description: '',
+    category: ['Music'],
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue

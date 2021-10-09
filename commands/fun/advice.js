@@ -2,7 +2,8 @@ module.exports = {
     name: 'advice',
     aliases: ['getadvice', 'tavsiye'],
     cooldown: 0,
-    description: 'This command searches an advice on google and then broadcast to chat!',
+    description: 'Get an advice from lechsbott',
+    category: ['Fun'],
     async execute(client, message, args, cmd, Discord){
         const fetch = require('node-fetch');
 

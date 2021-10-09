@@ -4,7 +4,8 @@ const { PREFIX } = require('../util/lechsbottUtil')
 module.exports = {
     name:'emojify',
     aliases:['textemoji'],
-    description:'',
+    description:'Convert your beatiful text to emoji',
+    category: ['Fun'],
     async execute(client, message, args, cmd, Discord) {
         
         if(!args.length) {

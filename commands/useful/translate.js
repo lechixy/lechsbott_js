@@ -4,6 +4,7 @@ module.exports = {
     name: 'translate',
     aliases: ['translateto'],
     description: 'Translate command!',
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
         if(cmd === 'translate') {
             const query = args.join(' ');

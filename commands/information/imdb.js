@@ -4,6 +4,7 @@ const { PREFIX } = require("../util/lechsbottUtil");
 module.exports = {
     name: "imdb",
     description: "Get the information about series and movie",
+    category: ['Information'],
     async execute(client, message, args, cmd, Discord) {
 
         if (!args.length) {

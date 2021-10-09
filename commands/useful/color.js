@@ -3,6 +3,7 @@ const { PREFIX } = require('../util/lechsbottUtil')
 module.exports = {
     name: 'color',
     description: '',
+	category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
 
         const clr = randColor()

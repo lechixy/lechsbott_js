@@ -25,7 +25,8 @@ function guildAttemptsMap(message) {
 module.exports = {
     name: "guessthenumber",
     aliases: ["gtn", "guess", "guessnumber"],
-    description: "Guess number command!",
+    description: "Guess the randomized number!",
+    category: ['Fun'],
     async execute(client, message, args, cmd, Discord) {
         const { member, channel, guild } = message;
 

@@ -3,7 +3,8 @@ const { PREFIX } = require('../util/lechsbottUtil')
 module.exports = {
     name:'lockchannel',
     aliases:['lockdown', 'lock'],
-    description:'',
+    description:'Locks channel and for everyone no one send any messages',
+    category: ['Moderation'],
     async execute(client, message, args, cmd, Discord) {
         
         if (!message.member.permissions.has("MANAGE_CHANNELS") && !message.member.permissions.has("MANAGE_ROLES")) {

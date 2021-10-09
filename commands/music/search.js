@@ -1,5 +1,5 @@
 const { PREFIX } = require('../util/lechsbottUtil')
-const { handleResource } = require('./utils')
+const { handleResource } = require('./handleResource')
 const ytSearch = require('yt-search')
 const Voice = require('@discordjs/voice')
 const { roleColor } = require('../util/lechsbottFunctions')
@@ -7,7 +7,9 @@ const { roleColor } = require('../util/lechsbottFunctions')
 module.exports = {
     name: 'search',
     aliases: ['srch'],
+    cooldown: 10,
     description: '',
+    category: ['Music'],
     async execute(client, message, args, cmd, Discord) {
 
         const voice_channel = message.member.voice.channel
@@ -47,7 +49,7 @@ module.exports = {
             //resfresh text channel
             server_queue.text_channel = message.channel
 
-            if (voice_channel.channel.id !== server_queue.voice_channel.id) {
+            if (voice_channel.id !== server_queue.voice_channel.id) {
                 const embed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
                     .setAuthor(`There is currently playing a song on another voice channel`, message.author.displayAvatarURL({ dynamic: true }))

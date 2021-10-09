@@ -4,6 +4,7 @@ const moment = require('moment')
 
 module.exports = {
     name: 'afk',
+    category: ['User'],
     async execute(client, message, args, cmd, Discord) {
         const afkreason = args.slice(0).join(' ') || 'AFK';
 

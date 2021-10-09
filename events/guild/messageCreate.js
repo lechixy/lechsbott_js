@@ -15,7 +15,7 @@ module.exports = async (Discord, client, message) => {
 
     const prefix = PREFIX;
 
-    if(!message.content.startsWith(prefix)) return;
+    if (!message.content.startsWith(prefix)) return;
 
     userCheck(message)
 
@@ -25,7 +25,7 @@ module.exports = async (Discord, client, message) => {
     const command = client.commands.get(cmd) ||
         client.commands.find(a => a.aliases && a.aliases.includes(cmd));
 
-    if(!command) return;
+    if (!command) return;
 
     try {
         if (command) {

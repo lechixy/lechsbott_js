@@ -5,6 +5,7 @@ module.exports = {
     name:'urban',
     aliases:['dictionary'],
     description:'A wonderful dictionary for discord!',
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
         let query = args.join(' ');
         if(!query){

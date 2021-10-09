@@ -1,13 +1,19 @@
-const Voice = require("@discordjs/voice")
-const { getVoiceConnection } = Voice;
+
 
 module.exports = {
     name: 'test',
     description: '',
     async execute(client, message, args, cmd, Discord) {
 
-        const log = getVoiceConnection(message.guild.id)
-        
-        console.log(log.ping)
+        const commands = client.commands
+        const cmds = []
+        commands.each(cmd => {
+            if(!cmd.category) return
+
+            if(cmd.category.includes('Music')){
+                cmds.push(cmd.name)
+            }
+        })
+        console.log(cmds.join('\n'))
     }
 }

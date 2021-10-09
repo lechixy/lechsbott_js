@@ -5,6 +5,7 @@ module.exports = {
     description: "Are you listening?",
     aliases: ["listeninglyrics", "slyrics"],
     cooldown: 3,
+    category: ['Information'],
     async execute(client, message, args, cmd, Discord) {
 
         const moment = require('moment')

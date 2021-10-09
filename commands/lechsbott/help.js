@@ -4,6 +4,7 @@ module.exports = {
     name: "help",
     cooldown: 5,
     description: "welcome to the lab",
+    category: ['lechsbott'],
     async execute(client, message, args, cmd, Discord) {
 
         if(!args[0]){

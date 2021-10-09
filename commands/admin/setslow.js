@@ -4,6 +4,7 @@ module.exports = {
 	name: "slowmode",
 	aliases: ["setslow", "cooldown", "setcooldown"],
 	description: "Sets SlowMode for a Channel",
+	category: ['Moderation'],
 	async execute(client, message, args, cmd, Discord) {
 		if (cmd === "setslow" || cmd === "slowmode" || cmd === "setcooldown" || cmd === "cooldown") {
 			if (

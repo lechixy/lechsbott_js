@@ -4,6 +4,7 @@ module.exports = {
     name:'timefor',
     aliases: ['timeto', 'lefted', 'date'],
     description:'See how much lefted to date!',
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
         
         if(!args[0]) {

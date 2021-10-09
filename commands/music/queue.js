@@ -6,6 +6,7 @@ const { roleColor } = require('../util/lechsbottFunctions')
 module.exports = {
     name: 'queue',
     description: '',
+    category: ['Music'],
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue
@@ -68,7 +69,7 @@ module.exports = {
             let string = ''
             let index = 1
 
-            string += `${server_queue.songs.slice(1, 11).map(x => `**${index++} |** [${x.title}](${x.customurl})`).join("\n")}\nmore **__${server_queue.songs.length-11}__** songs from queue\n`
+            string += `${server_queue.songs.slice(1, 11).map(x => `**${index++} |** [${x.title}](${x.customurl})`).join("\n")}\nmore **__${server_queue.songs.length-11} songs__** from queue\n`
 
             let npp = `**[${server_queue.songs[0].title}](${server_queue.songs[0].customurl})**\n
             <@${server_queue.songs[0].addedid}> added from **${server_queue.songs[0].app}**\n

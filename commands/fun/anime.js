@@ -6,7 +6,8 @@ module.exports = {
     name: 'anime',
     cooldown: 3,
     aliases: ['animepic', 'ani'],
-    description: 'pictures',
+    description: 'Sends anime gifs and pictures',
+    category: ['Fun'],
     async execute(client, message, args, cmd, Discord){
         const user = message.author;
         const channel = message.channel;

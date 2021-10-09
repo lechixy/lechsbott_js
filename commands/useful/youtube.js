@@ -4,6 +4,7 @@ const ytSearch = require('yt-search')
 module.exports = {
     name:'youtube',
     description:'Search videos on YouTube',
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
 
         const ytemoji = client.emojis.cache.get('846030610526634005');

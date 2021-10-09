@@ -3,6 +3,7 @@ module.exports = {
     aliases: ['clear'],
     cooldown: 5,
     description: 'Clear just users messages!',
+    category: ['Moderation'],
     async execute(client, message, args, cmd, Discord) {
 
         if (!message.member.permissions.has("MANAGE_MESSAGES")) {

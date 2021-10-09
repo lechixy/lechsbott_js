@@ -6,6 +6,7 @@ module.exports = {
     name:'zoom',
     aliases:['zoom-emoji'],
     description:'',
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
         
         if(!args.length){

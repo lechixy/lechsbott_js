@@ -6,6 +6,7 @@ module.exports = {
     name:'invite',
     aliases:['lechsbott'],
     description:'',
+    category: ['lechsbott'],
     async execute(client, message, args, cmd, Discord) {
 
         let invitelink = `https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands`

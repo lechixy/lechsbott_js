@@ -7,6 +7,7 @@ module.exports = {
     name:`oldest`,
     aliases: [`oldests`],
     description:`Diplays the oldest account in the server`,
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
         
         if(cmd === `oldest`){

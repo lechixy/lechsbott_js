@@ -5,6 +5,7 @@ module.exports = {
     name: 'saidtimes',
     aliases: ['timessaid', 'said', 'saidprefix'],
     description: '',
+    category: ['User'],
     async execute(client, message, args, cmd, Discord) {
 
         let user

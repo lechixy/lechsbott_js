@@ -5,6 +5,7 @@ module.exports = {
     name:'brawlstats',
     aliases:['brawlprofile', 'brawlers', 'events', 'club', 'leaderboards', 'leaderboard'],
     description:'Look user brawlstats!',
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
         
         if(cmd === 'brawlstats' || cmd === 'brawlprofile'){

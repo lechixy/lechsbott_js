@@ -4,7 +4,8 @@ const figlet = require('figlet')
 module.exports = {
     name:'textart',
     aliases:['text-art', 'ascii'],
-    description:'',
+    description:'Converts text to ascii',
+    category: ['Fun'],
     async execute(client, message, args, cmd, Discord) {
         
         figlet.text(args.join(" "), {

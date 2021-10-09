@@ -5,6 +5,7 @@ module.exports = {
     name: 'playinginfo',
     aliases: ['announcement', 'announcements'],
     description: '',
+    category: ['Music'],
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue

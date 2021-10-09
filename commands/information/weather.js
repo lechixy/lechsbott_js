@@ -7,6 +7,7 @@ module.exports = {
     description: "Checks a weather forecast",
     aliases: ["forecast", "hava", "havadurumu"],
     cooldown: 0,
+    category: ['Information'],
     async execute (client, message, args, cmd, Discord){
 
     weather.find({search: args.join(" "), degreeType: 'C'}, function (error, result){

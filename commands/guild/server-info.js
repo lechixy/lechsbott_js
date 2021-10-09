@@ -4,7 +4,8 @@ const { PREFIX } = require('../util/lechsbottUtil')
 module.exports = {
     name:'serverinfo',
     aliases:['server-info', 'server', 'guild'],
-    description:'',
+    description:'Sends an embed about server informations',
+    category: ['Guild'],
     async execute(client, message, args, cmd, Discord) {
         
         const guild = message.guild

@@ -5,6 +5,7 @@ const server = new Map()
 module.exports = {
     name: 'twitchsearch',
     description: '',
+    category: ['Utility'],
     async execute(client, message, args, cmd, Discord) {
 
 

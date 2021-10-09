@@ -6,6 +6,7 @@ module.exports = {
     aliases: ['get-emoji', 'getemoji', 'steal-emoji'],
     // aliases: '',
     description: 'steal boi',
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
         const user = message.author;
 

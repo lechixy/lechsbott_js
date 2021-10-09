@@ -5,6 +5,7 @@ module.exports = {
     aliases: ['totalusers'],
     cooldown: 10,
     description:'',
+    category: ['lechsbott'],
     async execute(client, message, args, cmd, Discord) {
 
         let total = 0

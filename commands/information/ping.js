@@ -4,6 +4,7 @@ module.exports = {
     name: 'ping',
     aliases: ["latency"],
     cooldown: 2,
+    category: ['Information'],
     async execute(client, message, args, cmd, Discord) {
 
         const log = Voice.getVoiceConnection(message.guild.id)

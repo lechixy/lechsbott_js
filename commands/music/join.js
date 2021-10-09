@@ -6,6 +6,7 @@ module.exports = {
     name: 'join',
     aliases: ['jointo'],
     description: '',
+    category: ['Music'],
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue

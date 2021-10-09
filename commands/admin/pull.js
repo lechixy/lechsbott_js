@@ -1,6 +1,7 @@
 module.exports = {
     name: 'pullmember',
     description: 'pull a member',
+    category: ['Moderation'],
     async execute(client, message, args, cmd, Discord) {
         const user = message.author;
 

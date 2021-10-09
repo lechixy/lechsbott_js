@@ -5,6 +5,7 @@ module.exports = {
     name:'gif',
     aliases:['searchgif', 'gifs', 'searchgifs'],
     description:'',
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
 
         if(['gif', 'searchgif'].includes(cmd)){

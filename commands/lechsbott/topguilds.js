@@ -5,6 +5,7 @@ module.exports = {
     name:'topguilds',
     aliases:['clientguilds'],
     description:'',
+    category: ['lechsbott'],
     async execute(client, message, args, cmd, Discord) {
       
         const guilds = client.guilds.cache.sort((a, b) => b.memberCount - a.memberCount).first(10);

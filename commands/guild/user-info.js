@@ -4,6 +4,7 @@ module.exports = {
     name: "whois",
     aliases: ['who'],
     description: "Returns user information",
+    category: ['Guild'],
     async execute(client, message, args, cmd, Discord) {
         let member
         

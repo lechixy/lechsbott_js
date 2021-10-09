@@ -3,7 +3,8 @@ const { roleColor } = require('../util/lechsbottFunctions')
 
 module.exports = {
     name:'aesthetics',
-    description:'',
+    description:'Convert your text to a beautiful message',
+    category: ['Fun'],
     async execute(client, message, args, cmd, Discord) {
 
         if(!args[0]){

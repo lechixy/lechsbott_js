@@ -5,6 +5,7 @@ module.exports = {
     name:'watchyt',
     aliases:['playpokernight', 'playbetrayal.io', 'playfishington.io'],
     description:'try',
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
         if(cmd === 'watchyt'){
             let channel = message.member.voice.channel;

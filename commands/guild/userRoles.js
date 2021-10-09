@@ -4,7 +4,8 @@ const { PREFIX } = require('../util/lechsbottUtil')
 module.exports = {
     name:'roles',
     aliases:['userroles', 'user-roles',],
-    description:'',
+    description:'Sends an embed with user roles',
+    category: ['Guild'],
     async execute(client, message, args, cmd, Discord) {
       
         const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member

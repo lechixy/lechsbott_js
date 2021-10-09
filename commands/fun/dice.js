@@ -1,7 +1,8 @@
 module.exports = {
     name: 'dice',
     aliases: ['throwdice'],
-    description: 'nicee',
+    description: 'Dice with given number',
+    category: ['Fun'],
     async execute(client, message, args, cmd, Discord) {
         if(!args[0]){
             let argslen = new Discord.MessageEmbed()

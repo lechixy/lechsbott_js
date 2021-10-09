@@ -4,6 +4,7 @@ const fetch = require('node-fetch')
 module.exports = {
     name: 'twitch',
     description: 'Search streamers on Twitch',
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
 
         const twemoji = client.emojis.cache.get('875869941788713010');

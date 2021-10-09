@@ -5,6 +5,7 @@ module.exports = {
     name:'djs',
     aliases:['djdocs', 'docs'],
     description:'',
+    category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
       
         const query = args.join(' ')

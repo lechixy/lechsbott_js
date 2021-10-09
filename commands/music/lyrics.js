@@ -6,6 +6,7 @@ const lyricsFinder = require('lyrics-finder')
 module.exports = {
     name: 'lyrics',
     description: '',
+    category: ['Music'],
     async execute(client, message, args, cmd, Discord) {
 
         if (!args[0]) {

@@ -13,13 +13,14 @@ const scdlcore = new SoundCloud();
 const moment = require("moment")
 const progressbar = require('string-progressbar');
 const { roleColor } = require('../util/lechsbottFunctions')
-const { songFinder } = require('./utils')
+const { songFinder } = require('./songFinder')
 
 module.exports = {
     name: 'play',
     cooldown: 5,
     aliases: ['p', 'skip', 'disconnect', 'dc', 'nowplaying', 'np'],
     description: '',
+    category: ['Music'],
     async execute(client, message, args, cmd, Discord) {
         const voiceChannel = message.member.voice;
         const queue = client.queue

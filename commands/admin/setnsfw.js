@@ -4,6 +4,7 @@ module.exports = {
     name: 'nsfwmode',
     aliases: ['setnsfw', 'nsfwis', 'nsfw'],
     description: 'Sets nsfw for a Channel',
+    category: ['Moderation'],
     async execute(client, message, args, cmd, Discord) {
 
     if (!message.member.permissions.has("MANAGE_MESSAGES") && !message.member.permissions.has("MANAGE_CHANNELS")) {

@@ -3,6 +3,7 @@ const { PREFIX } = require('../util/lechsbottUtil')
 module.exports = {
     name:'nuke',
     description:'Destroys current channel and create new one!',
+    category: ['Moderation'],
     async execute(client, message, args, cmd, Discord) {
         
         if(!message.member.permissions.has('MANAGE_CHANNELS')){
