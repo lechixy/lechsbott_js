@@ -18,8 +18,8 @@ async function handleResource(video, message, args, voice_channel, player, type,
         duration: video.duration,
     };
 
-    function findTypeAndSend(content){
-        if(message.type !== 'APPLICATION_COMMAND'){
+    function findTypeAndSend(content) {
+        if (message.type !== 'APPLICATION_COMMAND') {
             return message.channel.send(content)
         } else {
             return message.followUp(content)
@@ -27,8 +27,8 @@ async function handleResource(video, message, args, voice_channel, player, type,
     }
 
 
-    function defineAuthor(msg, value){
-        if(msg.type !== 'APPLICATION_COMMAND'){
+    function defineAuthor(msg, value) {
+        if (msg.type !== 'APPLICATION_COMMAND') {
             let checkvalue = {
                 "username": msg.author.username,
                 "id": msg.author.id,
@@ -115,19 +115,6 @@ async function handleResource(video, message, args, voice_channel, player, type,
                 }
             }
 
-            // song_queue.connection.on('stateChange', async (oldState, newState) => {
-            //     console.log(
-            //         `Connection transitioned from ${oldState.status} to ${newState.status}`
-            //     );
-
-            //     if (oldState.status === 'ready' && newState.status === 'disconnected') {
-            //         queue.delete(guild.id)
-            //         song_queue.player.stop(true);
-            //         console.log('deleted song queue');
-            //         return
-            //     }
-            // })
-
             if (song_queue.playinginfo === true) {
                 let playing = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
@@ -159,13 +146,15 @@ async function handleResource(video, message, args, voice_channel, player, type,
 
             lechsbottPlayer(message.guild, queue_constructor.songs[0]);
 
-            queue_constructor.player.on(Voice.AudioPlayerStatus.Idle, async () => {
+            queue_constructor.player.on('stateChange', async (oldState, newState) => {
                 console.log(
-                    `Audio player transitioned idle`
+                    `Audio player transitioned ${oldState.status} to ${newState.status}`
                 );
 
-                queue_constructor.songs.shift();
-                lechsbottPlayer(message.guild, queue_constructor.songs[0]);
+                if (newState.status === "idle" && oldState.status !== "idle") {
+                    queue_constructor.songs.shift();
+                    lechsbottPlayer(message.guild, queue_constructor.songs[0]);
+                }
             });
 
         } catch (err) {
@@ -183,7 +172,7 @@ async function handleResource(video, message, args, voice_channel, player, type,
         else if (playlist === 'spotifyplaylist') return undefined;
         else if (playlist === 'soundcloudplaylist') return undefined;
         else if (playlist === 'false') {
-            
+
             let memberavatar = defineAuthor(message, 'displayAvatarURL')
             let queueInfo = new Discord.MessageEmbed()
                 .setColor(roleColor(message))

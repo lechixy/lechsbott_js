@@ -109,7 +109,9 @@ async function songFinder(message, args, client, player, voiceChannel) {
                     .setColor(roleColor(message))
                     .setAuthor(`Playlist has been added to the queue!`, `${defineAuthor(message, 'displayAvatarURL')}`)
                     .setDescription(`Spotify Playlist within **${scdlinfoget.title} name** added with **${scdlinfoget.tracks.length} songs**`)
-                    return findTypeAndSend({ embeds: [playlistembed] })
+                    return findTypeAndSend({ embeds: [playlistembed] }).then((message) => {
+                        message.react('👍');
+                    });
                 }
 
             } else if (!scdlinfoget) {
@@ -195,7 +197,9 @@ async function songFinder(message, args, client, player, voiceChannel) {
         .setColor(roleColor(message))
         .setAuthor(`Playlist has been added to the queue!`, `${defineAuthor(message, 'displayAvatarURL')}`)
         .setDescription(`Spotify Playlist added with **${number} songs**`)
-        return findTypeAndSend({ embeds: [playlistembed] })
+        return findTypeAndSend({ embeds: [playlistembed] }).then((message) => {
+            message.react('👍');
+        });
     }
     else if (args[0].includes(playlisturl)) {
         findTypeAndSend(`${ytemoji} **Searching playlist** :mag_right: \`${args.join(' ')}\``)
@@ -223,7 +227,9 @@ async function songFinder(message, args, client, player, voiceChannel) {
             .setColor(roleColor(message))
             .setAuthor(`Playlist has been added to the queue!`, `${defineAuthor(message, 'displayAvatarURL')}`)
             .setDescription(`YouTube Playlist within **${playlist.title} name** added with **${playlist.videos.length} songs**`)
-            return findTypeAndSend({ embeds: [playlistembed] })
+            return findTypeAndSend({ embeds: [playlistembed] }).then((message) => {
+                message.react('👍');
+            });
     }
 
     else if (args[0].includes(yturl) || ytdl.validateURL(args[0])) {
@@ -254,7 +260,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
         //If there was no link, we use keywords to search for a video. Set the song object to have two keys. Title and URl.
         const video_finder = async (query) => {
             const video_result = await ytSearch(query);
-            return video_result.videos.length > 1 ? video_result.videos[0] : null;
+            return video_result.all.length > 1 ? video_result.all[0] : null;
         };
 
         const video = await video_finder(args.join(' '));
@@ -263,7 +269,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
                 title: video.title,
                 url: video.url,
                 type: 'normal',
-                app: 'YouTube',
+                app: 'YouTube Search',
                 customurl: video.url,
                 addedby: defineAuthor(message, 'username'),
                 addedid: defineAuthor(message, 'id'),

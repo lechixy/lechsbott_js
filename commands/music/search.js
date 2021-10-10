@@ -64,6 +64,23 @@ module.exports = {
         let index = 0;
 
         let string1 = "";
+        let findedsongs = []
+
+        for (const eachvideo of videos) {
+
+            let songdeclare = {
+                title: eachvideo.title,
+                url: eachvideo.url,
+                type: 'normal',
+                app: 'YouTube Search',
+                customurl: eachvideo.url,
+                addedby: message.author.username,
+                addedid: message.author.id,
+                duration: eachvideo.duration.timestamp,
+            }
+
+            findedsongs.push(songdeclare)
+        }
 
         string1 += `${videos.map(x => `**${++index}-** [${x.title}](${x.url})`).join("\n")}`;
 
@@ -71,7 +88,7 @@ module.exports = {
             .setTitle(`Search results for ${args.join(' ')}`)
             .setColor(roleColor(message))
             .setDescription(string1)
-            .addField('Choose one of them', 'Just type the number one of results you wanted to play in 30s be fast, for cancel you can type \`cancel\`')
+            .addField('Choose one of them', 'Just type the number one of results you wanted to play in 30s,\n Also for cancel you can type \`cancel\`')
         m.edit({ embeds: [searchresult] });
 
         const filter = (m) => {
@@ -81,15 +98,15 @@ module.exports = {
             .then(async responde => {
 
                 const collected = responde.first()
-                if(['cancel'].includes(collected.content)){
+                if (['cancel'].includes(collected.content)) {
                     let embed = new Discord.MessageEmbed()
-                    .setColor(roleColor(message))
-                    .setAuthor(
-                        `Cancelled from search`,
-                        message.author.displayAvatarURL({ dynamic: true })
-                    )
-                    .setDescription(`You quitted from youtube search`)
-                return message.channel.send({ embeds: [embed] });
+                        .setColor(roleColor(message))
+                        .setAuthor(
+                            `Cancelled from search`,
+                            message.author.displayAvatarURL({ dynamic: true })
+                        )
+                        .setDescription(`You quitted from youtube search`)
+                    return message.channel.send({ embeds: [embed] });
                 }
 
                 let numbers = {
@@ -107,31 +124,20 @@ module.exports = {
                     '9': 8,
                     '10': 9,
                 }
-                
-                async function findSong(collect) {
-                    const video = await ytSearch(args.join(' '));
-                    let sended = video.all[collect]
 
-                    if (sended) {
-                        let song = {
-                            title: sended.title,
-                            url: sended.url,
-                            type: 'normal',
-                            app: 'YouTube',
-                            customurl: sended.url,
-                            addedby: message.author.username,
-                            addedid: message.author.id,
-                            duration: sended.duration.timestamp,
-                        }
-
-                        await handleResource(song, message, args, voice_channel, player, 'normal', 'false', client);
-                    } else {
-                        const embed = new Discord.MessageEmbed()
-                            .setDescription(`**An error occurred while finding video**`)
-                        return message.channel.send({ embeds: [embed] });
-                    }
+                return await handleResource(findedsongs[numbers[collected]], message, args, voice_channel, player, 'normal', 'false', client);
+            })
+            .catch(err => {
+                if (m.deleted === false) {
+                    let embed = new Discord.MessageEmbed()
+                        .setColor(roleColor(message))
+                        .setAuthor(
+                            `Cancelled from search`,
+                            message.author.displayAvatarURL({ dynamic: true })
+                        )
+                        .setDescription(`You did not selected a result in 30s`)
+                    return m.edit({ embeds: [embed] });
                 }
-                findSong(numbers[collected])
             })
 
 
