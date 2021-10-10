@@ -1,19 +1,25 @@
-
+const {parse, stringify} = require('flatted');
 
 module.exports = {
     name: 'test',
     description: '',
     async execute(client, message, args, cmd, Discord) {
 
-        const commands = client.commands
-        const cmds = []
-        commands.each(cmd => {
-            if(!cmd.category) return
+        const queue = client.queue
+        const server_queue = queue.get(message.guild.id)
 
-            if(cmd.category.includes('Music')){
-                cmds.push(cmd.name)
-            }
-        })
-        console.log(cmds.join('\n'))
+        try {
+
+
+            const obj = []
+            obj.push(server_queue.player)
+            const res = stringify(obj)
+            const prse = parse(res)
+            console.log(prse)
+
+
+        } catch (err) {
+            console.log(err)
+        }
     }
 }
