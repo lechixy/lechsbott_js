@@ -1,6 +1,7 @@
 const { PREFIX } = require('../util/lechsbottUtil')
 const moment = require("moment")
 const progressbar = require('string-progressbar');
+const { roleColor } = require('../util/lechsbottFunctions')
 
 module.exports = {
     name: 'nowplaying',

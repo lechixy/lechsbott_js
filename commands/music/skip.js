@@ -46,7 +46,7 @@ module.exports = {
 
             const embed = new Discord.MessageEmbed()
                 .setColor(roleColor(message))
-                .setDescription(`**Skipped to** \`${server_queue.songs[1].title}\``)
+                .setDescription(`**Skipped to** \`${server_queue.songs[0].title}\``)
             return message.channel.send({ embeds: [embed] });
         } catch (err) {
             console.log(err)

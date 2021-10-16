@@ -32,7 +32,8 @@ module.exports = {
                     .addField(`Usage`, `${PREFIX}${cmd} @User`)
                 return message.channel.send({ embeds: [membembed] })
             }
-            if (message.member.roles.highest.position <= member.roles.highest.position) {
+
+            if (message.member.id !== message.guild.ownerId && message.member.id !== message.guild.ownerId && message.member.roles.highest.position <= member.roles.highest.position) {
                 let erembed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
                     .setDescription(`You can't do that because you **either have the same role or your role is lower** from ${member}`)
@@ -88,7 +89,7 @@ module.exports = {
                     .setAuthor(`Please mention a member for kick!`, user.displayAvatarURL({ dynamic: true }))
                 return message.channel.send({ embeds: [membembed] })
             }
-            if (message.member.roles.highest.position <= member.roles.highest.position) {
+            if (message.member.id !== message.guild.ownerId && message.member.roles.highest.position <= member.roles.highest.position) {
                 let erembed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
                     .setDescription(`You can't do that because you **either have the same role or your role is lower** from ${member}`)

@@ -1,5 +1,6 @@
 const { PREFIX } = require('../util/lechsbottUtil')
 const Voice = require('@discordjs/voice')
+const { roleColor } = require('../util/lechsbottFunctions')
 
 module.exports = {
     name: 'disconnect',
@@ -51,17 +52,13 @@ module.exports = {
                     .setDescription(`Sorry but you can't use ${cmd}, please make sure you're on the same channel as lechsbott`)
                 return message.channel.send({ embeds: [embed] });
             }
+
+            server_queue.connection.destroy();
+            queue.delete(message.guild.id)
+            const embed = new Discord.MessageEmbed()
+                .setColor(roleColor(message))
+                .setDescription(`**Succesfully disconnected from** \`${message.member.voice.channel.name}\``)
+            return message.channel.send({ embeds: [embed] });
         }
-
-
-        server_queue.connection.destroy();
-        queue.delete(message.guild.id)
-        const embed = new Discord.MessageEmbed()
-            .setColor(roleColor(message))
-            .setDescription(`**Succesfully disconnected from** \`${message.member.voice.channel.name}\``)
-        return message.channel.send({ embeds: [embed] });
-
-
-
     }
 }

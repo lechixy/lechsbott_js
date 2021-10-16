@@ -17,6 +17,12 @@ module.exports = {
             user = message.member
         }
 
+        if (!user.presence?.activities) {
+            let tui = new Discord.MessageEmbed()
+                .setAuthor(`${user.user.username} is not online!`, `${user.user.displayAvatarURL()}`)
+                .setDescription(`We can't show you an offline member activities, because they does not have a status`)
+            return message.channel.send({ embeds: [tui] })
+        }
 
         let status;
         if (user.presence.activities.length === 1) status = user.presence.activities[0];
@@ -25,13 +31,15 @@ module.exports = {
         if (user.presence.activities.length === 0 || status.name !== "Spotify" && status.type !== "LISTENING") {
             if (message.author.id === user.id) {
                 let tui = new Discord.MessageEmbed()
-                    .setColor('03fc62')
-                    .setAuthor(`You are not listening Spotify!`, `${user.user.displayAvatarURL()}`)
+                .setColor('03fc62')
+                .setAuthor(`You are not listening Spotify!`, `${user.user.displayAvatarURL()}`)
+                .setDescription(`Can you check you has an activity?`)
                 return message.channel.send({ embeds: [tui] })
             } else {
                 let tui = new Discord.MessageEmbed()
                     .setColor('03fc62')
-                    .setAuthor(`This user is not listening Spotify!`, `${user.user.displayAvatarURL()}`)
+                    .setAuthor(`${user.user.username} is not listening Spotify!`, `${user.user.displayAvatarURL()}`)
+                    .setDescription(`Can you check this user has an activity?`)
                 return message.channel.send({ embeds: [tui] })
             }
         }

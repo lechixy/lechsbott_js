@@ -8,7 +8,7 @@ const { songFinder } = require('./songFinder')
 module.exports = {
     name: 'play',
     cooldown: 5,
-    aliases: ['p', 'disconnect', 'dc', 'nowplaying', 'np'],
+    aliases: ['p'],
     description: '',
     category: ['Music'],
     async execute(client, message, args, cmd, Discord) {
