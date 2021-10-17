@@ -11,7 +11,7 @@ const client = new Client({
         Intents.FLAGS.GUILD_VOICE_STATES,
         Intents.FLAGS.GUILD_PRESENCES,
         Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
-        Intents.FLAGS.GUILD_BANS,
+        Intents.FLAGS.GUILD_BANS
     ],
 })
 const mongoose = require('mongoose')
@@ -55,11 +55,9 @@ client.once('ready', async () => {
     let total = 0
 
     client.guilds.cache.each(guild => total += guild.memberCount)
-    client.user.setActivity(`${total.toLocaleString()} members!`, { type: 'WATCHING' })
+    client.user.setActivity(`${total.toLocaleString()} members!`, { type: 'LISTENING' })
 
-    setInterval(function() {
-        client.user.setActivity(`${total.toLocaleString()} members!`, { type: 'WATCHING' })
-    }, 60000*30)
+
 });
 
 client.login(LECHSBOTTKEY);
