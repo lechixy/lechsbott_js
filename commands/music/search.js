@@ -1,5 +1,5 @@
 const { PREFIX } = require('../util/lechsbottUtil')
-const { handleResource } = require('./handleResource')
+const { handleResource } = require('./utils/handleResource')
 const ytSearch = require('yt-search')
 const Voice = require('@discordjs/voice')
 const { roleColor } = require('../util/lechsbottFunctions')

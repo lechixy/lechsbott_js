@@ -3,7 +3,7 @@ const { PREFIX } = require('../util/lechsbottUtil');
 const Voice = require('@discordjs/voice');
 const { YOUTUBE_API_KEY } = require("../util/lechsbottUtil");
 const { roleColor } = require('../util/lechsbottFunctions')
-const { songFinder } = require('./songFinder')
+const { songFinder } = require('./utils/songFinder')
 
 module.exports = {
     name: 'play',

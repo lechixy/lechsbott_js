@@ -7,7 +7,12 @@ module.exports = {
     description: 'ban',
     async execute(client, message, args, cmd, Discord) {
         const user = message.author;
-        const member = message.mentions.members.first()
+        let member
+        if (message.mentions.members.first()) {
+            member = message.mentions.members.first()
+        } else if (args[0]) {
+            member = await message.guild.members.cache.get(args[0])
+        }
 
         if (cmd === 'ban') {
 
@@ -29,21 +34,30 @@ module.exports = {
                 let membembed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
                     .setAuthor(`Please mention a member for ban!`, user.displayAvatarURL({ dynamic: true }))
-                    .addField(`Usage`, `${PREFIX}${cmd} @User`)
+                    .addField(`Usage`, `${PREFIX}${cmd} <@User | UserId>`)
                 return message.channel.send({ embeds: [membembed] })
             }
 
             if (message.member.id !== message.guild.ownerId && message.member.id !== message.guild.ownerId && message.member.roles.highest.position <= member.roles.highest.position) {
                 let erembed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
-                    .setDescription(`You can't do that because you **either have the same role or your role is lower** from ${member}`)
+                    .setDescription(`You can't do that because you **either have the same role** or **your role is lower** from ${member}`)
                 return message.channel.send({ embeds: [erembed] })
             }
 
 
-            const reason = args.slice(1).join(" ") || `No reason provided`
+            const reason = args.slice(1).join(" ") || `No reason`
             const d = new Date()
-            const fulldate = `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} at ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+
+            function fixTime(time) {
+                if(!time.startsWith(0)){
+                    return `0${time}`
+                } else {
+                    return time;    
+                }
+            }
+
+            const fulldate = `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} at ${fixTime(d.getHours)}:${fixTime(d.getMinutes)}:${fixTime(d.getSeconds)}`
 
             try {
 
@@ -87,16 +101,17 @@ module.exports = {
                 let membembed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
                     .setAuthor(`Please mention a member for kick!`, user.displayAvatarURL({ dynamic: true }))
+                    .addField(`Usage`, `${PREFIX}${cmd} <@User | UserId>`)
                 return message.channel.send({ embeds: [membembed] })
             }
             if (message.member.id !== message.guild.ownerId && message.member.roles.highest.position <= member.roles.highest.position) {
                 let erembed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
-                    .setDescription(`You can't do that because you **either have the same role or your role is lower** from ${member}`)
+                    .setDescription(`You can't do that because you **either have the same role** or **your role is lower** from ${member}`)
                 return message.channel.send({ embeds: [erembed] })
             }
 
-            const reason = args.slice(1).join(" ") || `No reason provided`
+            const reason = args.slice(1).join(" ") || `No reason`
 
 
 

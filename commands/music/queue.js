@@ -14,7 +14,7 @@ module.exports = {
 
         if (!server_queue) {
             const embed = new Discord.MessageEmbed()
-                .setAuthor(`There is no queue for this guild`, message.author.displayAvatarURL({ dynamic: true }))
+                .setAuthor(`There is no this guild`, message.author.displayAvatarURL({ dynamic: true }))
                 .setDescription(`Want to add song to the queue? **${PREFIX}play <query>**`)
                 .setColor(roleColor(message))
             return message.channel.send({ embeds: [embed] });
@@ -36,7 +36,7 @@ module.exports = {
         if (server_queue.songs.length < 2) {
 
             let queue1 = new Discord.MessageEmbed()
-                .setAuthor(`Queue for ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
+                .setAuthor(`${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
                 .setColor(roleColor(message))
                 .setTitle(`${server_queue.songs[0].title}`)
                 .setURL(server_queue.songs[0].customurl)
@@ -50,14 +50,14 @@ module.exports = {
             let string = ''
             let index = 1
 
-            string += `${server_queue.songs.slice(1, 11).map(x => `**${index++} |** [${x.title}](${x.customurl})`).join("\n")}`
+            string += `${server_queue.songs.slice(1, 11).map(x => `**#${index++}** [${x.title}](${x.customurl})`).join("\n")}`
 
             let npp = `**[${server_queue.songs[0].title}](${server_queue.songs[0].customurl})**\n
             <@${server_queue.songs[0].addedid}> added from **${server_queue.songs[0].app}**\n
             ${elapsedtime}<:transparent:890623794421592104>${splitbar(bar)}<:transparent:890623794421592104>${totaltime}`
 
             let queue1 = new Discord.MessageEmbed()
-                .setAuthor(`Queue for ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
+                .setAuthor(`${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
                 .setTitle('In Queue')
                 .setDescription(`${string}`)
                 .setColor(roleColor(message))
@@ -69,14 +69,14 @@ module.exports = {
             let string = ''
             let index = 1
 
-            string += `${server_queue.songs.slice(1, 11).map(x => `**${index++} |** [${x.title}](${x.customurl})`).join("\n")}\nmore **__${server_queue.songs.length-11} songs__** from queue\n`
+            string += `${server_queue.songs.slice(1, 11).map(x => `**#${index++} |** [${x.title}](${x.customurl})`).join("\n")}\nmore **__${server_queue.songs.length-11} songs__** from queue\n`
 
             let npp = `**[${server_queue.songs[0].title}](${server_queue.songs[0].customurl})**\n
             <@${server_queue.songs[0].addedid}> added from **${server_queue.songs[0].app}**\n
             ${elapsedtime}<:transparent:890623794421592104>${splitbar(bar)}<:transparent:890623794421592104>${totaltime}`
 
             let queue1 = new Discord.MessageEmbed()
-                .setAuthor(`Queue for ${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
+                .setAuthor(`${message.guild.name}`, message.guild.iconURL({ dynamic: true }))
                 .setTitle('In Queue')
                 .setDescription(`${string}`)
                 .setColor(roleColor(message))

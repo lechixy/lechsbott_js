@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'pullmember',
+    name: 'pull',
     description: 'pull a member',
     category: ['Moderation'],
     async execute(client, message, args, cmd, Discord) {
@@ -29,28 +29,27 @@ module.exports = {
                 })
         }
 
-        const member = message.mentions.members.first();
+        let member
+        if (message.mentions.members.first()) {
+            member = message.mentions.members.first()
+        } else if (args[0]) {
+            member = await message.guild.members.cache.get(args[0])
+        }
 
         if(!member){
             const memberembed = new Discord.MessageEmbed()
             .setAuthor(`Please mention a member to pull!`, user.displayAvatarURL({dynamic: true}))
-            return message.channel.send({ embeds: [memberembed] }).then(m => {
-                setTimeout(function() { m.delete() }, 10000)
-            })
+            return message.channel.send({ embeds: [memberembed] })
         }
         if(!member.voice.channel){
             const memberembed = new Discord.MessageEmbed()
             .setAuthor(`This user is not in a voice channel!`, member.displayAvatarURL({dynamic: true}))
-            return message.channel.send({ embeds: [memberembed] }).then(m => {
-                setTimeout(function() { m.delete() }, 10000)
-            })
+            return message.channel.send({ embeds: [memberembed] })
         }
         if(!message.member.voice.channel){
             const memberembed = new Discord.MessageEmbed()
             .setAuthor(`You need to be in a voice channel!`, user.displayAvatarURL({dynamic: true}))
-            return message.channel.send({ embeds: [memberembed] }).then(m => {
-                setTimeout(function() { m.delete() }, 10000)
-            })
+            return message.channel.send({ embeds: [memberembed] })
         }
 
         try {

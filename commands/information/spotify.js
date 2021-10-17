@@ -9,8 +9,10 @@ module.exports = {
         const moment = require('moment')
 
         let user
-        if(message.mentions.members.first()){
+        if (message.mentions.members.first()) {
             user = message.mentions.members.first()
+        } else if (args[0]) {
+            user = await message.guild.members.cache.get(args[0])
         } else {
             user = message.member
         }
@@ -18,7 +20,7 @@ module.exports = {
         if (!user.presence?.activities) {
             let tui = new Discord.MessageEmbed()
                 .setAuthor(`${user.user.username} is not online!`, `${user.user.displayAvatarURL()}`)
-                .setDescription(`We can't show you an offline member activities, because they does not have a status`)
+                .setDescription(`We can't show you an offline member activities`)
             return message.channel.send({ embeds: [tui] })
         }
 

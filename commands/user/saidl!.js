@@ -9,10 +9,12 @@ module.exports = {
     async execute(client, message, args, cmd, Discord) {
 
         let user
-        if(!message.mentions.members.first()){
-            user = message.member
-        } else {
+        if (message.mentions.members.first()) {
             user = message.mentions.members.first()
+        } else if (args[0]) {
+            user = await message.guild.members.cache.get(args[0])
+        } else {
+            user = message.member
         }
 
         try {
