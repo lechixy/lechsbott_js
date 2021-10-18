@@ -14,6 +14,10 @@ module.exports = {
             member = await message.guild.members.cache.get(args[0])
         }
 
+        if(!member){
+            member = args[0]
+        }
+
         if (cmd === 'ban') {
 
             if (!message.member.permissions.has("BAN_MEMBERS")) {
@@ -34,8 +38,39 @@ module.exports = {
                 let membembed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
                     .setAuthor(`Please mention a member for ban!`, user.displayAvatarURL({ dynamic: true }))
-                    .addField(`Usage`, `${PREFIX}${cmd} <@User | UserId>`)
+                    .addField(`Usage`, `${PREFIX}${cmd} <@User>`)
                 return message.channel.send({ embeds: [membembed] })
+            }
+
+            const reason = args.slice(1).join(" ") || `No reason`
+            const d = new Date()
+
+            function fixTime(time) {
+                return time < 10 ? `0${time}` : time;
+            }
+
+            const fulldate = `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} at ${fixTime(d.getHours())}:${fixTime(d.getMinutes())}:${fixTime(d.getSeconds())}`
+
+            if (typeof member === 'string') {
+                try {
+                    message.guild.bans.create(member)
+
+                    let succesembed = new Discord.MessageEmbed()
+                        .setColor(roleColor(message))
+                        .setDescription(`**${member}** banned from server by **<@${message.author.id}>**`)
+                        .addField(`Reason`, reason, true)
+                        .addField(`At`, fulldate, true)
+                    return message.channel.send({ embeds: [succesembed] })
+                } catch (e) {
+
+                    console.log(e)
+
+                    let embed = new Discord.MessageEmbed()
+                        .setColor(roleColor(message))
+                        .setDescription(`There was an error while banning the member, please try later!`)
+                    message.channel.send({ embeds: [embed] })
+
+                }
             }
 
             if (message.member.id !== message.guild.ownerId && message.member.id !== message.guild.ownerId && message.member.roles.highest.position <= member.roles.highest.position) {
@@ -46,26 +81,13 @@ module.exports = {
             }
 
 
-            const reason = args.slice(1).join(" ") || `No reason`
-            const d = new Date()
-
-            function fixTime(time) {
-                if(!time.startsWith(0)){
-                    return `0${time}`
-                } else {
-                    return time;    
-                }
-            }
-
-            const fulldate = `${d.getFullYear()}/${d.getMonth()}/${d.getDate()} at ${fixTime(d.getHours)}:${fixTime(d.getMinutes)}:${fixTime(d.getSeconds)}`
-
             try {
 
                 member.ban({ reason })
 
                 let succesembed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
-                    .setDescription(`<@${member.id}> banned from server by <@${message.author.id}>`)
+                    .setDescription(`**<@${member.id}>** banned from server by **<@${message.author.id}>**`)
                     .addField(`Reason`, reason, true)
                     .addField(`At`, fulldate, true)
                 message.channel.send({ embeds: [succesembed] })
@@ -167,7 +189,7 @@ module.exports = {
             message.guild.members.unban(id).then(user => {
                 let succesembed = new Discord.MessageEmbed()
                     .setColor(roleColor(message))
-                    .setDescription(`**User** \`${user.tag}\` **is now unbanned!**`)
+                    .setDescription(`**${user.tag} is now unbanned from server!**`)
                 message.channel.send({ embeds: [succesembed] })
             }).catch(err => {
 
