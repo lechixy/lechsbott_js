@@ -125,7 +125,15 @@ async function songFinder(message, args, client, player, voiceChannel) {
     else if (args[0].includes(spotifyurl)) {
         findTypeAndSend(`${spotifyemoji} **Searching on Spotify** :mag_right: \`${args.join(' ')}\``)
 
-        const spotify_finder = await getPreview(args[0])
+        let spotify_finder
+
+        try {
+            spotify_finder = await getPreview(args[0])
+        } catch (err) {
+            console.log(err)
+
+            return findTypeAndSend(`**Oops there is an error finding video, please try later!**`)
+        }
 
         const search_title = `${spotify_finder.artist} - ${spotify_finder.title}`
 
@@ -232,15 +240,25 @@ async function songFinder(message, args, client, player, voiceChannel) {
             });
     }
 
-    else if (args[0].includes(yturl) || ytdl.validateURL(args[0])) {
+    else if (args[0].includes(yturl) && ytdl.validateURL(args[0])) {
         findTypeAndSend(
             `${ytemoji} **Searching for** \`${args.join(' ')}\``
         );
 
-        const song_info = await ytdl.getBasicInfo(args[0]);
-        const ytsinfo = await ytSearch({
-            videoId: song_info.videoDetails.videoId,
-        });
+        let song_info, ytsinfo;
+
+        try {
+            song_info = await ytdl.getBasicInfo(args[0]);
+            ytsinfo = await ytSearch({
+                videoId: song_info.videoDetails.videoId,
+            });
+        } catch (err) {
+            console.log(err)
+            return findTypeAndSend(
+                `**Oops there is an error finding video, please try later!**`
+            );
+        }
+
 
         song = {
             url: song_info.videoDetails.video_url,

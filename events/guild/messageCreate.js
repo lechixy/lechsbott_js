@@ -2,25 +2,26 @@ const cooldowns = new Map();
 const { PREFIX, OWNERS } = require("../../commands/util/lechsbottUtil")
 const { afkCheck } = require('../../src/afk')
 const { userCheck } = require('../../src/user')
-const { lechsbott } = require('../../src/lechsbott')
+//const { lechsbott } = require('../../src/lechsbott')
 const { saidPrefix } = require('../../src/saidPrefix')
 
 module.exports = async (Discord, client, message) => {
 
     if (message.author.bot) return;
 
-    lechsbott(message, client)
+    //lechsbott(message, client)
 
     afkCheck(message)
+    //console.log(`${message.content} | ${message.guild.name}`);
 
-    const prefix = PREFIX;
+    let prefix = PREFIX;
 
-    if (!message.content.startsWith(prefix)) return;
+    if(!message.content.startsWith(prefix) && !message.content.startsWith(prefix)) return;
 
     userCheck(message)
 
-    const args = message.content.slice(prefix.length).split(/ +/);
-    const cmd = args.shift().toLowerCase();
+    const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
+    const cmd = args.shift();
 
     const command = client.commands.get(cmd) ||
         client.commands.find(a => a.aliases && a.aliases.includes(cmd));

@@ -3,8 +3,8 @@ const { roleColor } = require('../util/lechsbottFunctions')
 const { lechsPlayer } = require('../music/utils/lechsPlayer')
 
 module.exports = {
-    name: 'pause',
-    description: 'Pauses the audio player',
+    name: 'resume',
+    description: 'Resumes the audio player',
     category: ['Music'],
     async execute(client, message, args, cmd, Discord) {
 
@@ -37,25 +37,22 @@ module.exports = {
         const lechplayer = new lechsPlayer(message.guild.id)
 
         try {
-            if(lechplayer.player().state.status === 'playing'){
-                lechplayer.player().pause()
+            if(lechplayer.player().state.status === 'paused'){
+                lechplayer.player().unpause()
     
                 const embed = new Discord.MessageEmbed()
-                .setColor(roleColor(message))
-                .setDescription(`**⏸️ Paused**`)
+                .setDescription(`**▶️ Resume**`)
                 return message.channel.send({ embeds: [embed] });
-            } else if(lechplayer.player().state.status === 'paused') {
+            } else if(lechplayer.player().state.status === 'playing') {
                 const embed = new Discord.MessageEmbed()
-                .setColor(roleColor(message))
-                .setDescription(`**⏸️ Already paused**`)
+                .setDescription(`**▶️ Already resumed**`)
                 return message.channel.send({ embeds: [embed] });
             }
         } catch (err) {
             console.log(err)
 
             const embed = new Discord.MessageEmbed()
-            .setColor(roleColor(message))
-            .setDescription(`There is an error trying to pause player, try later!`)
+            .setDescription(`There is an error trying to resume player, try later!`)
             return message.channel.send({ embeds: [embed] });
         }
 

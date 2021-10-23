@@ -56,9 +56,7 @@ module.exports = {
                     .setAuthor(`Please enter the amount of messages you want to clear!`, user.displayAvatarURL({ dynamic: true }))
                 return message.channel.send({ embeds: [argsembed0] }).then(m => {
                     setTimeout(function () {
-                        if (m.deleted === true) {
-                            m.delete()
-                        }
+                        m.delete().catch(error => {})
                     }, 7500)
                 }
                 )
@@ -68,9 +66,7 @@ module.exports = {
                     .setAuthor(`Please enter a real number!`, user.displayAvatarURL({ dynamic: true }))
                 return message.channel.send({ embeds: [argsembed1] }).then(m => {
                     setTimeout(function () {
-                        if (m.deleted === true) {
-                            m.delete()
-                        }
+                        m.delete().catch(error => {})
                     }, 7500)
                 }
                 )
@@ -81,9 +77,7 @@ module.exports = {
                     .setAuthor(`You cannot delete more than 100 messages!`, user.displayAvatarURL({ dynamic: true }))
                 return message.channel.send({ embeds: [argsembed2] }).then(m => {
                     setTimeout(function () {
-                        if (m.deleted === true) {
-                            m.delete()
-                        }
+                        m.delete().catch(error => {})
                     }, 7500)
                 }
                 )
@@ -93,9 +87,7 @@ module.exports = {
                     .setAuthor(`You must delete at least one message!`, user.displayAvatarURL({ dynamic: true }))
                 return message.channel.send({ embeds: [argsembed3] }).then(m => {
                     setTimeout(function () {
-                        if (m.deleted === true) {
-                            m.delete()
-                        }
+                        m.delete().catch(error => {})
                     }, 7500)
                 }
                 )
@@ -108,9 +100,7 @@ module.exports = {
                 message.channel.bulkDelete(messages, true)
                 return message.channel.send({ embeds: [argsembed4] }).then(m => {
                     setTimeout(function () {
-                        if (m.deleted === true) {
-                            m.delete()
-                        }
+                        m.delete().catch(error => {})
                     }, 7500)
                 }
                 )

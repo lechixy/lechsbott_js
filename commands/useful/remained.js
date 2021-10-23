@@ -2,7 +2,7 @@ const { PREFIX } = require('../util/lechsbottUtil')
 
 module.exports = {
     name:'timefor',
-    aliases: ['timeto', 'lefted', 'date'],
+    aliases: ['timeto', 'lefted', 'date', 'remained'],
     description:'See how much lefted to date!',
     category: ['Useful'],
     async execute(client, message, args, cmd, Discord) {
