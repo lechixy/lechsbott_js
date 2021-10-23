@@ -14,6 +14,7 @@ module.exports = {
     ],
     async execute(client, interaction, args, Discord) {
 
+        let emote = client.emojis.cache.get('899299715412291616')
 
         if (!interaction.options.getString('song')) {
 
@@ -23,13 +24,14 @@ module.exports = {
             if (!server_queue) {
                 const embed = new Discord.MessageEmbed()
                     .setColor(roleColor(interaction))
+
                     .setDescription(`**There is nothing playing on this server**`)
                 return interaction.editReply({ embeds: [embed] });
             }
 
             let loading = new Discord.MessageEmbed()
                 .setColor(roleColor(interaction))
-                .setDescription(`<a:loading:846030612254687253> **Searching for lyrics...**`)
+                .setDescription(`${emote} **Searching for lyrics...**`)
             const m = await interaction.editReply({ embeds: [loading] });
 
             const media = await ytdl.getInfo(server_queue.songs[0].url)
@@ -39,23 +41,27 @@ module.exports = {
             if (!ismedia) {
                 const embed = new Discord.MessageEmbed()
                     .setColor(roleColor(interaction))
-                    .setDescription(`**This video does not contain any songs**`)
+                    .setTitle(`**This video does not contain any songs**`)
+                    .setDescription(`You can search lyrics manually within passing few arguments`)
+                    .addField(`Usage`, `l!lyrics <song name/lyrics from song>`)
                 return interaction.editReply({ embeds: [embed] });
             }
 
-            let title = `${media.videoDetails.media?.artist} ${media.videoDetails.media?.song}`
+            let title = `${media.videoDetails.media?.song} - ${media.videoDetails.media?.artist}`
 
             let lyrics = await lyricsFinder(title, "");
 
             if (!lyrics) {
                 let errorembed = new Discord.MessageEmbed()
                     .setColor(roleColor(interaction))
+
                     .setDescription(`**Lyrics is not found!**`)
                 m.edit({ embeds: [errorembed] })
             } else {
                 let lyricsEmbed = new Discord.MessageEmbed()
                     .setColor(roleColor(interaction))
-                    .setTitle(`Lyrics of ${title}`)
+
+                    .setAuthor(`${title}`)
                     .setDescription(lyrics)
                     .setTimestamp()
 
@@ -71,7 +77,7 @@ module.exports = {
 
             let loading = new Discord.MessageEmbed()
                 .setColor(roleColor(interaction))
-                .setDescription(`<a:loading:846030612254687253> **Searching for lyrics of ${title}**...`)
+                .setDescription(`${emote} **Searching for lyrics of ${title}**...`)
             interaction.editReply({ embeds: [loading] });
 
             let lyrics = await lyricsFinder(title, "");
@@ -79,12 +85,12 @@ module.exports = {
             if (!lyrics) {
                 let errorembed = new Discord.MessageEmbed()
                     .setColor(roleColor(interaction))
-                    .setDescription(`**Lyrics is not found within** \`${title}\` **name**`)
+                    .setDescription(`**Lyrics is not found with** \`${title}\``)
                 interaction.editReply({ embeds: [errorembed] })
             } else {
                 let lyricsEmbed = new Discord.MessageEmbed()
                     .setColor(roleColor(interaction))
-                    .setTitle(`Lyric search result for ${title}`)
+                    .setAuthor(`${title}`)
                     .setDescription(lyrics)
                     .setTimestamp()
 

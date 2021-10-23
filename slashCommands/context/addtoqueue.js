@@ -1,5 +1,5 @@
-const { handleResource } = require('../../commands/music/handleResource')
-const { songFinder } = require('../../commands/music/songFinder')
+const { handleResource } = require('../../commands/music/utils/handleResource')
+const { songFinder } = require('../../commands/music/utils/songFinder')
 const { iroleColor } = require('../../commands/util/lechsbottFunctions')
 const Voice = require('@discordjs/voice')
 
