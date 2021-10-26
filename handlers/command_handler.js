@@ -13,17 +13,6 @@ module.exports = (client, Discord) =>{
                 continue;
             }
         }
-
-        const command_files_main = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
-
-        for(const file of command_files_main){
-            const commandmain = require(`../commands/${file}`);
-            if(commandmain.name){
-                client.commands.set(commandmain.name, commandmain);
-            } else {
-                continue;
-            }
-        }
     }
-    ['admin', 'fun', 'guild', 'user', 'information', 'music', 'owner', 'social', 'lechsbott', 'useful'].forEach(e => load_dir(e));
+    ['Moderation', 'fun', 'guild', 'user', 'information', 'music', 'owner', 'social', 'lechsbott', 'Utility'].forEach(e => load_dir(e));
 }

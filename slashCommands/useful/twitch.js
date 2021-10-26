@@ -23,6 +23,14 @@ module.exports = {
             headers: { "client-id": TWITCH_CLIENT_ID, "Authorization": `Bearer ${TWITCH_TOKEN}` }
         }).then(response => response.json().then(res => {
 
+            if (res.error) {
+                console.log(res)
+                
+                const embed = new Discord.MessageEmbed()
+                    .setDescription(`**There was an error while Twitch, please try later!**`)
+                return interaction.followUp({ embeds: [embed] });
+            }
+
             if (!res.data.length) {
                 const embed = new Discord.MessageEmbed()
                     .setDescription(`**No streamers found within** \`${args[0]}\` **on Twitch!**`)
