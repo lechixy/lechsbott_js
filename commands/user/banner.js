@@ -3,8 +3,9 @@ const fetch = require('node-fetch')
 
 module.exports = {
     name: 'banner',
-    description: 'Displays user banner',
+    description: 'Sends an embed with banner of member!',
     category: ['User'],
+    arguments: `<@User | UserID | none>`,
     async execute(client, message, args, cmd, Discord) {
 
         let user

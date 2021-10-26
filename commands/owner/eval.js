@@ -3,6 +3,7 @@ module.exports = {
     aliases: ['evaldel'],
     description: '',
     ownerOnly: true,
+    category: ['Owner'],
     async execute(client, message, args, cmd, Discord) {
         if(cmd === 'eval') {
             if(!args[0]) {

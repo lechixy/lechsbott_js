@@ -4,8 +4,9 @@ const { lechsPlayer } = require('../music/utils/lechsPlayer')
 
 module.exports = {
     name: 'pause',
-    description: 'Pauses the audio player',
+    description: 'Pauses the audio player!',
     category: ['Music'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue

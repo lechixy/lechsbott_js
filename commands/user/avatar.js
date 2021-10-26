@@ -1,9 +1,9 @@
 module.exports = {
     name: 'avatar',
-    description: "Broadcast someone's avatar!",
     aliases: ["pp", "av"],
-    cooldown: 0,
+    description: 'Sends an embed with avatar of member!',
     category: ['User'],
+    arguments: `<@User | UserID | none>`,
     async execute(client, message, args, cmd, Discord){
         
         let user

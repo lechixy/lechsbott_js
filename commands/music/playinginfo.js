@@ -4,8 +4,9 @@ const { roleColor } = require('../util/lechsbottFunctions')
 module.exports = {
     name: 'playinginfo',
     aliases: ['announcement', 'announcements'],
-    description: '',
+    description:'Disable or enable playing embed from lechsbott!',
     category: ['Music'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue

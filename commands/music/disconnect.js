@@ -5,7 +5,9 @@ const { roleColor } = require('../util/lechsbottFunctions')
 module.exports = {
     name: 'disconnect',
     aliases: ['dc', 'leave'],
-    description: '',
+    description:'Disconnects from voice channel!',
+    category: ['Music'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue

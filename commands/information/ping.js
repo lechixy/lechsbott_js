@@ -5,6 +5,8 @@ module.exports = {
     aliases: ["latency"],
     cooldown: 2,
     category: ['Information'],
+    description: 'Get latency/respond speed',
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const log = Voice.getVoiceConnection(message.guild.id)

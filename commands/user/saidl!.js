@@ -4,8 +4,9 @@ const moment = require('moment')
 module.exports = {
     name: 'saidtimes',
     aliases: ['timessaid', 'said', 'saidprefix'],
-    description: '',
+    description: 'Do you want to see how many times you used lechsbot?',
     category: ['User'],
+    arguments: `<@User | UserID | none>`,
     async execute(client, message, args, cmd, Discord) {
 
         let user

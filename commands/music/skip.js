@@ -3,9 +3,10 @@ const { roleColor } = require('../util/lechsbottFunctions')
 
 module.exports = {
     name: 'skip',
-    description: 'Skips to next track',
+    description: 'Skips tracks and play next one if available!',
     cooldown: 3,
     category: ['Music'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue

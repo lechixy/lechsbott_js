@@ -8,8 +8,9 @@ module.exports = {
     name: 'search',
     aliases: ['srch'],
     cooldown: 10,
-    description: '',
+    description:'Search somethings on YouTube and get select embed!',
     category: ['Music'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const voice_channel = message.member.voice.channel

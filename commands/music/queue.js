@@ -5,8 +5,9 @@ const { roleColor } = require('../util/lechsbottFunctions')
 
 module.exports = {
     name: 'queue',
-    description: '',
+    description:'Shows the playing queue of audio player!',
     category: ['Music'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue

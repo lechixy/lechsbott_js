@@ -5,8 +5,9 @@ const lyricsFinder = require('lyrics-finder')
 
 module.exports = {
     name: 'lyrics',
-    description: '',
+    description:'Get the lyrics of playing music!',
     category: ['Music'],
+    arguments: `<Song name | Part from song | none>`,
     async execute(client, message, args, cmd, Discord) {
 
         let emote = client.emojis.cache.get('899299715412291616')

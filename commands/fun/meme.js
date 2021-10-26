@@ -6,6 +6,7 @@ module.exports = {
     cooldown: 3,
     description: 'Get a random meme from Reddit',
     category: ['Fun'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const Reds = [

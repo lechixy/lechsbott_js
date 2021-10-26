@@ -6,6 +6,7 @@ module.exports = {
     aliases: ["listeninglyrics", "slyrics"],
     cooldown: 3,
     category: ['Information'],
+    arguments: `<@User | UserID | none>`,
     async execute(client, message, args, cmd, Discord) {
 
         let user

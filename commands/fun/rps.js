@@ -2,8 +2,9 @@ module.exports = {
     name: "rps",
     aliases: ['tkm'],
     cooldown: 5,
-    description: "A rps game command!",
+    description: "Rock, paper, scissors..!",
     category: ['Fun'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
         const embed = new Discord.MessageEmbed()
             .setAuthor("Add a reaction to one of these emojis to play the game!")

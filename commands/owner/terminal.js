@@ -2,8 +2,8 @@ const child = require('child_process')
 
 module.exports = {
     name:'terminal',
-    description:'',
     ownerOnly: true,
+    category: ['Owner'],
     async execute(client, message, args, cmd, Discord) {
         const command = args.join(' ')
 

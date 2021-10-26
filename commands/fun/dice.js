@@ -1,8 +1,9 @@
 module.exports = {
     name: 'dice',
     aliases: ['throwdice'],
-    description: 'Dice with given number',
+    description: 'Throw a dice between 0 and given number',
     category: ['Fun'],
+    arguments: `<max number to randomize>`,
     async execute(client, message, args, cmd, Discord) {
         if(!args[0]){
             let argslen = new Discord.MessageEmbed()

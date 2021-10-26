@@ -5,6 +5,7 @@ module.exports = {
     name:'aesthetics',
     description:'Convert your text to a beautiful message',
     category: ['Fun'],
+    arguments: `<text to convert>`,
     async execute(client, message, args, cmd, Discord) {
 
         if(!args[0]){

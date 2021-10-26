@@ -2,8 +2,8 @@ module.exports = {
     name: "uptime",
     cooldown: '0',
     aliases: ['online'],
-    description: "Online from",
     ownerOnly: true,
+    category: ['Owner'],
     async execute(client, message, args, cmd, Discord) {
     
         let seconds = Math.floor(message.client.uptime / 1000);

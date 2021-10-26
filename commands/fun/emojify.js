@@ -6,6 +6,7 @@ module.exports = {
     aliases:['textemoji'],
     description:'Convert your beatiful text to emoji',
     category: ['Fun'],
+    arguments: `<text to convert>`,
     async execute(client, message, args, cmd, Discord) {
         
         if(!args.length) {

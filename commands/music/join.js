@@ -5,8 +5,9 @@ const { roleColor } = require('../util/lechsbottFunctions')
 module.exports = {
     name: 'join',
     aliases: ['jointo'],
-    description: '',
+    description:'Make lechsbott join to your channel!',
     category: ['Music'],
+    arguments: `<Channel Name | none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue

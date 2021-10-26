@@ -5,8 +5,9 @@ const { roleColor } = require('../util/lechsbottFunctions')
 module.exports = {
     name:'invite',
     aliases:['lechsbott'],
-    description:'',
+    description:'Get an invite link for lechsbott!',
     category: ['lechsbott'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
 
         let invitelink = `https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands`

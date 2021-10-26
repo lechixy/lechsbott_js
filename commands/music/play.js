@@ -9,8 +9,9 @@ module.exports = {
     name: 'play',
     cooldown: 5,
     aliases: ['p'],
-    description: '',
+    description:'Play songs in voice channel!',
     category: ['Music'],
+    arguments: `<youtube search/link/playlist\nspotify link/playlist\n soundcloud link/playlist>`,
     async execute(client, message, args, cmd, Discord) {
         const voiceChannel = message.member.voice;
         const queue = client.queue

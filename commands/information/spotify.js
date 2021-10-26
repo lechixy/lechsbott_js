@@ -1,9 +1,10 @@
 module.exports = {
     name: "spotify",
-    description: "Are you listening?",
+    description: "Are you listening anything from Spotify?",
     aliases: ["listening"],
     cooldown: 3,
     category: ['Information'],
+    arguments: `<@User | UserID | none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const moment = require('moment')

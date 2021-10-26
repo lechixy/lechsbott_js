@@ -4,31 +4,12 @@ const { PREFIX } = require('../util/lechsbottUtil')
 module.exports = {
     name:'serverinfo',
     aliases:['server-info', 'server', 'guild'],
-    description:'Sends an embed about server informations',
+    description: 'How many people are in this server?',
     category: ['Guild'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
         
         const guild = message.guild
-
-        let region = {
-			"us-central": "America :flag_us:",
-			"us-east": "East America :flag_us:",
-			"us-south": "South America :flag_us:",
-			"us-west": "West America :flag_us:",
-			"eu-west": "West Europe :flag_eu:",
-			"eu-central": "Europe :flag_eu:",
-			"singapore": "Singapore :flag_sg:",
-			"london": "London :flag_gb:",
-			"japan": "Japan :flag_jp:",
-			"russia": "Russia :flag_ru:",
-			"hongkong": "Hong Kong :flag_hk:",
-			"brazil": "Brazil :flag_br:",
-			"singapore": "Singapore :flag_sg:",
-			"sydney": "Sidney :flag_au:",
-			"southafrica": "South Africa :flag_za:",
-    		"amsterdam": "Netherlands :flag_nl:",
-			"europe": "Europe :flag_eu:"
-	    }
 
         function checkDays(date) {
             let now = new Date();

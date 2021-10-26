@@ -6,6 +6,7 @@ module.exports = {
     name: 'resume',
     description: 'Resumes the audio player',
     category: ['Music'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue
@@ -41,11 +42,11 @@ module.exports = {
                 lechplayer.player().unpause()
     
                 const embed = new Discord.MessageEmbed()
-                .setDescription(`**▶️ Resume**`)
+                .setDescription(`**▶️ Resuming**`)
                 return message.channel.send({ embeds: [embed] });
             } else if(lechplayer.player().state.status === 'playing') {
                 const embed = new Discord.MessageEmbed()
-                .setDescription(`**▶️ Already resumed**`)
+                .setDescription(`**▶️ Already playing**`)
                 return message.channel.send({ embeds: [embed] });
             }
         } catch (err) {

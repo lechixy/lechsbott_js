@@ -5,6 +5,7 @@ module.exports = {
   description: "",
   aliases: ['sreload'],
   ownerOnly: true,
+  category: ['Owner'],
   async execute(client, message, args, cmd, Discord) {
 
 

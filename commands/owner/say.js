@@ -1,9 +1,7 @@
 module.exports = {
     name: "say",
-    cooldown: '0',
-    desciption: "say command",
-    aliases: ["repeat", "tekraret", "ram"],
     ownerOnly: true,
+    category: ['Owner'],
     async execute (client, message, args, cmd, Discord) {
         let msg;
         let textChannel = message.mentions.channels.first()

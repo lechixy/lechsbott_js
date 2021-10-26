@@ -3,8 +3,9 @@ const { PREFIX } = require('../util/lechsbottUtil')
 module.exports = {
     name: 'fix',
     aliases: ['fixqueue', 'fixplayer'],
-    description: '',
+    description:'test cmd',
     category: ['Music'],
+    arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
 
         const queue = client.queue

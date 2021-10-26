@@ -4,7 +4,9 @@ const moment = require('moment')
 
 module.exports = {
     name: 'afk',
-    category: ['User'],
+    description:'Sets your status to afk!',
+    category: ['Utility'],
+    arguments: `<Status | none>`,
     async execute(client, message, args, cmd, Discord) {
         const afkreason = args.slice(0).join(' ') || 'AFK';
 
