@@ -46,7 +46,7 @@ module.exports = {
         }
 
         if (status !== null && status.type === "LISTENING" && status.name === "Spotify" && status.assets !== null) {
-            let image = `https://i.scdn.co/image/${status.assets.largeImage.slice(8)}`,
+            let image = `https://i.scdn.co/image/${status.assets?.largeImage.slice(8)}`,
                 url = `https://open.spotify.com/track/${status.syncId}`,
                 name = status.details,
                 artist = status.state

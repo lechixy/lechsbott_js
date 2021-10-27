@@ -26,7 +26,7 @@ module.exports = {
         let avatar = user.displayAvatarURL({dynamic: true ,size: 1024})
         
         let avatarEmbed = new Discord.MessageEmbed()
-        .setAuthor(user.tag, user.displayAvatarURL({dynamic: true}))
+        .setAuthor(`${user.user.tag}`, user.displayAvatarURL({dynamic: true}))
         .setImage(avatar)
         message.channel.send({ embeds: [avatarEmbed] })
     }

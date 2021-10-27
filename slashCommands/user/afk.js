@@ -25,7 +25,7 @@ module.exports = {
 
             return interaction.followUp({ content: `<@${interaction.member.id}> welcome back, i removed your afk!` })
             } else {
-                Data = new db({
+                let Data = new db({
                     Guild: interaction.guild.id,
                     Member: interaction.member.id,
                     Content: afkreason,

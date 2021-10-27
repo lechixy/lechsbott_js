@@ -12,7 +12,7 @@ module.exports = {
 
         db.findOne({ Guild: message.guild.id, Member: message.author.id }, async (err, data) => {
             if (!data) {
-                Data = new db({
+                let Data = new db({
                     Guild: message.guild.id,
                     Member: message.author.id,
                     Content: afkreason,

@@ -1,6 +1,6 @@
 module.exports = {
-    name: 'purge',
-    aliases: ['clear'],
+    name: 'clear',
+    aliases: ['purge'],
     cooldown: 5,
     description: 'Clear a lot of messages at once from channel',
     category: ['Moderation'],

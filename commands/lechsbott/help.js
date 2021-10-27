@@ -1,66 +1,100 @@
 const { PREFIX } = require("../util/lechsbottUtil")
-const { readdirSync } = require("fs");
-const { firstLetter, roleColor } = require("../util/lechsbottFunctions")
+const { roleColor, converToCode } = require("../util/lechsbottFunctions")
 
 module.exports = {
     name: "help",
     cooldown: 5,
     description: "How is working?",
     category: ['lechsbott'],
-    arguments: `<category | command | none>`,
+    arguments: `<command | aliase | none>`,
     async execute(client, message, args, cmd, Discord) {
 
         if (!args[0]) {
 
-            let categories = [];
-            // let emojis = {
-            //     "fun": "<a:woooza:846030613198274609>",
-            //     "guild": "<:ownercrown:902603217337208872>",
-            //     "information": "📜",
-            //     "lechsbott": "✨",
-            //     "music": "<a:musicdisc:902604847289872496>",
-            //     "social": "<:hearty:899267054471888936>",
-            //     "user": "👋",
-            //     "Moderation": "<:ban:846030610954584064>",
-            //     "Utility": "<a:hypeshiny:902593111354646529>",
-            // };
+            let allcmds = [];
 
-            readdirSync("./commands/").forEach((dir) => {
+            let disallowed = ['Owner']
 
-                if(['counters', 'logs', 'owner', 'util'].includes(dir)) {
+            client.commands.forEach(cmd => {
+                if (disallowed.includes(cmd.category[0])) {
                     return
+                } else {
+
+                    if (allcmds.find(x => x.name === cmd.category[0])) {
+                        const cat = allcmds.findIndex(x => x.name === cmd.category[0])
+
+                        return allcmds[cat].cmds.push(`\`${cmd.name}\``)
+                    }
+
+                    let data = {
+                        name: cmd.category[0],
+                        cmds: [],
+                    }
+
+                    allcmds.push(data)
+                }
+            })
+
+            let fields = []
+
+            allcmds.forEach(category => {
+                let data = {
+                    name: `${category.name} [${category.cmds.length}]`,
+                    value: `${category.cmds.join(' ')}`
                 }
 
-                const commands = readdirSync(`./commands/${dir}/`).filter((file) =>
-                    file.endsWith(".js")
-                );
+                fields.push(data)
+            })
 
-                const cmds = commands.map((command) => {
-                    let file = require(`../../commands/${dir}/${command}`);
+            fields.sort((a, b) => {
+                var nameA = a.name.toUpperCase();
+                var nameB = b.name.toUpperCase();
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            })
 
-                    if (!file.name) return;
-
-                    let name = file.name.replace(".js", "");
-
-                    return `\`${name}\``;
-                });
-
-                let data = new Object();
-
-                data = {
-                    name: `${firstLetter(dir)} [${cmds.length}]`,
-                    value: cmds.length === 0 ? "No commands" : cmds.join(" "),
-                };
-
-                categories.push(data);
-            });
             const embed = new Discord.MessageEmbed()
-                .setAuthor(`Command List`, message.author.displayAvatarURL({dynamic: true}))
+                .setAuthor(`Command List`, message.author.displayAvatarURL({ dynamic: true }))
                 .setDescription(`A list of commands for help about complicated commands!\nNeed more information about command? Use \`${PREFIX}${cmd} <command>\``)
-                .addFields(categories)
+                .addFields(fields)
                 .setTimestamp()
                 .setColor(roleColor(message))
             return message.channel.send({ embeds: [embed] });
+        } else {
+
+            const cmd = client.commands.get(`${args[0].toLowerCase()}`) || client.commands.find(a => a.aliases && a.aliases.includes(args[0]));
+
+            if(!cmd){
+                const embed = new Discord.MessageEmbed()
+                .setTitle(`${args[0]} is not found`)
+                .setDescription(`You can try find with name of the command or a valid aliase for command!`)
+                .addField(`Usage`, `${PREFIX}help <command | aliase>`, true)
+                return message.channel.send({ embeds: [embed] });
+            } else {
+                const embed = new Discord.MessageEmbed()
+                .setAuthor(`Command Information`, message.author.displayAvatarURL({dynamic: true}))
+                .setTitle(`${cmd.name}`)
+                .setDescription(`${cmd.description || 'No description is available for command'}`)
+                .setTimestamp()
+
+                if(cmd.aliases){
+                    embed.addField(`Aliases`, `${converToCode(cmd.aliases.join(' | '))}`)
+                }
+
+                if(cmd.arguments){
+                    embed.addField(`Arguments`, `${converToCode(cmd.arguments)}`)
+                }
+
+                
+                
+                return message.channel.send({ embeds: [embed] });
+            }
+
         }
 
     }

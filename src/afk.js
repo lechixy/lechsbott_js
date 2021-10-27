@@ -8,7 +8,9 @@ function afkCheck(message) {
             if (data) {
                 data.delete()
 
-                return message.channel.send({ content: `<@${message.author.id}> welcome back, i removed your afk!` })
+                return message.channel.send({ content: `<@${message.author.id}> welcome back, i removed your afk!` }).then(m => {
+                    setTimeout(() => m.delete().catch(() => {}), 7500)
+                })
             } else {
                 return
             }
@@ -20,7 +22,7 @@ function afkCheck(message) {
                 if (data) {
                     const member = message.guild.members.cache.get(data.Member);
 
-                    return message.channel.send({ content: `${member.user.username} is now: ${data.Content} - ${moment(parseInt(data.TimeAgo)).fromNow()}` })
+                    return message.channel.send({ content: `${member.user.username} is AFK: ${data.Content} - ${moment(parseInt(data.TimeAgo)).fromNow()}` })
                 } else return;
             })
         }

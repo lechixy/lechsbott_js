@@ -1,9 +1,9 @@
 const { PREFIX } = require('../util/lechsbottUtil')
 
 module.exports = {
-    name:'lockchannel',
-    aliases:['lockdown', 'lock'],
-    description:'Locks channel and for everyone no one send any messages',
+    name:'lock',
+    aliases:['lockdown', 'lockchannel'],
+    description:'Locks channel and no one send any messages',
     category: ['Moderation'],
     arguments: `<true/on | false/off>`,
     async execute(client, message, args, cmd, Discord) {
