@@ -10,9 +10,14 @@ function iroleColor(interaction){
 
 exports.iroleColor = iroleColor
 
-function converToCode(string){
+function converToCode(string, type = '\n'){
     let stringsyntax = '\`\`\`'
-    return `${stringsyntax}${string}${stringsyntax}`
+    if(type){
+        return `${stringsyntax}${type}\n${string}${stringsyntax}`
+    } else {
+        return `${stringsyntax}${string}${stringsyntax}`
+    }
+    
 }
 
 exports.converToCode = converToCode;

@@ -4,23 +4,33 @@ const { afkCheck } = require('../../src/afk')
 const { userCheck } = require('../../src/user')
 //const { lechsbott } = require('../../src/lechsbott')
 const { saidPrefix } = require('../../src/saidPrefix')
+const { roleColor, firstLetter } = require('../../commands/util/lechsbottFunctions')
 
 module.exports = async (Discord, client, message) => {
 
     if (message.author.bot) return;
 
-    //lechsbott(message, client)
+    if(!message.guild.me.permissions.has('SEND_MESSAGES')) return;
 
     afkCheck(message)
     //console.log(`${message.content} | ${message.guild.name}`);
 
+    message.content = message.content.toLowerCase()
     let prefix = PREFIX;
 
-    if(!message.content.startsWith(prefix) && !message.content.startsWith(prefix)) return;
+    if (!message.content.startsWith(prefix)) return;
+
+    if(!message.guild.me.permissions.has('ADMINISTRATOR')){
+        const embed = new Discord.MessageEmbed()
+        .setAuthor(`Missing permissions`, message.author.displayAvatarURL({dynamic: true}))
+        .setDescription(`Need to \`Administrator\` permission to execute commands`)
+        .setColor(roleColor(message))
+        return message.channel.send({ embeds: [embed] }).catch(err => {})
+    }
 
     userCheck(message)
 
-    const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
+    const args = message.content.slice(prefix.length).split(/ +/);
     const cmd = args.shift();
 
     const command = client.commands.get(cmd) ||
@@ -37,7 +47,7 @@ module.exports = async (Discord, client, message) => {
                 cooldowns.set(command.name, new Discord.Collection());
             }
 
-            if (command.cooldown) {
+            if (command.cooldown && command.cooldown !== 0) {
                 const current_time = Date.now();
                 const time_stamps = cooldowns.get(command.name);
                 const cooldown_amount = (command.cooldown) * 1000;
@@ -51,6 +61,7 @@ module.exports = async (Discord, client, message) => {
                         console.log(`${message.author.tag} used ${PREFIX}${command.name} many times and catched to ${time_left.toFixed(1)}s cooldown`)
 
                         let embed = new Discord.MessageEmbed()
+                            .setColor(roleColor(message))
                             .setDescription(`**Slowly slowly, please wait ${time_left.toFixed(1)}s to type a command**`)
                         return message.channel.send({ embeds: [embed] })
                     }
@@ -61,7 +72,7 @@ module.exports = async (Discord, client, message) => {
                 //Delete the user's id once the cooldown is over.
                 setTimeout(() => time_stamps.delete(message.author.id), cooldown_amount);
             }
-            if (command.ownerOnly) {
+            if (command.ownerOnly && command.ownerOnly === true) {
 
                 if (!OWNERS.includes(message.author.id)) {
                     return console.log(`${message.author.tag} tried use an owner command!`)
@@ -72,12 +83,47 @@ module.exports = async (Discord, client, message) => {
                 }
             }
 
+            if (command.userPerms && command.userPerms.length && message.guild.ownerId !== message.author.id) {
+                let rawperms = []
+
+                command.userPerms.forEach(x => {
+                    rawperms.push(x)
+                })
+
+                if (!message.member.permissions.has(rawperms)) {
+                    const embed = new Discord.MessageEmbed()
+                        .setColor(roleColor(message))
+                        .setAuthor(`${message.author.tag}`, message.author.displayAvatarURL({ dynamic: true }))
+                        .setTitle('Missing permissions')
+                        .setDescription(`You can't use this command, need to \`${rawperms.join(' ')}\` permission(s) to use it!`)
+                    return message.channel.send({ embeds: [embed] });
+                }
+            }
+            if (command.clientPerms) {
+                let rawperms = []
+
+                command.clientPerms.forEach(x => {
+                    rawperms.push(x)
+                })
+
+                if (!message.guild.me.permissions.has(rawperms)) {
+                    const embed = new Discord.MessageEmbed()
+                        .setColor(roleColor(message))
+                        .setAuthor(`${client.user.tag}`, client.user.displayAvatarURL({ dynamic: true }))
+                        .setTitle('Missing permissions')
+                        .setDescription(`We can't execute this command, need to \`${rawperms.join(' ')}\` permission(s) to use it!`)
+                    return message.channel.send({ embeds: [embed] });
+                }
+            }
+
+
             command.execute(client, message, args, cmd, Discord)
 
             console.log(`${message.author.tag} has used ${PREFIX}${cmd} in ${message.guild.name}`)
         }
     } catch (err) {
         let errembed = new Discord.MessageEmbed()
+            .setColor(roleColor(message))
             .setDescription('There was an error trying to execute this command!')
         message.channel.send({ embeds: [errembed] })
         console.log(err)

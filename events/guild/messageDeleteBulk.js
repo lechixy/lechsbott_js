@@ -1,3 +1,5 @@
+const { roleColor } = require('../../commands/util/lechsbottFunctions')
+
 module.exports = async (Discord, client, messages) => {
 
     let deletedmsgs = []
@@ -18,6 +20,7 @@ module.exports = async (Discord, client, messages) => {
     const mes = messages.first()
 
     const embed = new Discord.MessageEmbed()
+    .setColor(roleColor(mes))
     .setAuthor(mes.author.tag, mes.author.displayAvatarURL({dynamic: true}))
     .setTitle(`Deleted ${messages.size} Messages`)
     .setDescription(deletedmsgs.join('\n'))

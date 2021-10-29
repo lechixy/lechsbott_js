@@ -1,8 +1,11 @@
+const { roleColor } = require('../../commands/util/lechsbottFunctions')
+
 module.exports = async (Discord, client, message) => {
 
     if(message.content === ''){
 
         const embed = new Discord.MessageEmbed()
+        .setColor(roleColor(message))
         .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true}))
         .setTitle('Deleted An Embed Or An Attachment')
         .setDescription(`**Probably message content includes an attachment or embed**`)
@@ -17,6 +20,7 @@ module.exports = async (Discord, client, message) => {
 
     } else {
         const embed = new Discord.MessageEmbed()
+        .setColor(roleColor(message))
         .setAuthor(message.author.tag, message.author.displayAvatarURL({dynamic: true}))
         .setTitle('Deleted Message')
         .setDescription(message.content)

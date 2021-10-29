@@ -3,32 +3,10 @@ module.exports = {
     description: 'Pulls member from other channel to your channel',
     category: ['Moderation'],
     arguments: `<@User | UserID>`,
+    userPerms: ['MOVE_MEMBERS'],
+    clientPerms: ['MOVE_MEMBERS'],
     async execute(client, message, args, cmd, Discord) {
         const user = message.author;
-
-        if (!message.member.permissions.has("MOVE_MEMBERS") && !message.member.permissions.has("MANAGE_CHANNELS")) {
-            let permsembed = new Discord.MessageEmbed()
-                .setDescription(`**You are not able to use this command!**`)
-                .addField(
-                    "Needed Permissions",
-                    "Move Members and Manage Channels"
-                );
-                return message.channel.send({ embeds: [permsembed] }).then(m => {
-                    setTimeout(function() { m.delete() }, 10000)
-                })
-        }
-
-        if (!message.guild.me.permissions.has("MOVE_MEMBERS") && !message.guild.me.permissions.has("MANAGE_CHANNELS")) {
-            let permsembed = new Discord.MessageEmbed()
-                .setDescription(`**There are missing permissions for lechsbott**`)
-                .addField(
-                    "Needed Permissions",
-                    "Move Members and Manage Channels"
-                );
-                return message.channel.send({ embeds: [permsembed] }).then(m => {
-                    setTimeout(function() { m.delete() }, 10000)
-                })
-        }
 
         let member
         if (message.mentions.members.first()) {

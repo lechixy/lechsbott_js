@@ -7,21 +7,9 @@ module.exports = {
     description: 'Unbans member from the server',
     category: ['Moderation'],
     arguments: `<UserID>`,
+    userPerms: ['BAN_MEMBERS',],
+    clientPerms: ['BAN_MEMBERS',],
     async execute(client, message, args, cmd, Discord) {
-
-        if (!message.member.permissions.has("BAN_MEMBERS")) {
-            let permembed = new Discord.MessageEmbed()
-                .setColor(roleColor(message))
-                .setDescription(`**You need to** \`Ban Members\` **permission to unban a member!**`)
-            return message.channel.send({ embeds: [permembed] })
-        }
-
-        if (!message.guild.me.permissions.has('BAN_MEMBERS')) {
-            const embed = new Discord.MessageEmbed()
-                .setColor(roleColor(message))
-                .setDescription(`**Lechsbott needs to** \`Ban Members\` **permission to unban a member!**`)
-            return message.channel.send({ embeds: [embed] });
-        }
 
         const id = args[0]
         if (!id) {

@@ -5,29 +5,9 @@ module.exports = {
     description: 'Clear a lot of messages at once from channel',
     category: ['Moderation'],
     arguments: `<@User | Amount between 1 and 100>`,
+    userPerms: ['MANAGE_MESSAGES'],
+    clientPerms: ['MANAGE_MESSAGES'],
     async execute(client, message, args, cmd, Discord) {
-
-        if (!message.member.permissions.has("MANAGE_MESSAGES")) {
-            let permsembed = new Discord.MessageEmbed()
-                .setDescription(`**You are not able to use this command!**`)
-                .addField(
-                    "Needed Permissions",
-                    "Manage Messages"
-                );
-            return message.channel.send({ embeds: [permsembed] });
-        }
-
-        if (
-            !message.guild.me.permissions.has("MANAGE_MESSAGES")
-        ) {
-            let permsembed = new Discord.MessageEmbed()
-                .setDescription(`**There are missing permissions for lechsbott**`)
-                .addField(
-                    "Needed Permissions",
-                    "Manage Messages"
-                );
-            return message.channel.send({ embeds: [permsembed] });
-        }
 
         message.delete()
         const member = message.mentions.members.first();

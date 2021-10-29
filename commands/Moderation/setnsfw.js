@@ -6,34 +6,9 @@ module.exports = {
     description: 'Set nsfw mode for a text channel',
     category: ['Moderation'],
     arguments: `<true/on | false/off>`,
+    userPerms: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
+    clientPerms: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'],
     async execute(client, message, args, cmd, Discord) {
-
-    if (!message.member.permissions.has("MANAGE_MESSAGES") && !message.member.permissions.has("MANAGE_CHANNELS")) {
-        let permsembed = new Discord.MessageEmbed()
-            .setDescription(`**You are not able to use this command!**`)
-            .addField(
-                "Needed Permissions",
-                "Manage Messages and Manage Channels"
-            );
-            return message.channel.send({ embeds: [permsembed] }).then(m => {
-                setTimeout(function() { m.delete() }, 10000)
-            })
-    }
-
-    if (
-        !message.guild.me.permissions.has("MANAGE_MESSAGES") &&
-        !message.guild.me.permissions.has("MANAGE_CHANNELS")
-    ) {
-        let permsembed = new Discord.MessageEmbed()
-            .setDescription(`**There are missing permissions for lechsbott**`)
-            .addField(
-                "Needed Permissions",
-                "Manage Messages and Manage Channels"
-            );
-            return message.channel.send({ embeds: [permsembed] }).then(m => {
-                setTimeout(function() { m.delete() }, 10000)
-            })
-    }
         
     const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[1]) || message.channel
     

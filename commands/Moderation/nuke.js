@@ -4,18 +4,10 @@ module.exports = {
     name:'nuke',
     description:'Destroys current channel and creates new one!',
     category: ['Moderation'],
+    arguments: `<none>`,
+    userPerms: ['MANAGE_CHANNELS'],
+    clientPerms: ['MANAGE_CHANNELS'],
     async execute(client, message, args, cmd, Discord) {
-        
-        if(!message.member.permissions.has('MANAGE_CHANNELS')){
-            const embed = new Discord.MessageEmbed()
-            .setDescription(`**You are not able to use command need to** \`Manage Channels\``)
-            return message.channel.send({ embeds: [embed] });
-        }
-        if(!message.guild.me.permissions.has('MANAGE_CHANNELS')){
-            const embed = new Discord.MessageEmbed()
-            .setDescription(`**Lechsbott needs to** \`Manage Channels\` **permission to execute this command!**`)
-            return message.channel.send({ embeds: [embed] });
-        }
 
         message.channel.clone().then(ch => {
             ch.setParent(message.channel.parent.id)

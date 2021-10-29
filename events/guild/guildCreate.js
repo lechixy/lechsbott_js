@@ -1,11 +1,23 @@
 module.exports = (Discord, client, guild) => {
-    let joinedembed = new Discord.MessageEmbed()
-    .setAuthor(`lechsbott`, `${client.user.displayAvatarURL()}`)
-    .setTitle(`Hey <@${guild.ownerId}>`)
-    .setDescription(`Joined to **${guild.name}**!\nIf you need anything about **lechsbott** just type \`l!help\` to guild chat!`)
-    .setTimestamp()
 
-    const owner = guild.members.cache.get(guild.ownerId)
+    let invitelink = `https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands`
 
-    owner.send(joinedembed)
+    const invite = new Discord.MessageButton()
+        .setLabel('Invite')
+        .setStyle('LINK')
+        .setEmoji('🎁')
+        .setURL(`${invitelink}`)
+
+    const row = new Discord.MessageActionRow()
+        .addComponents(invite)
+
+    let embed = new Discord.MessageEmbed()
+        .setTitle(`Thanks for adding me to ${guild.name}!`)
+        .setDescription(`\n*My prefix is:* \`l!\`\n\n*To get started type* \`l!help\``)
+        .setColor(roleColor(message))
+
+    const channeltosend = guild.channels.cache.find(ch => ch.type === "GUILD_TEXT" && ch.permissionsFor(client.user.id).has(["SEND_MESSAGES", "EMBED_LINKS"]))
+    if (!channeltosend) return
+    channeltosend.send({ embeds: [embed], components: [row] })
+
 }

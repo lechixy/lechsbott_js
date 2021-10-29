@@ -6,50 +6,96 @@ module.exports = {
     category: ['Fun'],
     arguments: `<none>`,
     async execute(client, message, args, cmd, Discord) {
-        const embed = new Discord.MessageEmbed()
-            .setAuthor("Add a reaction to one of these emojis to play the game!")
 
-        const m = await message.channel.send({ embeds: [embed] });
 
-        await m.react("🗻")
-        await m.react("📰")
-        await m.react("✂")
 
-        const filter = (reaction, user) => {
-            return ['🗻', '📰', '✂'].includes(reaction.emoji.name) && user.id === message.author.id;
-        }
+        const BotChoice = ["✌️", "🤜", "✋"][Math.floor(Math.random() * ["✌️", "🤜", "✋"].length)]
 
-        const choices = ['🗻', '📰', '✂']
-        const me = choices[Math.floor(Math.random() * choices.length)]
-        m.awaitReactions(filter, {max: 1, time: 60000, errors: ["time"]}).then(
-            async(collected) => {
-                const reaction = collected.first()
-                let result = new Discord.MessageEmbed()
-                .addField("Your choice", reaction.emoji.name, true)
-                .addField("Bot's choice", me, true)
-                await m.edit(result);
-                if((reaction.emoji.name === "📰" && me === "📰") ||
-                  (reaction.emoji.name === "🗻" && me === "🗻") ||
-                  (reaction.emoji.name === "✂" && me === "✂"))
-                {
-                    message.reply('Tie!')
+        const MessageEmb = new Discord.MessageEmbed().setDescription("Choose in the buttons `Scissors` `Stone` `Paper`.")
 
-                } else if ((reaction.emoji.name === "🗻" && me === "📰") ||
-                           (reaction.emoji.name === "✂" && me === "📰") ||
-                           (reaction.emoji.name === "📰" && me === "🗻"))
-                {
-                    message.reply('You won!')
-                } else {
-                    message.reply('You lost!')
-                }
-                
-            }
+        const row = new Discord.MessageActionRow().addComponents(
+            new MessageButton()
+                .setStyle("SECONDARY")
+                .setEmoji("✂️")
+                .setCustomId("scissors"),
+            new MessageButton()
+                .setStyle("SECONDARY")
+                .setEmoji("⛰️")
+                .setCustomId("stone"),
+            new MessageButton()
+                .setStyle("SECONDARY")
+                .setEmoji("🧻")
+                .setCustomId("paper"),
         )
 
-        .catch(collected => {
-            message.reply("Game aborted as you did not react to any of the emojis!")
+        const msg = await message.reply({ embeds: [MessageEmb], components: [row] })
+
+        const filter = (interaction) => interaction.user.id === message.author.id
+
+        const collector = message.channel.createMessageComponentCollector({
+            filter,
+            componentType: "BUTTON",
+            time: 120000,
+            max: 1
         })
-            
-        
+
+        collector.on("collect", async (collected) => {
+
+            if (collected.customId === "scissors") {
+                let result
+
+                if (BotChoice === "✌️") result = "It is a tie!"
+                if (BotChoice === "🤜") result = "You have lost!"
+                if (BotChoice === "✋") result = "You have won!"
+
+                const emb = new Discord.MessageEmbed()
+                    .addField(message.author.username, "✌️", true)
+                    .addField("VS", "⚡", true)
+                    .addField(client.user.username, BotChoice, true)
+                    .addField("Result:", result)
+                    .setFooter(client.user.username, client.user.avatarURL())
+                    .setTimestamp()
+
+                await msg.edit({ embeds: [emb], components: [row] })
+            }
+
+            if (collected.customId === "stone") {
+                let result
+
+                if (BotChoice === "✌️") result = "You have won!"
+                if (BotChoice === "🤜") result = "It is a tie!"
+                if (BotChoice === "✋") result = "You have lost!"
+
+                const emb = new Discord.MessageEmbed()
+                    .addField(message.author.username, "🤜", true)
+                    .addField("VS", "⚡", true)
+                    .addField(client.user.username, BotChoice, true)
+                    .addField("Result:", result)
+                    .setFooter(client.user.username, client.user.avatarURL())
+                    .setTimestamp()
+
+                await msg.edit({ embeds: [emb], components: [row] })
+            }
+
+            if (collected.customId === "paper") {
+                let result
+
+                if (BotChoice === "✌️") result = "You have won!"
+                if (BotChoice === "🤜") result = "You have lost!"
+                if (BotChoice === "✋") result = "It is a tie!"
+
+                const emb = new Discord.MessageEmbed()
+                    .addField(message.author.username, "✋", true)
+                    .addField("VS", "⚡", true)
+                    .addField(client.user.username, BotChoice, true)
+                    .addField("Result:", result)
+                    .setFooter(client.user.username, client.user.avatarURL())
+                    .setTimestamp()
+
+                await msg.edit({ embeds: [emb], components: [row] })
+            }
+
+            collected.deferUpdate()
+        })
     }
 }

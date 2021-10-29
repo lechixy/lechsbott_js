@@ -3,6 +3,7 @@ async function handleResource(video, message, args, voice_channel, player, type,
     const playdl = require('play-dl')
     const { roleColor } = require('../../util/lechsbottFunctions')
     const Voice = require('@discordjs/voice')
+    const { removeAndClear, defineAuthor, findTypeAndSend } = require('./reasonFunctions')
 
     const queue = client.queue
     const server_queue = queue.get(message.guild.id)
@@ -18,36 +19,6 @@ async function handleResource(video, message, args, voice_channel, player, type,
         duration: video.duration,
     };
 
-    function findTypeAndSend(content) {
-        if (message.type !== 'APPLICATION_COMMAND') {
-            return message.channel.send(content)
-        } else {
-            return message.followUp(content)
-        }
-    }
-
-
-    function defineAuthor(msg, value) {
-        if (msg.type !== 'APPLICATION_COMMAND') {
-            let checkvalue = {
-                "username": msg.author.username,
-                "id": msg.author.id,
-                "displayAvatarURL": msg.author.displayAvatarURL({ dynamic: true })
-            }
-
-            return checkvalue[value]
-        } else {
-            let checkvalue = {
-                "username": msg.user.username,
-                "id": msg.user.id,
-                "displayAvatarURL": msg.user.displayAvatarURL({ dynamic: true })
-            }
-
-            return checkvalue[value]
-
-        }
-    }
-
     if (!server_queue) {
 
         const queue_constructor = {
@@ -62,7 +33,6 @@ async function handleResource(video, message, args, voice_channel, player, type,
             playinginfo: true,
         }
 
-        //Add our key and value pair into the global queue. We then use this to get our server queue.
         queue.set(message.guild.id, queue_constructor);
         queue_constructor.songs.push(song);
 
@@ -133,9 +103,7 @@ async function handleResource(video, message, args, voice_channel, player, type,
         };
 
         try {
-            let player = Voice.createAudioPlayer({
-                behaviors: { noSubscriber: Voice.NoSubscriberBehavior.Pause },
-            });
+            let player = Voice.createAudioPlayer();
             queue_constructor.player = player;
 
             const connection = Voice.getVoiceConnection(
@@ -157,8 +125,14 @@ async function handleResource(video, message, args, voice_channel, player, type,
                 }
             });
 
+            queue_constructor.connection.on('stateChange', async (oldState, newState) => {
+                if(newState.status === "disconnected" && oldState.status !== "disconnected"){
+                    return removeAndClear(queue, message)
+                }
+            })
+
         } catch (err) {
-            queue.delete(message.guild.id);
+            removeAndClear(queue, message)
             const embed = new Discord.MessageEmbed()
                 .setColor(roleColor(message))
                 .setDescription(`**There was an error connecting!**`)

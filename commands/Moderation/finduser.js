@@ -4,15 +4,9 @@ module.exports = {
     description: "Search members with many in guild",
     category: ['Moderation'],
     arguments: `<username | tag | id | nickname>`,
+    userPerms: ['MANAGE_MESSAGES'],
+    clientPerms: ['MANAGE_MESSAGES'],
     async execute(client, message, args, cmd, Discord) {
-
-
-        if (!message.member.permissions.has("MANAGE_MESSAGES")) {
-            let permembed = new Discord.MessageEmbed()
-                .setColor(roleColor(message))
-                .setDescription(`**You need to** \`Manage Messages\` **permission to find a member!**`)
-            return message.channel.send({ embeds: [permembed] })
-        }
 
         const user = args.join(" ")
         if (!user) return message.channel.send({ content: "Please specify a user to find." });
