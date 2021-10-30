@@ -78,15 +78,17 @@ module.exports = async (Discord, client, message) => {
                     return console.log(`${message.author.tag} tried use an owner command!`)
                 } else {
                     console.log(`${message.author.tag} used an owner command ${cmd} in ${message.guild.name}`)
-
-                    return command.execute(client, message, args, cmd, Discord)
+                    
+                    return command.execute(client, message, args, cmd, Discord).catch(err => {
+                        command.execute({client, message, args, cmd, Discord})
+                    })
                 }
             }
 
-            if (command.userPerms && command.userPerms.length && message.guild.ownerId !== message.author.id) {
+            if (command.userPermissions && command.userPermissions.length && message.guild.ownerId !== message.author.id) {
                 let rawperms = []
 
-                command.userPerms.forEach(x => {
+                command.userPermissions.forEach(x => {
                     rawperms.push(x)
                 })
 
@@ -99,10 +101,10 @@ module.exports = async (Discord, client, message) => {
                     return message.channel.send({ embeds: [embed] });
                 }
             }
-            if (command.clientPerms) {
+            if (command.clientPermissions) {
                 let rawperms = []
 
-                command.clientPerms.forEach(x => {
+                command.clientPermissions.forEach(x => {
                     rawperms.push(x)
                 })
 
@@ -117,7 +119,9 @@ module.exports = async (Discord, client, message) => {
             }
 
 
-            command.execute(client, message, args, cmd, Discord)
+            command.execute(client, message, args, cmd, Discord).catch(err => {
+                        command.execute({client, message, args, cmd, Discord})
+                    })
 
             console.log(`${message.author.tag} has used ${PREFIX}${cmd} in ${message.guild.name}`)
         }
