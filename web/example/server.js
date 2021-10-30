@@ -52,8 +52,10 @@ function checkAuth(req, res, next) {
     res.send('not logged in :(');
 }
 
+let PORT = process.env.PORT || 5000
 
-app.listen(5000, function (err) {
+
+app.listen(PORT, function (err) {
     if (err) return console.log(err)
     console.log('Listening at http://localhost:5000/')
 })
