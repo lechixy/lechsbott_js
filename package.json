@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node web/startWeb",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node web/server"
+    "server": "node web/app"
   },
   "engines": {
     "node": "16.x"
@@ -21,6 +21,7 @@
     "anime-images-api": "^2.0.0",
     "axios": "^0.21.4",
     "body-parser": "^1.19.0",
+    "canvacord": "^5.2.3",
     "canvas": "^2.8.0",
     "chalk": "^4.1.2",
     "discord.js": "^13.3.0",
@@ -44,6 +45,7 @@
     "passport": "^0.5.0",
     "passport-discord": "^0.1.4",
     "play-dl": "^0.9.9",
+    "reconlx": "^2.5.1",
     "scdl-core": "^1.0.15",
     "sequelize": "^6.6.5",
     "simple-youtube-api": "^5.2.1",
