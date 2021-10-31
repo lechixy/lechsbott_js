@@ -1,13 +1,17 @@
 const { Util } = require("discord.js")
 const { roleColor } = require('../util/lechsbottFunctions')
+const { Command } = require('../../lechs_modules/Command/index')
 
-module.exports = {
+
+module.exports = new Command({
     name: 'uploademoji',
     aliases: ['get-emoji', 'getemoji', 'create-emoji'],
-    description:'Create emoji from your message and uploads to server!',
+    description:'Creates emoji from your message and uploads to server!',
     category: ['Guild'],
+    userPermissions: ['MANAGE_EMOJIS_AND_STICKERS'],
+    clientPermissions: ['MANAGE_EMOJIS_AND_STICKERS'],
     arguments: `<Emoji>`,
-    async execute(client, message, args, cmd, Discord) {
+    async execute({client, message, args, cmd, Discord}) {
         const user = message.author;
 
         if(!message.member.permissions.has("ADMINISTRATOR")){
@@ -45,4 +49,5 @@ module.exports = {
         .setColor(roleColor(message))
         message.channel.send({ embeds: [successembed] })
     }
-}
+})
+    

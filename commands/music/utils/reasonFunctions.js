@@ -14,16 +14,6 @@ function removeAndClear(queue, message){
 
 exports.removeAndClear = removeAndClear;
 
-function findTypeAndSend(content) {
-    if (message.type !== 'APPLICATION_COMMAND') {
-        return message.channel.send(content)
-    } else {
-        return message.followUp(content)
-    }
-}
-
-exports.findTypeAndSend = findTypeAndSend;
-
 function defineAuthor(msg, value) {
     if (msg.type !== 'APPLICATION_COMMAND') {
         let checkvalue = {

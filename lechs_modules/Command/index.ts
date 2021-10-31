@@ -12,6 +12,7 @@ export interface ExecuteOptions {
 export declare type ExecuteFunction = (options: ExecuteOptions) => any;
 export declare type CommandOptions = {
     description?: string;
+    name: string;
     arguments?: string;
     category?: Array<string>;
     userPermissions?: PermissionResolvable[];
@@ -19,6 +20,7 @@ export declare type CommandOptions = {
     ownerOnly?: boolean;
     cooldown?: number;
     execute: ExecuteFunction;
+    aliases?: Array<string>;
 }
 export declare class Command {
     constructor(commandOptions: CommandOptions);

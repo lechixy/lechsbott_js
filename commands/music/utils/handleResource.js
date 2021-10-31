@@ -3,7 +3,7 @@ async function handleResource(video, message, args, voice_channel, player, type,
     const playdl = require('play-dl')
     const { roleColor } = require('../../util/lechsbottFunctions')
     const Voice = require('@discordjs/voice')
-    const { removeAndClear, defineAuthor, findTypeAndSend } = require('./reasonFunctions')
+    const { removeAndClear, defineAuthor } = require('./reasonFunctions')
 
     const queue = client.queue
     const server_queue = queue.get(message.guild.id)
@@ -18,6 +18,14 @@ async function handleResource(video, message, args, voice_channel, player, type,
         addedid: video.addedid,
         duration: video.duration,
     };
+
+    function findTypeAndSend(content) {
+        if (message.type !== 'APPLICATION_COMMAND') {
+            return message.channel.send(content)
+        } else {
+            return message.followUp(content)
+        }
+    }
 
     if (!server_queue) {
 

@@ -1,18 +1,18 @@
 //Importing needs
 const { PREFIX } = require('../util/lechsbottUtil');
 const Voice = require('@discordjs/voice');
-const { YOUTUBE_API_KEY } = require("../util/lechsbottUtil");
 const { roleColor } = require('../util/lechsbottFunctions')
 const { songFinder } = require('./utils/songFinder')
+const { Command } = require('../../lechs_modules/Command/index')
 
-module.exports = {
+module.exports = new Command({
     name: 'play',
     cooldown: 5,
     aliases: ['p'],
     description:'Play songs in voice channel!',
     category: ['Music'],
     arguments: `<youtube search/link/playlist\nspotify link/playlist\n soundcloud link/playlist>`,
-    async execute(client, message, args, cmd, Discord) {
+    async execute({client, message, args, cmd, Discord}) {
         const voiceChannel = message.member.voice;
         const queue = client.queue
         const server_queue = queue.get(message.guild.id)
@@ -81,4 +81,4 @@ module.exports = {
             songFinder(message, args, client, player, voiceChannel);
         }
     },
-};
+})

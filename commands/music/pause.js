@@ -1,13 +1,14 @@
 const { PREFIX } = require('../util/lechsbottUtil')
 const { roleColor } = require('../util/lechsbottFunctions')
 const { lechsPlayer } = require('../music/utils/lechsPlayer')
+const { Command } = require('../../lechs_modules/Command/index')
 
-module.exports = {
+module.exports = new Command({
     name: 'pause',
     description: 'Pauses the audio player!',
     category: ['Music'],
     arguments: `<none>`,
-    async execute(client, message, args, cmd, Discord) {
+    async execute({client, message, args, cmd, Discord}) {
 
         const queue = client.queue
         const server_queue = queue.get(message.guild.id)
@@ -62,4 +63,4 @@ module.exports = {
 
 
     }
-}
+})

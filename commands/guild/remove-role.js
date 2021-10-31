@@ -3,15 +3,16 @@ const { roleColor } = require('../util/lechsbottFunctions')
 const { Command } = require('../../lechs_modules/Command/index')
 
 module.exports = new Command({
-    name: 'addrole',
-    aliases: ['add-role', 'role-add'],
-    description: 'Adds a role to member',
+    name: 'removerole',
+    aliases: ['remove-role', 'role-remove'],
+    description: 'Removes a role from member',
     category: ['Guild'],
     arguments: `<@User | UserID> <@Role | RoleID>`,
     userPerms: ['MANAGE_ROLES'],
     clientPerms: ['MANAGE_ROLES'],
-    async execute({ client, message, args, cmd, Discord }) {
+    async execute({client, message, args, cmd, Discord}) {
 
+        
         let user
         if (message.mentions.members.first()) {
             user = message.mentions.members.first()
@@ -22,7 +23,7 @@ module.exports = new Command({
         if (!user) {
             const embed = new Discord.MessageEmbed()
                 .setColor(roleColor(message))
-                .setTitle('Need an user to add role')
+                .setTitle('Need an user to remove role from')
                 .setDescription(`If you already do that probably we cannot found a guild member like that**\nAre you sure entered an user?`)
                 .addField(`Usage`, `${PREFIX}${cmd} **<@User | UserID>** <@Role | RoleID>`, true)
                 .setColor(roleColor(message))
@@ -38,24 +39,24 @@ module.exports = new Command({
 
         if (!roleto) {
             const embed = new Discord.MessageEmbed()
-                .setTitle('Need a role to add user')
+                .setTitle('Need a role to remove from user')
                 .setDescription(`If you already do that probably we cannot found a role like that**\nAre you sure entered a role?`)
                 .addField(`Usage`, `${PREFIX}${cmd} <@User | UserID> **<@Role | RoleID>**`, true)
                 .setColor(roleColor(message))
             return message.channel.send({ embeds: [embed] });
         }
 
-        if (user.roles.cache.some(role => role.name === roleto.name)) {
+        if (!user.roles.cache.find(role => role.name === roleto.name)) {
             const embed = new Discord.MessageEmbed()
                 .setColor(roleColor(message))
-                .setTitle('This user already has that role')
-                .setDescription(`You cannot add already an existing role`)
+                .setTitle('This user has not that role')
+                .setDescription(`You cannot remove a role that does not exist`)
             return message.channel.send({ embeds: [embed] });
         }
         if (roleto.managed === true) {
             const embed = new Discord.MessageEmbed()
-                .setTitle('We can\'t add this role')
-                .setDescription(`This role is a managed role that means, it cannot be manually assigned to members`)
+                .setTitle('We can\'t remove this role')
+                .setDescription(`This role is a managed role that means, it cannot be manually removed from members`)
                 .setColor(roleColor(message))
             return message.channel.send({ embeds: [embed] });
         }
@@ -64,32 +65,33 @@ module.exports = new Command({
             const embed = new Discord.MessageEmbed()
                 .setColor(roleColor(message))
                 .setAuthor(`Your role is lower from that member`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`You cannot add the ${roleto} role to ${user}`)
+                .setDescription(`You cannot remove the ${roleto} role to ${user}`)
             return message.channel.send({ embeds: [embed] });
         }
         if (roleto.position >= message.guild.me.roles.highest.position) {
             const embed = new Discord.MessageEmbed()
                 .setColor(roleColor(message))
                 .setAuthor(`${client.user.username} role is lower than that role`, message.author.displayAvatarURL({ dynamic: true }))
-                .setDescription(`We cannot add the ${roleto} role to ${user}`)
+                .setDescription(`We cannot remove the ${roleto} role to ${user}`)
             return message.channel.send({ embeds: [embed] });
         }
 
         try {
-            user.roles.add(roleto)
+            user.roles.remove(roleto)
             const embed = new Discord.MessageEmbed()
                 .setColor(roleColor(message))
-                .setDescription(`Added the ${roleto} role to ${user}`)
+                .setDescription(`Removed the ${roleto} role from ${user}`)
             return message.channel.send({ embeds: [embed] });
         } catch (err) {
 
             console.log(err)
             const embed = new Discord.MessageEmbed()
                 .setColor(roleColor(message))
-                .setTitle(`There was an error adding the role`)
+                .setTitle(`There was an error removing the role`)
                 .setDescription(`Sorry we cannot do that, please try later!`)
             return message.channel.send({ embeds: [embed] });
         }
 
     }
 })
+

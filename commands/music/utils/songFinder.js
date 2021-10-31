@@ -240,7 +240,7 @@ async function songFinder(message, args, client, player, voiceChannel) {
             });
     }
 
-    else if (args[0].includes(yturl) && ytdl.validateURL(args[0])) {
+    else if (ytdl.validateURL(args[0])) {
         findTypeAndSend(
             `${ytemoji} **Searching for** \`${args.join(' ')}\``
         );
