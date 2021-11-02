@@ -13,11 +13,11 @@ module.exports = new SlashCommand({
             type: 'STRING',
             choices: [
                 {
-                    name: 'Youtube',
+                    name: 'YouTube',
                     value: 'yt',
                 },
                 {
-                    name: 'Youtube Dev',
+                    name: 'YouTube Dev',
                     value: 'ytdev',
                 },
                 {
@@ -39,6 +39,26 @@ module.exports = new SlashCommand({
                 {
                     name: 'Fishington.io',
                     value: 'fishington'
+                },
+                {
+                    name: 'Letter Tile',
+                    value: 'lt',
+                },
+                {
+                    name: 'Word Snack',
+                    value: 'ws',
+                },
+                {
+                    name: 'Doodle Crew',
+                    value: 'dc',
+                },
+                {
+                    name: 'Awk Word',
+                    value: 'aw',
+                },
+                {
+                    name: 'Spell Cast',
+                    value: 'sc',
                 },
             ]
         },
@@ -63,7 +83,7 @@ module.exports = new SlashCommand({
             ytdev: {
                 id: "880218832743055411",
                 name: "YouTube Dev",
-                color: '#880000',
+                color: '#FF0000',
             },
             poker: {
                 id: "755827207812677713",
@@ -73,7 +93,7 @@ module.exports = new SlashCommand({
             betrayal: {
                 id: "773336526917861400",
                 name: "Betrayal.io",
-                color: '#B86E00',
+                color: '#FF9900',
             },
             fishington: {
                 id: "814288819477020702",
@@ -83,12 +103,37 @@ module.exports = new SlashCommand({
             chess: {
                 id: "832012774040141894",
                 name: "Chess In The Park",
-                color: '#259E00',
+                color: '#3CFF00',
             },
             chessdev: {
                 id: "832012586023256104",
                 name: "Chess In The Park Dev",
+                color: '#3CFF00',
+            },
+            lt: {
+                id: "879863686565621790",
+                name: "Letter Tile",
+                color: '#EEFF00',
+            },
+            ws: {
+                id: "879863976006127627",
+                name: "Word Snack",
+                color: '#D6007D',
+            },
+            dc: {
+                id: "878067389634314250",
+                name: "Doodle Crew",
+                color: '#0091E6',
+            },
+            aw: {
+                id: "879863881349087252",
+                name: "Chess In The Park Dev",
                 color: '#155C00',
+            },
+            sc: {
+                id: "852509694341283871",
+                name: "Spell Cast",
+                color: '#B700FF',
             },
 
         }
