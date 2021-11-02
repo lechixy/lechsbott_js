@@ -24,7 +24,9 @@ module.exports = async (Discord, client, interaction) => {
     try {
       if (cmd) {
 
-        cmd.execute(client, interaction, args, Discord);
+        cmd.execute(client, interaction, args, Discord).catch(err => {
+          cmd.execute({client, interaction, args, Discord})
+        })
 
         console.log(`${interaction.user.tag} has used /${cmd.name} in ${interaction.guild.name}`)
 
