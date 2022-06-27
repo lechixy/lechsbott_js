@@ -1,2 +1,2 @@
 # lechsbottmain
-lechsbott but written with javascript
+second copy of lechsbott and written in javascript
